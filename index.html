@@ -10,8 +10,7 @@
 <script src=""></script>
 
 <style>
-/* Prevent any scrolling or weird gaps */
-html, body { height: 100%; margin: 0; padding: 0; background: #000; color: white; font-family: sans-serif; overflow: hidden; }
+html, body { height: 100%; margin: 0; padding: 0; background: #000; color: white; font-family: -apple-system, sans-serif; overflow: hidden; }
 
 </style>
 
@@ -20,27 +19,30 @@ html, body { height: 100%; margin: 0; padding: 0; background: #000; color: white
 
 <div class="header">
 <div class="utility">
-<a href="stats.html" style="color:#555; text-decoration:none; font-size:11px; margin-right:20px;">STATS & ANALYTICS</a>
-<div style="background:#4ade80; color:black; padding:3px 10px; border-radius:10px; font-size:11px; font-weight:bold; cursor:pointer;">LOGIN</div>
+<a href="stats.html" class="stats-link">STATS & ANALYTICS</a>
+<div style="background:#4ade80; color:black; padding:3px 12px; border-radius:12px; font-size:11px; font-weight:bold; cursor:pointer;">LOGIN</div>
 </div>
 <div class="nav">
-<span class="pq-logo">|||| PQ</span>
+<a href="index.html" class="pq-logo">|||| PQ</a>
 <div class="btn" onclick="toggleSidebar()">Filters →</div>
 <div class="btn active">Price & Quiet Index</div>
-</div>
+<div class="btn" onclick="toggleNames()">Names ▾</div>
+
 </div>
 
 <div id="map"></div>
 
 <div class="sidebar" id="sidebar">
-<div style="font-size:10px; color:#444; margin-bottom:20px; letter-spacing:2px;">BUFFER FILTERS</div>
-<div class="filter-row">Private Security <span class="toggle" onclick="flip(this)">ON</span></div>
-<div class="filter-row">Gated Latency <span class="toggle" onclick="flip(this)">ON</span></div>
-<div class="filter-row">Sidewalks <span class="toggle off" onclick="flip(this)">OFF</span></div>
+<div class="filter-section" style="margin-top:0;">Buffer Filters</div>
+<div class="filter-row">Private Security Patrols <span class="toggle" onclick="flip(this)">ON</span></div>
+<div class="filter-row">Gated Entry Latency <span class="toggle" onclick="flip(this)">ON</span></div>
+<div class="filter-row">Sidewalk Connectivity <span class="toggle off" onclick="flip(this)">OFF</span></div>
+<div class="filter-row">HOA Aggression Index <span class="toggle" onclick="flip(this)">ON</span></div>
+
 </div>
 
 <script>
-// Initialize map immediately
+// Map Setup
 var map = L.map('map', { zoomControl: false }).setView([39.8, -98.5], 4);
 
 </script>
