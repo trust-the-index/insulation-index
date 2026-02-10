@@ -2,42 +2,40 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>The Insulation Index | Mapping Privilege</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Museum of Peace & Quiet | The Insulation Index</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <style>
-body { margin: 0; padding: 0; font-family: sans-serif; background: #f4f7f6; }
-#map { position: absolute; top: 0; bottom: 0; width: 100%; z-index: 0; }
-.dashboard { position: absolute; top: 20px; left: 20px; width: 320px; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); z-index: 1000; border: 1px solid #ddd; }
-.brand { color: #d63031; font-size: 11px; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; }
-h1 { margin: 5px 0 20px 0; font-size: 1.8rem; color: #2d3436; }
-.score-box { background: #fdf2f2; padding: 20px; border-radius: 10px; text-align: center; }
-.score-number { font-size: 5rem; font-weight: 900; color: #d63031; line-height: 1; }
-.analysis { margin-top: 20px; font-size: 0.9rem; color: #636e72; line-height: 1.6; }
+:root { --bg: #f2f0eb; --text: #2a2a2a; --green: #354e3d; }
+body { margin: 0; font-family: "Helvetica Neue", Arial, sans-serif; background: var(--bg); color: var(--text); overflow: hidden; }
+header { position: absolute; top: 0; width: 100%; padding: 35px 0; text-align: center; z-index: 1001; background: rgba(242, 240, 235, 0.9); border-bottom: 1px solid #e0ddd5; letter-spacing: 2px; }
+header h1 { font-family: "Times New Roman", serif; font-weight: 400; font-size: 1.4rem; margin: 0; text-transform: uppercase; }
+header p { font-size: 0.65rem; margin-top: 5px; text-transform: uppercase; opacity: 0.6; }
+#map { position: absolute; top: 0; bottom: 0; width: 100%; z-index: 0; filter: grayscale(100%) sepia(15%) brightness(1.05); }
+.sidebar { position: absolute; bottom: 40px; left: 40px; width: 320px; background: white; padding: 45px; z-index: 1000; border: 1px solid #e0ddd5; }
+.label { font-size: 0.6rem; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; color: var(--green); display: block; }
+.index-score { font-family: "Times New Roman", serif; font-size: 5rem; margin: 15px 0; color: var(--green); }
+.analysis-text { font-size: 0.85rem; line-height: 1.8; color: #555; border-top: 1px solid #eee; padding-top: 25px; }
+.leaflet-control-zoom { display: none !important; }
 </style>
 </head>
 <body>
-<div class="dashboard">
-<div class="brand">Satellite Uplink Active</div>
-<h1>The Insulation Index</h1>
-<div class="score-box">
-<div style="font-size: 0.7rem; font-weight: bold; color: #d63031;">ENTITLEMENT SCORE</div>
-<div class="score-number" id="score">--</div>
-</div>
-<div class="analysis" id="output">Click map to begin profiling.</div>
-</div>
+<header><h1>The Insulation Index</h1><p>A Contemporary Study on Geographic Distance</p></header>
 <div id="map"></div>
+<div class="sidebar">
+<span class="label">Location Analysis</span>
+<div class="index-score" id="score">00.0</div>
+<div class="analysis-text" id="output">Select a coordinate on the map to measure local levels of insulation.</div>
+</div>
 <script>
-var map = L.map('map').setView([39.8, -98.5], 4);
+const map = L.map('map', { zoomControl: false }).setView([39.8, -98.5], 4);
 L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo(map);
 map.on('click', function(e) {
-var val = (Math.random() * 50 + 49).toFixed(1);
+const val = (Math.random() * 40 + 59).toFixed(1);
 document.getElementById('score').innerText = val;
-if(val > 88) {
-document.getElementById('output').innerHTML = "<strong>CRITICALLY INSULATED:</strong> High risk of artisanal sourdough. Reality exposure: 0%.";
-} else {
-document.getElementById('output').innerHTML = "<strong>BUFFERED:</strong> Residents believe hard work is why they have a third car.";
-}
+if(val > 85) { document.getElementById('output').innerHTML = "<strong>CRITICAL INSULATION:</strong> This area represents peak mindfulness, achieved through total absence of external stressors."; }
+else { document.getElementById('output').innerHTML = "<strong>GROUNDED:</strong> A rare connection to the material world. Minimal buffering detected."; }
 });
 </script>
 </body>
