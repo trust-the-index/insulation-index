@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -73,32 +75,11 @@ body { margin: 0; padding: 0; background: #000; font-family: -apple-system, sans
 </div>
 <div id="map"></div>
 <script>
-const usBounds = L.latLngBounds(L.latLng(24, -125), L.latLng(50, -66));
-const map = L.map('map', { zoomControl: false, maxBounds: usBounds, minZoom: 4 }).setView([38, -97], 4);
-L.tileLayer('https://{s}{z}/{x}/{y}{r}.png').addTo(map);
-function flip(el) {
-if (el.innerText === "ON") { el.innerText = "OFF"; el.className = "toggle off"; }
-else { el.innerText = "ON"; el.className = "toggle on"; }
-}
-function toggleSupport() {
-const bar = document.getElementById('supportBar');
-const mapDiv = document.getElementById('map');
-const sidebar = document.getElementById('sidebar');
-bar.classList.toggle('open');
-const offset = bar.classList.contains('open') ? '220px' : '100px';
-mapDiv.style.top = offset; sidebar.style.top = offset;
-}
-function toggleNames() {
-const menu = document.getElementById('namesMenu');
-menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
-}
-function toggleSidebar() {
-const sb = document.getElementById('sidebar');
-sb.style.display = sb.style.display === 'block' ? 'none' : 'block';
-}
-map.on('click', (e) => {
-alert("Price & Quiet Index: " + (Math.random() * 100).toFixed(0) + "%\nStatus: Detectable levels of generational wealth.");
-});
+const map = L.map('map', { zoomControl: false, minZoom: 4 }).setView([38, -97], 4);
+L.tileLayer('https://{s}{z}/{x}/{y}{r}.png', {
+attribution: '&copy; Price & Quiet Labs'
+}).addTo(map);
+
 </script>
 </body>
 </html>
