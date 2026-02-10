@@ -32,7 +32,7 @@ html, body { height: 100%; margin: 0; padding: 0; background: #000; color: white
 <div class="header">
 <div class="utility">
 <a href="stats.html" class="stats-link">STATS & ANALYTICS</a>
-<div style="background:#4ade80; color:black; padding:3px 12px; border-radius:12px; font-size:11px; font-weight:bold;">LOGIN</div>
+<div style="background:#4ade80; color:black; padding:3px 12px; border-radius:12px; font-size:11px; font-weight:bold; cursor:pointer;">LOGIN</div>
 </div>
 <div class="nav">
 <a href="index.html" class="pq-logo">|||| PQ</a>
@@ -48,11 +48,9 @@ html, body { height: 100%; margin: 0; padding: 0; background: #000; color: white
 <div class="filter-row">Private Security Patrols <span class="toggle" onclick="flip(this)">ON</span></div>
 <div class="filter-row">Gated Entry Latency <span class="toggle" onclick="flip(this)">ON</span></div>
 <div class="filter-row">Sidewalk Connectivity <span class="toggle off" onclick="flip(this)">OFF</span></div>
-
 </div>
 
 <script>
-// 1. Setup the Map
 var map = L.map('map', { zoomControl: false }).setView([39.8, -98.5], 4);
 
 </script>
