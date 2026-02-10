@@ -3,56 +3,64 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Price & Quiet | The Cost of Distance</title>
+<title>Price & Quiet | Stereotypical Insulation</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <style>
-body { margin: 0; padding: 0; background: #000; font-family: -apple-system, system-ui, sans-serif; color: white; overflow: hidden; }
-#map { position: absolute; top: 0; bottom: 0; width: 100%; z-index: 0; filter: contrast(110%) brightness(70%) grayscale(100%); }
-.top-nav { position: absolute; top: 0; left: 0; width: 100%; height: 65px; background: rgba(0,0,0,0.9); z-index: 1001; display: flex; align-items: center; padding: 0 25px; border-bottom: 1px solid #d4af37; }
-.search-box { background: #111; border: 1px solid #333; color: #d4af37; padding: 10px 15px; border-radius: 4px; width: 320px; margin-left: 20px; }
-.welcome-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 2000; display: flex; justify-content: center; align-items: center; }
-.modal { background: #0a0a0a; padding: 50px; border-radius: 15px; border: 1px solid #d4af37; width: 450px; text-align: center; box-shadow: 0 0 50px rgba(212, 175, 55, 0.15); }
-.btn-explore { background: #d4af37; color: black; border: none; padding: 16px; border-radius: 4px; font-weight: 800; cursor: pointer; width: 100%; margin-top: 30px; text-transform: uppercase; letter-spacing: 2px; }
-.index-bar { height: 10px; background: linear-gradient(to right, #333, #666, #999, #d4af37, #fff); border-radius: 5px; margin: 30px 0; }
-.legend-box { position: absolute; bottom: 30px; right: 20px; background: #0a0a0a; padding: 20px; border-radius: 8px; border: 1px solid #333; z-index: 1001; width: 220px; }
-.legend-row { display: flex; align-items: center; margin-bottom: 10px; font-size: 11px; color: #999; }
-.color-square { width: 12px; height: 12px; border-radius: 2px; margin-right: 12px; }
+body { margin: 0; padding: 0; background: #000; font-family: -apple-system, sans-serif; color: white; overflow: hidden; }
+#map { position: absolute; top: 0; bottom: 0; width: 100%; z-index: 0; background: #0a0a0a; }
+.top-nav { position: absolute; top: 0; left: 0; width: 100%; height: 60px; background: #0a0a0a; z-index: 1001; display: flex; align-items: center; padding: 0 20px; border-bottom: 1px solid #222; }
+.pq-logo { color: #4ade80; font-weight: bold; font-size: 18px; margin-right: 20px; }
+.search-input { background: #1a1a1a; border: 1px solid #333; color: white; padding: 8px 15px; border-radius: 6px; width: 250px; margin-right: 10px; }
+.filter-pill { background: #1a1a1a; border: 1px solid #333; padding: 6px 15px; border-radius: 20px; font-size: 12px; margin-right: 10px; cursor: pointer; color: #4ade80; border-color: #4ade80; }
+.names-menu { display: none; position: absolute; top: 45px; left: 0; background: #111; border: 1px solid #333; width: 200px; border-radius: 8px; padding: 10px; z-index: 2005; }
+.name-row { display: flex; justify-content: space-between; font-size: 11px; padding: 8px 0; border-bottom: 1px solid #222; color: #ccc; }
+.overlay-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; display: flex; justify-content: center; align-items: center; }
+.modal-content { background: #111; padding: 40px; border-radius: 20px; border: 1px solid #222; width: 400px; text-align: center; }
+.btn-start { background: #008eb4; color: white; border: none; padding: 12px; border-radius: 10px; width: 100%; cursor: pointer; margin-top: 20px; font-weight: bold; }
+.legend { position: absolute; bottom: 30px; right: 20px; background: rgba(10,10,10,0.9); padding: 15px; border-radius: 10px; border: 1px solid #333; z-index: 1001; font-size: 11px; }
 </style>
 </head>
 <body>
-<div class="welcome-overlay" id="overlay">
-<div class="modal">
-<h2 style="color:#d4af37; letter-spacing: 3px; text-transform: uppercase;">Price & Quiet</h2>
-<p style="color: #777; font-size: 14px; line-height: 1.6;">A metric for how much wealth is required to successfully ignore the rest of the world.</p>
-<div class="index-bar"></div>
-<div style="display:flex; justify-content:space-between; font-size:9px; color:#444; margin-top:-20px; text-transform: uppercase;"><span>Real World</span><span>Total Insulation</span></div>
-<button class="btn-explore" onclick="document.getElementById('overlay').style.display='none'">Expose the Buffer</button>
+<div class="overlay-modal" id="welcome">
+<div class="modal-content">
+<h2 style="color:#4ade80;">Welcome to Price & Quiet</h2>
+<p style="color: #888; font-size: 13px;">Analyzing geographic data to find the most "Buffered" demographics.</p>
+<button class="btn-start" onclick="document.getElementById('welcome').style.display='none'">Start Exploring</button>
 </div>
 </div>
 <div class="top-nav">
-<div style="color:#d4af37; font-weight:900; letter-spacing:2px;">|||| PRICE & QUIET</div>
-<input type="text" class="search-box" placeholder="Search by zip or portfolio size...">
+<span class="pq-logo">|||| PQ</span>
+<div class="filter-pill">PQ Index (active)</div>
+<input type="text" class="search-input" placeholder="Search net worth...">
+<div style="position: relative;">
+<div class="filter-pill" onclick="const m = document.getElementById('names-menu'); m.style.display = m.style.display === 'block' ? 'none' : 'block'">Names ▾</div>
+<div class="names-menu" id="names-menu">
+<div class="name-row"><span>Chadwick</span><span style="color:#4ade80;">12,401 ✓</span></div>
+<div class="name-row"><span>Tinsley</span><span style="color:#4ade80;">8,220 ✓</span></div>
+<div class="name-row"><span>Bartholomew</span><span style="color:#4ade80;">3,109 ✓</span></div>
+<div class="name-row"><span>Sterling</span><span style="color:#4ade80;">19,002 ✓</span></div>
+<div class="name-row"><span>Muffy</span><span style="color:#4ade80;">4,551 ✓</span></div>
+<div class="name-row"><span>X-Æ-A-12</span><span style="color:#4ade80;">1 ✓</span></div>
 </div>
-<div class="legend-box">
-<div style="font-weight:bold; margin-bottom:15px; font-size:11px; color:#d4af37; text-transform: uppercase;">Insulation Index</div>
-<div class="legend-row"><div class="color-square" style="background:#fff;"></div> Sovereign (81-100)</div>
-<div class="legend-row"><div class="color-square" style="background:#d4af37;"></div> Elite (61-80)</div>
-<div class="legend-row"><div class="color-square" style="background:#999;"></div> Buffered (41-60)</div>
-<div class="legend-row"><div class="color-square" style="background:#666;"></div> Aware (21-40)</div>
-<div class="legend-row"><div class="color-square" style="background:#333;"></div> Exposed (0-20)</div>
+</div>
 </div>
 <div id="map"></div>
+<div class="legend">
+<div style="font-weight:bold; margin-bottom:10px; color:#4ade80;">Insulation Index</div>
+<div style="display:flex; align-items:center; margin-bottom:5px;"><div style="width:10px; height:10px; background:#00f5d4; margin-right:10px;"></div> Sovereign</div>
+<div style="display:flex; align-items:center; margin-bottom:5px;"><div style="width:10px; height:10px; background:#8bc34a; margin-right:10px;"></div> Elite</div>
+<div style="display:flex; align-items:center; margin-bottom:5px;"><div style="width:10px; height:10px; background:#ffb703; margin-right:10px;"></div> Buffered</div>
+</div>
 <script>
 const usBounds = L.latLngBounds(L.latLng(24, -125), L.latLng(50, -66));
-const map = L.map('map', { zoomControl: false, maxBounds: usBounds, minZoom: 4 }).setView([38, -97], 5);
+const map = L.map('map', { zoomControl: false, maxBounds: usBounds, minZoom: 4 }).setView([38, -97], 4);
 L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png').addTo(map);
 map.on('click', function(e) {
-const val = (Math.random() * 50 + 50).toFixed(0);
-let status = "SOVEREIGN: High risk of private security and zero-calorie cocktails.";
-if (val < 70) status = "BUFFERED: Resident likely has strong opinions on HOA regulations.";
-else if (val < 90) status = "ELITE: Sensors detect offshore accounts and a complete lack of public transit knowledge.";
-alert("Neighborhood Insulation Score: " + val + "%\n\nStatus: " + status);
+const val = (Math.random() * 100).toFixed(0);
+let status = "SOVEREIGN: High risk of private tennis lessons.";
+if (val < 40) status = "GROUNDED: Area shows traces of actual personality.";
+alert("Neighborhood Insulation: " + val + "%\n\nStatus: " + status);
 });
 </script>
 </body>
