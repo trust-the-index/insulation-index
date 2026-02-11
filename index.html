@@ -71,9 +71,8 @@
     <div id="map"></div>
 
     <div class="legend">
-        <div style="margin-bottom:5px; color:#444;">INSULATION LEVEL</div>
-        <div><span class="color-box" style="background:#4ade80;"></span> 95%+ ELITE</div>
-        <div><span class="color-box" style="background:#22c55e;"></span> 85%+ BUFFERED</div>
+        <div style="margin-bottom:5px; color:#444;">DATA SOURCE: US CENSUS BUREAU</div>
+        <div><span class="color-box" style="background:rgba(74, 222, 128, 0.5);"></span> TRACT VERIFIED</div>
     </div>
 
     <div class="index-box">
@@ -82,51 +81,45 @@
     </div>
 
     <script>
+        // Setup Map
         var map = L.map('map', { zoomControl: false }).setView([38.5, -96.5], 4); 
         L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png').addTo(map);
 
-        // Census WMS Layer
+        // REAL DATABASE LAYER: US Census Bureau Tracts
+        // This pulls the actual boundaries from the gov database
         var wealthLayer = L.tileLayer.wms("https://tigerweb.geo.census.gov/arcgis/services/Census2020/CensusTracts_StatAreas/MapServer/WMSServer", {
             layers: 'Census_Tracts',
             format: 'image/png',
             transparent: true,
-            opacity: 0.3
+            opacity: 0.5,
+            styles: 'default'
         }).addTo(map);
 
-        var eliteMarkers = L.layerGroup().addTo(map);
-
-        var majorWealth = [
-            [34.08, -118.44], [37.46, -122.19], [26.70, -80.03], [41.02, -73.62], 
-            [25.76, -80.19], [32.83, -96.79], [40.04, -76.30], [47.62, -122.24],
-            [42.36, -71.22], [33.84, -84.36], [39.00, -77.10], [45.00, -93.30]
-        ];
-
-        function seedWealth(intensity) {
-            eliteMarkers.clearLayers();
-            if (intensity <= 0) return;
-            majorWealth.forEach(coord => {
-                L.circle(coord, {
-                    radius: 15000, color: '#4ade80', fillColor: '#4ade80', fillOpacity: intensity, weight: 1
-                }).addTo(eliteMarkers);
-            });
-        }
-
-        seedWealth(0.15); // Initial Glow
-
         function flip(el) {
-            if (el.innerText === "ON") { el.innerText = "OFF"; el.classList.add("off"); }
-            else { el.innerText = "ON"; el.classList.remove("off"); }
+            // Toggle Logic
+            if (el.innerText === "ON") { 
+                el.innerText = "OFF"; 
+                el.classList.add("off"); 
+            } else { 
+                el.innerText = "ON"; 
+                el.classList.remove("off"); 
+            }
 
+            // Calculate "Data Heat"
             var activeFilters = document.querySelectorAll('.toggle:not(.off)').length;
-            var strength = (activeFilters / 9) * 0.3;
+            var newOpacity = (activeFilters / 9) * 0.8;
 
+            // Update the real Database Layer based on filters
             if (el.parentElement.innerText.includes("Income")) {
                 if (el.innerText === "OFF") map.removeLayer(wealthLayer);
                 else wealthLayer.addTo(map);
+            } else {
+                // Adjust the intensity of the database tracts based on satire filters
+                wealthLayer.setOpacity(newOpacity);
             }
 
-            seedWealth(strength);
-            document.getElementById('pqVal').innerText = (85 + (activeFilters * 1.5) + Math.random()).toFixed(1) + "%";
+            // Update PQ Index
+            document.getElementById('pqVal').innerText = (80 + (activeFilters * 2) + Math.random()).toFixed(1) + "%";
         }
 
         function doSearch() {
@@ -134,9 +127,10 @@
             fetch('https://nominatim.openstreetmap.org/search?format=json&q=' + val)
                 .then(r => r.json()).then(data => {
                     if (data.length > 0) {
-                        map.setView([data[0].lat, data[0].lon], 14);
-                        L.circle([data[0].lat, data[0].lon], {radius: 800, color: '#4ade80', fillColor: '#4ade80', fillOpacity: 0.4, weight: 2}).addTo(map)
-                            .bindPopup("<b>Target Area Verified</b>").openPopup();
+                        map.setView([data[0].lat, data[0].lon], 13);
+                        L.circle([data[0].lat, data[0].lon], {
+                            radius: 1000, color: '#4ade80', weight: 2, fillOpacity: 0.2
+                        }).addTo(map).bindPopup("<b>Census Tract Scanned</b><br>Wealth Status: Verified").openPopup();
                     }
                 });
         }
