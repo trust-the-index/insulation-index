@@ -64,24 +64,65 @@
         <div class="index-value" id="pqVal">94.2%</div>
         <div style="font-size:9px; color:#555; margin-top:5px;">WEALTH INSULATION: OPTIMAL</div>
     </div>
-    <script>
-        var map = L.map('map', { zoomControl: false }).setView([39.8, -98.5], 4);
+   <script>
+        // 1. Initialize map
+        var map = L.map('map', { zoomControl: false }).setView([38.5, -96.5], 4); 
         L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png').addTo(map);
+
+        // 2. Elite Zone Data
+        var zones = [
+            { name: "Atherton Elite Zone", coords: [37.4613, -122.1977], purity: "99.8%" },
+            { name: "Palm Beach Buffer", coords: [26.7056, -80.0364], purity: "99.2%" },
+            { name: "Greenwich Insulation", coords: [41.0262, -73.6282], purity: "98.5%" },
+            { name: "Bel Air Fortress", coords: [34.0833, -118.4478], purity: "99.5%" },
+            { name: "Jupiter Island Sanctuary", coords: [27.0517, -80.1264], purity: "99.1%" },
+            { name: "Medina Tech-Wealth Zone", coords: [47.6209, -122.2415], purity: "98.8%" }
+        ];
+
+        var highlightLayer = L.layerGroup().addTo(map);
+
+        function drawZones() {
+            highlightLayer.clearLayers();
+            zones.forEach(function(zone) {
+                L.circle(zone.coords, {
+                    color: '#4ade80',
+                    fillColor: '#4ade80',
+                    fillOpacity: 0.25,
+                    radius: 12000 // Made them slightly larger to see easier
+                }).bindPopup("<b>" + zone.name + "</b><br>Insulation: " + zone.purity)
+                  .addTo(highlightLayer);
+            });
+        }
+
+        drawZones(); // Show zones immediately
+
+        // 3. Logic Functions
+        function flip(el) {
+            if (el.innerText === "ON") { 
+                el.innerText = "OFF"; el.classList.add("off"); 
+                highlightLayer.clearLayers(); // Map goes dark
+            } else { 
+                el.innerText = "ON"; el.classList.remove("off"); 
+                drawZones(); // Map glows again
+            }
+            document.getElementById('pqVal').innerText = (90 + Math.random() * 9).toFixed(1) + "%";
+        }
+
         function toggleSidebar() {
             var sb = document.getElementById('sidebar');
             sb.style.display = (sb.style.display === 'block') ? 'none' : 'block';
             setTimeout(function() { map.invalidateSize(); }, 100);
         }
+
         function toggleNames() {
             var nm = document.getElementById('namesMenu');
             nm.style.display = (nm.style.display === 'block') ? 'none' : 'block';
         }
-        function flip(el) {
-            if (el.innerText === "ON") { el.innerText = "OFF"; el.classList.add("off"); }
-            else { el.innerText = "ON"; el.classList.remove("off"); }
-            document.getElementById('pqVal').innerText = (90 + Math.random() * 9).toFixed(1) + "%";
+
+        function doSearch() { 
+            alert("Analyzing buffer zones for: " + document.getElementById('addrSearch').value); 
         }
-        function doSearch() { alert("Analyzing buffer zones for: " + document.getElementById('addrSearch').value); }
+
         window.onload = function() { setTimeout(function() { map.invalidateSize(); }, 500); };
     </script>
 </body>
