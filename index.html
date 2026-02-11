@@ -69,15 +69,91 @@
         var map = L.map('map', { zoomControl: false }).setView([38.5, -96.5], 4); 
         L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png').addTo(map);
 
-        // 2. Elite Zone Data
-        var zones = [
-            { name: "Atherton Elite Zone", coords: [37.4613, -122.1977], purity: "99.8%" },
-            { name: "Palm Beach Buffer", coords: [26.7056, -80.0364], purity: "99.2%" },
-            { name: "Greenwich Insulation", coords: [41.0262, -73.6282], purity: "98.5%" },
-            { name: "Bel Air Fortress", coords: [34.0833, -118.4478], purity: "99.5%" },
-            { name: "Jupiter Island Sanctuary", coords: [27.0517, -80.1264], purity: "99.1%" },
-            { name: "Medina Tech-Wealth Zone", coords: [47.6209, -122.2415], purity: "98.8%" }
-        ];
+     <script>
+    // 1. Initialize map
+    var map = L.map('map', { zoomControl: false }).setView([38.5, -96.5], 4); 
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png').addTo(map);
+
+    // 2. Elite Zone Data (Polygons instead of Circles)
+    var zones = [
+        { 
+            name: "Atherton Elite Zone", 
+            coords: [[37.47, -122.21], [37.45, -122.21], [37.45, -122.18], [37.47, -122.18]], 
+            purity: "99.8%" 
+        },
+        { 
+            name: "Palm Beach Buffer", 
+            coords: [[26.72, -80.04], [26.68, -80.04], [26.68, -80.03], [26.72, -80.03]], 
+            purity: "99.2%" 
+        },
+        { 
+            name: "Bel Air Fortress", 
+            coords: [[34.10, -118.46], [34.07, -118.46], [34.07, -118.43], [34.10, -118.43]], 
+            purity: "99.5%" 
+        }
+    ];
+
+    var highlightLayer = L.layerGroup().addTo(map);
+
+    function drawZones() {
+        highlightLayer.clearLayers();
+        zones.forEach(function(zone) {
+            L.polygon(zone.coords, {
+                color: '#4ade80',
+                fillColor: '#4ade80',
+                fillOpacity: 0.3,
+                weight: 1
+            }).bindPopup("<b>" + zone.name + "</b><br>Insulation: " + zone.purity)
+              .addTo(highlightLayer);
+        });
+    }
+
+    drawZones();
+
+    // 3. THE MAGIC SEARCH (Real Address Lookup)
+    function doSearch() {
+        var address = document.getElementById('addrSearch').value;
+        // This hits a real GPS database to find the house
+        fetch('https://nominatim.openstreetmap.org/search?format=json&q=' + address)
+            .then(response => response.json())
+            .then(data => {
+                if (data.length > 0) {
+                    var lat = data[0].lat;
+                    var lon = data[0].lon;
+                    map.setView([lat, lon], 15); // Zooms in close to the house
+                    L.circle([lat, lon], {radius: 200, color: '#4ade80'}).addTo(map)
+                        .bindPopup("<b>Property Analyzed</b><br>Insulation: 98.2%").openPopup();
+                } else {
+                    alert("Address not found in Elite database.");
+                }
+            });
+    }
+
+    // 4. UI Functions
+    function flip(el) {
+        if (el.innerText === "ON") { 
+            el.innerText = "OFF"; el.classList.add("off"); 
+            highlightLayer.clearLayers();
+        } else { 
+            el.innerText = "ON"; el.classList.remove("off"); 
+            drawZones();
+        }
+        document.getElementById('pqVal').innerText = (90 + Math.random() * 9).toFixed(1) + "%";
+    }
+
+    function toggleSidebar() {
+        var sb = document.getElementById('sidebar');
+        sb.style.display = (sb.style.display === 'block') ? 'none' : 'block';
+        setTimeout(function() { map.invalidateSize(); }, 100);
+    }
+
+    function toggleNames() {
+        var nm = document.getElementById('namesMenu');
+        nm.style.display = (nm.style.display === 'block') ? 'none' : 'block';
+    }
+
+    window.onload = function() { setTimeout(function() { map.invalidateSize(); }, 500); };
+</script>
 
         var highlightLayer = L.layerGroup().addTo(map);
 
