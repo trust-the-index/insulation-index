@@ -24,8 +24,27 @@
         .row { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 12px; color: #ccc; }
         .toggle { color: #4ade80; cursor: pointer; font-weight: bold; border: 1px solid #222; padding: 2px 8px; border-radius: 4px; }
         .toggle.off { color: #ef4444; }
+        .legend {
+    position: absolute;
+    bottom: 100px;
+    right: 20px;
+    z-index: 1000;
+    background: rgba(0,0,0,0.8);
+    padding: 10px;
+    border: 1px solid #222;
+    font-size: 10px;
+    color: #666;
+}
+.legend-item { display: flex; align-items: center; margin-bottom: 5px; }
+.color-box { width: 12px; height: 12px; margin-right: 8px; border-radius: 2px; }
     </style>
 </head>
+    <div class="legend">
+    <div style="margin-bottom:8px; color:#444;">INSULATION LEVEL</div>
+    <div class="legend-item"><div class="color-box" style="background:#4ade80;"></div> 95% - 100% (ELITE)</div>
+    <div class="legend-item"><div class="color-box" style="background:#22c55e;"></div> 85% - 94% (BUFFERED)</div>
+    <div class="legend-item"><div class="color-box" style="background:#166534;"></div> 75% - 84% (STABLE)</div>
+</div>
 <body>
     <div id="header">
         <div class="utility">
@@ -112,23 +131,22 @@
 
     // 3. THE MAGIC SEARCH (Real Address Lookup)
     function doSearch() {
-        var address = document.getElementById('addrSearch').value;
-        // This hits a real GPS database to find the house
-        fetch('https://nominatim.openstreetmap.org/search?format=json&q=' + address)
-            .then(response => response.json())
-            .then(data => {
-                if (data.length > 0) {
-                    var lat = data[0].lat;
-                    var lon = data[0].lon;
-                    map.setView([lat, lon], 15); // Zooms in close to the house
-                    L.circle([lat, lon], {radius: 200, color: '#4ade80'}).addTo(map)
-                        .bindPopup("<b>Property Analyzed</b><br>Insulation: 98.2%").openPopup();
-                } else {
-                    alert("Address not found in Elite database.");
-                }
-            });
-    }
-
+    var address = document.getElementById('addrSearch').value;
+    // We use an open-source "Geocoding" API to find the coordinates
+    fetch('https://nominatim.openstreetmap.org/search?format=json&q=' + address)
+        .then(response => response.json())
+        .then(data => {
+            if (data.length > 0) {
+                var lat = data[0].lat;
+                var lon = data[0].lon;
+                map.setView([lat, lon], 14); // Zooms into the address
+                L.marker([lat, lon]).addTo(map)
+                    .bindPopup("<b>Target Located</b><br>Analyzing Insulation...").openPopup();
+            } else {
+                alert("Address not found in Elite database.");
+            }
+        });
+}
     // 4. UI Functions
     function flip(el) {
         if (el.innerText === "ON") { 
