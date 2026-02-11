@@ -2,144 +2,133 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>EE INDEX // Mapping Privilege</title>
+    <title>EE INDEX | Mapping Privilege</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="https://unpkg.com/h3-js"></script>
     <style>
-        :root { --manager-red: #ff4444; --community-green: #22c55e; --panel-bg: rgba(10, 10, 10, 0.95); }
-        body, html { margin: 0; padding: 0; height: 100%; background: #000; color: #fff; font-family: 'Inter', sans-serif; overflow: hidden; }
+        :root { --manager-red: #ff4444; --community-green: #22c55e; }
+        body, html { margin: 0; padding: 0; height: 100%; background: #000; color: #fff; font-family: 'Inter', -apple-system, sans-serif; overflow: hidden; }
         
-        /* UI Framing */
-        #header { height: 70px; border-bottom: 1px solid #333; display: flex; align-items: center; padding: 0 25px; background: #000; z-index: 2000; position: relative; }
-        #map { position: absolute; top: 70px; bottom: 0; width: 100%; z-index: 1; background: #080808; }
-        #sidebar { position: absolute; top: 70px; left: 0; bottom: 0; width: 320px; background: var(--panel-bg); z-index: 1500; border-right: 1px solid #333; padding: 25px; overflow-y: auto; }
+        /* The sterile, tech-bro UI of the original */
+        #header { height: 70px; border-bottom: 1px solid #222; display: flex; align-items: center; padding: 0 25px; background: #000; z-index: 2000; position: relative; }
+        #map { position: absolute; top: 70px; bottom: 0; width: 100%; z-index: 1; background: #050505; }
+        #sidebar { position: absolute; top: 70px; left: 0; bottom: 0; width: 320px; background: rgba(0,0,0,0.98); z-index: 1500; border-right: 1px solid #222; padding: 25px; box-sizing: border-box; }
 
-        .pq-logo { color: var(--manager-red); font-weight: bold; border: 2px solid var(--manager-red); padding: 6px 14px; text-decoration: none; font-size: 14px; letter-spacing: 2px; margin-right: 30px; }
-        #addrSearch { flex-grow: 1; max-width: 450px; padding: 12px 20px; border: 1px solid #444; background: #111; color: var(--manager-red); outline: none; border-radius: 5px; font-family: monospace; }
+        .pq-logo { color: var(--manager-red); font-weight: bold; border: 1px solid var(--manager-red); padding: 5px 12px; text-decoration: none; font-size: 13px; letter-spacing: 2px; margin-right: 30px; }
+        #addrSearch { flex-grow: 1; max-width: 450px; padding: 12px 20px; border: 1px solid #333; background: #0a0a0a; color: var(--manager-red); outline: none; border-radius: 4px; font-family: monospace; font-size: 13px; }
         
-        /* Filters */
-        .filter-section { margin-bottom: 30px; }
-        .section-label { font-size: 10px; color: var(--manager-red); letter-spacing: 2px; margin-bottom: 15px; display: block; border-bottom: 1px solid #222; padding-bottom: 5px; }
+        .section-label { font-size: 10px; color: #555; letter-spacing: 2px; margin-bottom: 20px; display: block; border-bottom: 1px solid #222; padding-bottom: 5px; text-transform: uppercase; }
         .row { display: flex; justify-content: space-between; margin-bottom: 15px; font-size: 12px; color: #aaa; }
         .toggle { color: var(--manager-red); cursor: pointer; text-decoration: underline; font-weight: bold; }
-        .toggle.off { color: #444; text-decoration: none; }
+        .toggle.off { color: #333; text-decoration: none; }
 
-        /* The Index Box */
-        .index-panel { position: absolute; bottom: 40px; right: 40px; z-index: 1000; background: #000; border: 2px solid var(--manager-red); padding: 25px; width: 260px; text-align: center; box-shadow: 0 0 30px rgba(255, 68, 68, 0.2); }
-        .score-val { font-size: 56px; font-weight: 900; line-height: 1; margin: 10px 0; }
-        .status-msg { font-size: 11px; font-weight: bold; letter-spacing: 1px; text-transform: uppercase; }
-        
-        .disclaimer { font-size: 9px; color: #555; margin-top: 20px; line-height: 1.4; font-style: italic; }
+        /* The Fixed Score Panel */
+        .index-panel { position: absolute; bottom: 40px; right: 40px; z-index: 1000; background: #000; border: 1px solid #333; padding: 25px; width: 260px; text-align: center; }
+        .score-val { font-size: 64px; font-weight: 900; line-height: 1; margin: 10px 0; letter-spacing: -2px; }
+        .status-msg { font-size: 11px; font-weight: bold; letter-spacing: 1px; text-transform: uppercase; min-height: 30px; }
     </style>
 </head>
 <body>
 
     <div id="header">
-        <a href="#" class="pq-logo">EE INDEX // ALPHA</a>
-        <input type="text" id="addrSearch" placeholder="CALIBRATING PRIVILEGE SENSORS..." onkeydown="if(event.key==='Enter') doSearch()">
+        <a href="#" class="pq-logo">EE_INDEX // SATIRE</a>
+        <input type="text" id="addrSearch" placeholder="SCANNING FOR WEALTH HAZARDS..." onkeydown="if(event.key==='Enter') doSearch()">
     </div>
 
     <div id="sidebar">
-        <div class="filter-section">
-            <span class="section-label">DISRUPTION ZONES</span>
-            <div class="row">HEDGE FUND OFFICES <span class="toggle" onclick="flip(this)">ON</span></div>
-            <div class="row">PRIVATE EQUITY HQ <span class="toggle" onclick="flip(this)">ON</span></div>
-        </div>
-
-        <div class="filter-section">
-            <span class="section-label">ENTITLEMENT CLUSTERS</span>
-            <div class="row">COUNTRY CLUBS <span class="toggle" onclick="flip(this)">ON</span></div>
-            <div class="row">YACHT CLUBS <span class="toggle" onclick="flip(this)">ON</span></div>
-        </div>
-
-        <div class="filter-section">
-            <span class="section-label">ISOLATION INDICATORS</span>
-            <div class="row">GATED COMMUNITIES <span class="toggle" onclick="flip(this)">ON</span></div>
-            <div class="row">ZERO SIDEWALK ZONES <span class="toggle" onclick="flip(this)">ON</span></div>
-        </div>
-
-        <div class="disclaimer">
-            "Because apparently vibes = demographics." This tool exposes the absurdity of labeling communities based on flawed proxies.
+        <span class="section-label">Disruption Filters</span>
+        <div class="row">KAREN DENSITY <span class="toggle" onclick="flip(this)">ON</span></div>
+        <div class="row">HEDGE FUNDS <span class="toggle" onclick="flip(this)">ON</span></div>
+        <div class="row">COUNTRY CLUBS <span class="toggle" onclick="flip(this)">ON</span></div>
+        <div class="row">PRIVATE JETS <span class="toggle" onclick="flip(this)">ON</span></div>
+        <div class="row">ZERO SIDEWALKS <span class="toggle" onclick="flip(this)">ON</span></div>
+        
+        <div style="margin-top:40px; font-size:10px; color:#444; line-height:1.6;">
+            <strong>METHODOLOGY:</strong><br>
+            Our "EE Index" reverses the lens of exclusionary mapping. High scores represent areas of maximum resource hoarding and social insulation.
         </div>
     </div>
 
     <div id="map"></div>
 
     <div class="index-panel">
-        <div id="statusText" class="status-msg" style="color:var(--manager-red);">WAITING FOR SCAN</div>
-        <div id="pqVal" class="score-val" style="color:var(--manager-red);">--</div>
-        <div style="font-size:10px; color:#444;">ENTITLEMENT & EXCESS INDEX</div>
+        <div id="statusText" class="status-msg">READY TO SCAN</div>
+        <div id="pqVal" class="score-val">--</div>
+        <div style="font-size:9px; color:#555; letter-spacing:1px;">ENTITLEMENT & EXCESS INDEX</div>
     </div>
 
     <script>
-        const map = L.map('map', { zoomControl: false }).setView([37.8, -96], 4);
+        // Initialize Map locked to USA
+        const map = L.map('map', { zoomControl: false, minZoom: 4 }).setView([37.8, -96], 4);
         L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png').addTo(map);
 
         const hexLayer = L.layerGroup().addTo(map);
 
-        // HARD DATA: The "Hot Zones" of Entitlement
-        const eliteCoordinates = [
-            {lat: 34.07, lng: -118.40, name: "Beverly Hills"},
-            {lat: 41.03, lng: -73.62, name: "Greenwich"},
-            {lat: 26.70, lng: -80.03, name: "Palm Beach"},
-            {lat: 37.46, lng: -122.19, name: "Atherton"},
-            {lat: 25.76, lng: -80.14, name: "Fisher Island"},
-            {lat: 40.99, lng: -73.79, name: "Scarsdale"},
-            {lat: 42.10, lng: -87.73, name: "Winnetka"},
-            {lat: 39.19, lng: -106.81, name: "Aspen"}
+        // Fixed "Hazard" Zones
+        const hotspots = [
+            {lat: 34.07, lng: -118.40, score: 98}, // Beverly Hills
+            {lat: 41.03, lng: -73.62, score: 99}, // Greenwich
+            {lat: 26.70, lng: -80.03, score: 97}, // Palm Beach
+            {lat: 37.46, lng: -122.19, score: 99}, // Atherton
+            {lat: 40.75, lng: -73.98, score: 85}, // Midtown (Hedge Funds)
+            {lat: 43.47, lng: -110.76, score: 92}, // Jackson Hole
+            {lat: 33.53, lng: -111.94, score: 88}  // Paradise Valley
         ];
 
-        function getEEStatus(score) {
-            if (score > 80) return { t: "Let Me Speak to the Manager", c: "#ff4444" };
-            if (score > 60) return { t: "NIMBY Stronghold", c: "#f97316" };
-            if (score > 40) return { t: "Gentri-fied", c: "#fbbf24" };
-            if (score > 20) return { t: "Touch Grass", c: "#3b82f6" };
+        function getStatus(s) {
+            if (s > 80) return { t: "Let Me Speak to the Manager", c: "#ff4444" };
+            if (s > 60) return { t: "NIMBY Stronghold", c: "#f97316" };
+            if (s > 40) return { t: "Gentri-fied", c: "#fbbf24" };
             return { t: "Community Driven", c: "#22c55e" };
         }
 
-        function drawEEGrid() {
+        function drawFixedGrid() {
             hexLayer.clearLayers();
             const zoom = map.getZoom();
-            if (zoom < 5) return;
+            if (zoom < 6) return; // Don't clutter at high altitude
 
             const res = zoom > 10 ? 8 : 7;
+            const bounds = map.getBounds();
+            
+            // This is the "magic" fix: it gets all hexes in the current VIEW
+            // and anchors them to the map's coordinate system.
             const center = map.getCenter();
-            // Get hexes only within the current view
-            const hexes = h3.gridDisk(h3.latLngToCell(center.lat, center.lng, res), res === 8 ? 8 : 4);
+            const cells = h3.gridDisk(h3.latLngToCell(center.lat, center.lng, res), res === 8 ? 10 : 6);
 
-            hexes.forEach(hex => {
-                const hexLatLng = h3.cellToLatLng(hex);
-                const corners = h3.cellToBoundary(hex);
+            cells.forEach(cell => {
+                const latLng = h3.cellToLatLng(cell);
+                const corners = h3.cellToBoundary(cell);
                 
-                // Calculate score based on proximity to Elite Coordinates
-                let score = 5; // Default "Community" score
-                eliteCoordinates.forEach(spot => {
-                    const dist = map.distance(hexLatLng, [spot.lat, spot.lng]);
-                    if (dist < 15000) score += (100 - (dist / 150)); // Spike if close to elite spot
+                // Determine if this cell is near a hotspot
+                let cellScore = 15; // Baseline Community Score
+                hotspots.forEach(hs => {
+                    const d = map.distance(latLng, [hs.lat, hs.lng]);
+                    if (d < 20000) { // If within 20km of a rich spot
+                        cellScore += (hs.score - (d/200));
+                    }
                 });
 
-                if (score > 100) score = 99.4;
-                const status = getEEStatus(score);
+                if (cellScore > 100) cellScore = 99.8;
+                const status = getStatus(cellScore);
 
-                // We only draw hexes that have "Entitlement" or are in view
-                const color = status.c;
-                const opacity = score > 20 ? 0.4 : 0.05;
-
-                L.polygon(corners, {
-                    color: '#222', weight: 0.5, fillColor: color, fillOpacity: opacity
-                }).addTo(hexLayer).on('mouseover', () => {
-                    document.getElementById('pqVal').innerText = score.toFixed(1);
-                    document.getElementById('pqVal').style.color = color;
-                    document.getElementById('statusText').innerText = status.t;
-                    document.getElementById('statusText').style.color = color;
-                });
+                // Only draw if it's notable (keeps map clean like original)
+                if (cellScore > 30) {
+                    L.polygon(corners, {
+                        color: '#111', weight: 0.5, fillColor: status.c, fillOpacity: 0.4
+                    }).addTo(hexLayer).on('mouseover', () => {
+                        document.getElementById('pqVal').innerText = cellScore.toFixed(1);
+                        document.getElementById('pqVal').style.color = status.c;
+                        document.getElementById('statusText').innerText = status.t;
+                        document.getElementById('statusText').style.color = status.c;
+                    });
+                }
             });
         }
 
         function flip(el) {
             el.classList.toggle("off");
-            drawEEGrid();
+            drawFixedGrid();
         }
 
         function doSearch() {
@@ -150,8 +139,8 @@
                 });
         }
 
-        map.on('moveend', drawEEGrid);
-        drawEEGrid();
+        map.on('moveend', drawFixedGrid);
+        drawFixedGrid();
     </script>
 </body>
 </html>
