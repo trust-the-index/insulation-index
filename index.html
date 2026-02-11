@@ -1,156 +1,166 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>EE Index | Mapping Privilege</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <meta charset="utf-8">
+    <title>EE INDEX | Resource Hoarding Map</title>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
     <script src="https://unpkg.com/h3-js"></script>
     <style>
-        :root { --manager-red: #ff4d4d; --nimby-orange: #ff9100; --safe-green: #00e676; --white: #ffffff; }
-        body, html { margin: 0; padding: 0; height: 100%; font-family: -apple-system, sans-serif; background: #e5e3df; overflow: hidden; }
+        :root { --hazard-red: #ff4d4d; --nimby-orange: #ffa726; --safe-green: #66bb6a; --ui-bg: rgba(255, 255, 255, 0.9); }
+        body { margin: 0; padding: 0; font-family: -apple-system, sans-serif; background: #f4f4f4; overflow: hidden; }
+        #map { position: absolute; top: 0; bottom: 0; width: 100%; }
+
+        /* Floating UI Components */
+        .glass { background: var(--ui-bg); backdrop-filter: blur(12px); border: 1px solid rgba(0,0,0,0.05); box-shadow: 0 8px 32px rgba(0,0,0,0.1); border-radius: 16px; pointer-events: auto; }
         
-        /* UI Elements */
-        #search-container { position: absolute; top: 20px; left: 20px; right: 20px; z-index: 2000; display: flex; gap: 10px; pointer-events: none; }
-        .logo-box { pointer-events: auto; background: var(--white); padding: 10px 18px; border-radius: 12px; font-weight: 800; color: var(--manager-red); box-shadow: 0 4px 12px rgba(0,0,0,0.1); border: 1px solid #eee; text-decoration: none; font-size: 14px; letter-spacing: 1px; }
-        .search-input-wrapper { pointer-events: auto; background: var(--white); border-radius: 12px; padding: 10px 20px; flex-grow: 1; max-width: 450px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border: 1px solid #eee; }
-        #addrSearch { border: none; outline: none; width: 100%; font-size: 15px; }
+        #header-nav { position: absolute; top: 20px; left: 20px; right: 20px; z-index: 10; display: flex; gap: 12px; pointer-events: none; }
+        .logo-btn { background: #000; color: #fff; padding: 12px 20px; border-radius: 12px; font-weight: 800; font-size: 13px; letter-spacing: 1px; text-decoration: none; pointer-events: auto; }
+        .search-container { flex-grow: 1; max-width: 480px; padding: 0 20px; display: flex; align-items: center; }
+        #search-input { border: none; background: transparent; width: 100%; outline: none; height: 45px; font-size: 15px; }
 
-        #sidebar { position: absolute; top: 90px; left: 20px; bottom: 30px; width: 320px; background: var(--white); z-index: 1500; border-radius: 16px; padding: 24px; box-shadow: 0 8px 24px rgba(0,0,0,0.1); border: 1px solid #eee; overflow-y: auto; }
-        .row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #f8f9fa; font-size: 13px; font-weight: 500; }
-        .toggle { width: 34px; height: 18px; background: var(--manager-red); border-radius: 20px; position: relative; }
-        .toggle-knob { width: 14px; height: 14px; background: white; border-radius: 50%; position: absolute; top: 2px; right: 2px; }
+        #sidebar { position: absolute; top: 85px; left: 20px; bottom: 30px; width: 320px; z-index: 5; padding: 25px; display: flex; flex-direction: column; box-sizing: border-box; }
+        .tab-menu { display: flex; gap: 20px; border-bottom: 1px solid #eee; margin-bottom: 20px; font-size: 11px; font-weight: 700; color: #aaa; padding-bottom: 10px; }
+        .tab-menu .active { color: #000; border-bottom: 2px solid #000; margin-bottom: -12px; padding-bottom: 10px; }
 
-        .score-panel { position: absolute; bottom: 30px; right: 20px; z-index: 1000; background: var(--white); padding: 20px; border-radius: 16px; width: 220px; box-shadow: 0 8px 24px rgba(0,0,0,0.2); text-align: center; border: 1px solid #eee; }
-        .score-value { font-size: 54px; font-weight: 800; color: #333; margin: 0; letter-spacing: -2px; }
-        .score-status { font-size: 10px; font-weight: 700; color: #999; text-transform: uppercase; margin-top: 5px; }
+        .filter-group { margin-bottom: 25px; }
+        .filter-label { font-size: 18px; font-weight: 800; margin-bottom: 15px; display: block; }
+        .filter-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-size: 13px; font-weight: 600; color: #444; }
+        .toggle-btn { width: 36px; height: 20px; background: var(--hazard-red); border-radius: 20px; position: relative; cursor: pointer; }
+        .toggle-knob { width: 14px; height: 14px; background: #fff; border-radius: 50%; position: absolute; top: 3px; right: 3px; }
 
-        /* Animation for the "Hazard" glow */
-        @keyframes pulse-red {
-            0% { fill-opacity: 0.2; stroke-opacity: 0.3; }
-            50% { fill-opacity: 0.5; stroke-opacity: 0.6; }
-            100% { fill-opacity: 0.2; stroke-opacity: 0.3; }
-        }
-        .manager-zone { animation: pulse-red 3s infinite ease-in-out; }
+        #score-hud { position: absolute; bottom: 40px; right: 40px; width: 220px; padding: 30px; text-align: center; z-index: 5; }
+        .score-num { font-size: 68px; font-weight: 900; line-height: 1; letter-spacing: -4px; margin: 10px 0; }
+        .score-desc { font-size: 10px; font-weight: 800; color: #888; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* Tooltip */
+        .mapboxgl-popup-content { border-radius: 12px; padding: 15px; font-weight: 700; border: none; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
     </style>
 </head>
 <body>
 
-    <div id="search-container">
-        <a href="#" class="logo-box">EE INDEX</a>
-        <div class="search-input-wrapper">
-            <input type="text" id="addrSearch" placeholder="Scan for resource hoarding..." onkeydown="if(event.key==='Enter') doSearch()">
-        </div>
+<div id="header-nav">
+    <a href="#" class="logo-btn">EE INDEX</a>
+    <div class="search-container glass">
+        <input type="text" id="search-input" placeholder="Search for a wealthy enclave..." onkeydown="if(event.key==='Enter') flyToLoc()">
     </div>
+</div>
 
-    <div id="sidebar">
-        <div style="font-size:11px; font-weight:700; color:#bbb; letter-spacing:1px; margin-bottom:15px;">EXCLUSION FILTERS</div>
-        <div class="row">KAREN DENSITY <div class="toggle"><div class="toggle-knob"></div></div></div>
-        <div class="row">GATED ENTRANCES <div class="toggle"><div class="toggle-knob"></div></div></div>
-        <div class="row">PRIVATE EQUITY <div class="toggle"><div class="toggle-knob"></div></div></div>
-        <div class="row">YACHT CLUBS <div class="toggle"><div class="toggle-knob"></div></div></div>
-        <div class="row">GOLF COURSES <div class="toggle"><div class="toggle-knob"></div></div></div>
-        <div style="margin-top:30px; font-size:11px; color:#777; line-height:1.5;">
-            <strong>THE EE SCALE:</strong><br>
-            81-100: Manager Zone (Red)<br>
-            61-80: NIMBY Stronghold (Orange)<br>
-            0-60: Community Driven (Clear)
-        </div>
+<div id="sidebar" class="glass">
+    <div class="tab-menu">
+        <span class="active">STATS</span>
+        <span onclick="alert('Methodology: Satirical Inversion of Socioeconomic Stressors')">METHODOLOGY</span>
+        <span>LEADERBOARD</span>
     </div>
-
-    <div id="map"></div>
-
-    <div class="score-panel">
-        <div style="font-size:9px; font-weight:800; color:#bbb;">INDEX SCORE</div>
-        <div id="scoreVal" class="score-value">--</div>
-        <div id="statusLabel" class="score-status">READY TO SCAN</div>
+    <div class="filter-group">
+        <span class="filter-label">Privilege Filters</span>
+        <input type="text" placeholder="Search Indicators..." style="width:100%; padding:8px; border-radius:8px; border:1px solid #eee; margin-bottom:15px; font-size:12px;">
+        
+        <div class="filter-row">KAREN DENSITY <div class="toggle-btn"><div class="toggle-knob"></div></div></div>
+        <div class="filter-row">GOLF COURSES <div class="toggle-btn"><div class="toggle-knob"></div></div></div>
+        <div class="filter-row">HEDGE FUND HUBS <div class="toggle-btn"><div class="toggle-knob"></div></div></div>
+        <div class="filter-row">YACHT CLUBS <div class="toggle-btn"><div class="toggle-knob"></div></div></div>
+        <div class="filter-row">PRIVATE JET FBOs <div class="toggle-btn"><div class="toggle-knob"></div></div></div>
     </div>
+    <div style="flex-grow:1"></div>
+    <button style="width:100%; background:#000; color:#fff; border:none; padding:15px; border-radius:12px; font-weight:700; cursor:pointer;">Request an Indicator</button>
+</div>
 
-    <script>
-        // Use a cleaner tile layer that mimics the original's tech look
-        const map = L.map('map', { zoomControl: false, minZoom: 4 }).setView([34.07, -118.40], 10);
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo(map);
+<div id="score-hud" class="glass">
+    <div class="score-desc">EE Index Score</div>
+    <div id="score-val" class="score-num">--</div>
+    <div id="score-label" class="score-desc">Awaiting Data</div>
+</div>
 
-        const hexLayer = L.layerGroup().addTo(map);
+<div id="map"></div>
 
-        // Core points of "Social Infection" - Hard-coded globally
-        const toxicHotspots = [
-            {lat: 34.07, lng: -118.40, name: "Beverly Hills"},
-            {lat: 41.03, lng: -73.62, name: "Greenwich"},
-            {lat: 26.70, lng: -80.03, name: "Palm Beach"},
-            {lat: 37.46, lng: -122.19, name: "Atherton"},
-            {lat: 40.76, lng: -73.96, name: "UES Manhattan"},
-            {lat: 39.19, lng: -106.81, name: "Aspen"},
-            {lat: 25.76, lng: -80.14, name: "Fisher Island"},
-            {lat: 33.53, lng: -111.94, name: "Paradise Valley"}
-        ];
+<script>
+    // 1:1 REPLICATION ENGINE
+    mapboxgl.accessToken = 'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4M29iazA2Z2gycXA4N2pmbDZnd3IifQ.y9PZzX_9Y6Y6Pj1XW77SBA'; // Public Token
+    
+    const map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/light-v11', // Exact light/gray style
+        center: [-118.40, 34.07], // Start at Beverly Hills
+        zoom: 11,
+        pitch: 45,
+        antialias: true
+    });
 
-        function getStatus(s) {
-            if (s > 80) return { t: "Let Me Speak to the Manager", c: "#ff4d4d" };
-            if (s > 60) return { t: "NIMBY Stronghold", c: "#ff9100" };
-            return { t: "Community Driven", c: "transparent" };
-        }
+    const TOXIC_ZONES = [
+        {lon: -118.40, lat: 34.07, weight: 99}, // Beverly Hills
+        {lon: -73.62, lat: 41.03, weight: 98},  // Greenwich
+        {lon: -80.03, lat: 26.70, weight: 97},  // Palm Beach
+        {lon: -122.19, lat: 37.46, weight: 99}, // Atherton
+        {lon: -73.96, lat: 40.77, weight: 90}   // UES Manhattan
+    ];
 
-        function drawGlobalGrid() {
-            hexLayer.clearLayers();
-            const zoom = map.getZoom();
-            if (zoom < 6) return;
-
-            const res = zoom > 10 ? 8 : 7;
-            const bounds = map.getBounds();
-            
-            // This is the "magic" fix: It generates hexes for the whole VIEWPORT
-            // not just a circle around the center.
-            const north = bounds.getNorth();
-            const south = bounds.getSouth();
-            const east = bounds.getEast();
-            const west = bounds.getWest();
-
-            // Simplified bounding box fill for H3
-            for (let lat = south; lat <= north; lat += (res === 8 ? 0.02 : 0.08)) {
-                for (let lng = west; lng <= east; lng += (res === 8 ? 0.02 : 0.08)) {
-                    const cell = h3.latLngToCell(lat, lng, res);
-                    const cellLatLng = h3.cellToLatLng(cell);
-                    const corners = h3.cellToBoundary(cell);
-
-                    let score = 10;
-                    toxicHotspots.forEach(hs => {
-                        const d = map.distance([cellLatLng[0], cellLatLng[1]], [hs.lat, hs.lng]);
-                        if (d < 30000) { // Reach of 30km
-                            score += (90 - (d/333));
-                        }
-                    });
-
-                    if (score > 100) score = 99.1;
-                    const status = getStatus(score);
-
-                    if (status.c !== 'transparent') {
-                        const poly = L.polygon(corners, {
-                            color: status.c,
-                            fillColor: status.c,
-                            weight: 1,
-                            className: score > 80 ? 'manager-zone' : ''
-                        }).addTo(hexLayer);
-
-                        poly.on('mouseover', () => {
-                            document.getElementById('scoreVal').innerText = score.toFixed(1);
-                            document.getElementById('scoreVal').style.color = status.c;
-                            document.getElementById('statusLabel').innerText = status.t;
-                            document.getElementById('statusLabel').style.color = status.c;
-                        });
-                    }
-                }
+    map.on('load', () => {
+        map.addSource('h3-grid', { type: 'geojson', data: { type: 'FeatureCollection', features: [] } });
+        map.addLayer({
+            'id': 'h3-layer',
+            'type': 'fill',
+            'source': 'h3-grid',
+            'paint': {
+                'fill-color': ['get', 'color'],
+                'fill-opacity': 0.45,
+                'fill-outline-color': 'rgba(255,255,255,0.2)'
             }
-        }
+        });
 
-        function doSearch() {
-            const val = document.getElementById('addrSearch').value;
-            fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${val}&countrycodes=us`)
-                .then(r => r.json()).then(data => { if (data[0]) map.setView([data[0].lat, data[0].lon], 12); });
-        }
+        renderGrid();
+    });
 
-        map.on('moveend', drawGlobalGrid);
-        drawGlobalGrid(); // Run on load
-    </script>
+    function renderGrid() {
+        const center = map.getCenter();
+        const zoom = map.getZoom();
+        const res = zoom > 11 ? 8 : 7;
+        
+        // Generate continuous grid like original
+        const cells = h3.gridDisk(h3.latLngToCell(center.lat, center.lng, res), res === 8 ? 16 : 8);
+        const features = cells.map(cell => {
+            const boundary = h3.cellToBoundary(cell).map(c => [c[1], c[0]]);
+            boundary.push(boundary[0]);
+            
+            const cellCenter = h3.cellToLatLng(cell);
+            let score = 10;
+            
+            TOXIC_ZONES.forEach(tz => {
+                const dist = Math.sqrt(Math.pow(cellCenter[0] - tz.lat, 2) + Math.pow(cellCenter[1] - tz.lon, 2));
+                if (dist < 0.25) score += (tz.weight - (dist * 400));
+            });
+
+            score = Math.min(Math.max(score, 5), 99.8);
+            const color = score > 80 ? '#ff4d4d' : score > 60 ? '#ffa726' : '#66bb6a';
+
+            return {
+                type: 'Feature',
+                geometry: { type: 'Polygon', coordinates: [boundary] },
+                properties: { score, color }
+            };
+        }).filter(f => f.properties.score > 40); // Only show relevant "Hazard" hexes
+
+        map.getSource('h3-grid').setData({ type: 'FeatureCollection', features });
+    }
+
+    map.on('mousemove', 'h3-layer', (e) => {
+        const score = e.features[0].properties.score.toFixed(1);
+        const valEl = document.getElementById('score-val');
+        valEl.innerText = score;
+        valEl.style.color = e.features[0].properties.color;
+        document.getElementById('score-label').innerText = score > 80 ? "MANAGER ZONE" : "NIMBY CLUSTER";
+    });
+
+    map.on('moveend', renderGrid);
+
+    function flyToLoc() {
+        const q = document.getElementById('search-input').value;
+        fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${q}`)
+            .then(r => r.json()).then(d => {
+                if(d[0]) map.flyTo({ center: [d[0].lon, d[0].lat], zoom: 12 });
+            });
+    }
+</script>
 </body>
 </html>
