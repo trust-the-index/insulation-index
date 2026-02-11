@@ -15,36 +15,19 @@
         .pq-logo { color: #4ade80; font-weight: bold; font-size: 24px; margin-right: 20px; text-decoration: none; }
         .btn { background: #111; border: 1px solid #333; color: #888; padding: 8px 15px; border-radius: 20px; cursor: pointer; margin-right: 10px; font-size: 13px; }
         .search-container { position: absolute; top: 120px; left: 50%; transform: translateX(-50%); z-index: 1000; width: 320px; }
-        #addrSearch { width: 100%; padding: 12px 20px; border-radius: 25px; border: 1px solid #333; background: rgba(0,0,0,0.85); color: white; outline: none; }
+        #addrSearch { width: 100%; padding: 12px 20px; border-radius: 25px; border: 1px solid #333; background: rgba(0,0,0,0.85); color: white; outline: none; box-shadow: 0 0 20px rgba(74, 222, 128, 0.1); }
         #namesMenu { display: none; position: absolute; top: 100px; left: 220px; background: #0a0a0a; border: 1px solid #222; width: 200px; z-index: 3000; padding: 10px; border-radius: 8px; }
         .name-item { font-size: 11px; padding: 5px 0; border-bottom: 1px solid #111; color: #777; display: flex; justify-content: space-between; }
-        .support-footer { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 1000; font-size: 11px; color: #444; letter-spacing: 1px; }
         .index-box { position: absolute; bottom: 20px; right: 20px; z-index: 1000; background: rgba(0,0,0,0.8); border: 1px solid #222; padding: 15px; border-radius: 8px; width: 180px; backdrop-filter: blur(5px); }
         .index-value { font-size: 24px; font-weight: bold; color: #4ade80; }
         .row { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 12px; color: #ccc; }
         .toggle { color: #4ade80; cursor: pointer; font-weight: bold; border: 1px solid #222; padding: 2px 8px; border-radius: 4px; }
         .toggle.off { color: #ef4444; }
-        .legend {
-    position: absolute;
-    bottom: 100px;
-    right: 20px;
-    z-index: 1000;
-    background: rgba(0,0,0,0.8);
-    padding: 10px;
-    border: 1px solid #222;
-    font-size: 10px;
-    color: #666;
-}
-.legend-item { display: flex; align-items: center; margin-bottom: 5px; }
-.color-box { width: 12px; height: 12px; margin-right: 8px; border-radius: 2px; }
+        .legend { position: absolute; bottom: 120px; right: 20px; z-index: 1000; background: rgba(0,0,0,0.8); padding: 10px; border: 1px solid #222; font-size: 10px; color: #666; border-radius: 5px; }
+        .legend-item { display: flex; align-items: center; margin-bottom: 5px; }
+        .color-box { width: 12px; height: 12px; margin-right: 8px; border-radius: 2px; }
     </style>
 </head>
-    <div class="legend">
-    <div style="margin-bottom:8px; color:#444;">INSULATION LEVEL</div>
-    <div class="legend-item"><div class="color-box" style="background:#4ade80;"></div> 95% - 100% (ELITE)</div>
-    <div class="legend-item"><div class="color-box" style="background:#22c55e;"></div> 85% - 94% (BUFFERED)</div>
-    <div class="legend-item"><div class="color-box" style="background:#166534;"></div> 75% - 84% (STABLE)</div>
-</div>
 <body>
     <div id="header">
         <div class="utility">
@@ -58,154 +41,87 @@
             <div class="btn" style="color:#4ade80; border-color:#4ade80;">Elite Index</div>
         </div>
     </div>
+
     <div id="namesMenu">
         <div class="name-item">Chadwick <span style="color:#4ade80;">14,204 ✓</span></div>
-        <div class="name-item">Tinsley <span style="color:#4ade80;">8,112 ✓</span></div>
         <div class="name-item">Sterling <span style="color:#4ade80;">22,091 ✓</span></div>
     </div>
+
     <div class="search-container">
         <input type="text" id="addrSearch" placeholder="Search Address..." onkeydown="if(event.key==='Enter') doSearch()">
     </div>
+
     <div id="sidebar">
-        <div style="color:#444; font-size:10px; margin-bottom:15px; letter-spacing:1px;">BUFFER FILTERS</div>
+        <div style="color:#444; font-size:10px; margin-bottom:15px; letter-spacing:1px;">WEALTH FILTERS</div>
+        <div class="row">Income > $400k <span class="toggle" id="wealthToggle" onclick="flipWealth()">ON</span></div>
         <div class="row">Private Security <span class="toggle" onclick="flip(this)">ON</span></div>
-        <div class="row">Gated Latency <span class="toggle" onclick="flip(this)">ON</span></div>
         <div class="row">Sidewalks <span class="toggle off" onclick="flip(this)">OFF</span></div>
-        <div style="color:#444; font-size:10px; margin:20px 0 10px 0; letter-spacing:1px;">SOCIAL INSULATION</div>
-        <div class="row">Range Rover Density <span class="toggle" onclick="flip(this)">ON</span></div>
-        <div class="row">Golden Retriever Ratio <span class="toggle" onclick="flip(this)">ON</span></div>
-        <div class="row">Lawn Crew Decibels <span class="toggle off" onclick="flip(this)">OFF</span></div>
     </div>
+
     <div id="map"></div>
-    <div class="support-footer">SUPPORT THIS PROJECT: <a href="#" style="color:#666; text-decoration:none;">CONTRIBUTE</a></div>
+
+    <div class="legend">
+        <div style="margin-bottom:8px; color:#444;">INSULATION LEVEL</div>
+        <div class="legend-item"><div class="color-box" style="background:#4ade80;"></div> 95%+ (ELITE)</div>
+        <div class="legend-item"><div class="color-box" style="background:#22c55e;"></div> 85%+ (BUFFERED)</div>
+    </div>
+
     <div class="index-box">
         <div style="font-size:10px; color:#444;">PQ INDEX STATUS</div>
         <div class="index-value" id="pqVal">94.2%</div>
-        <div style="font-size:9px; color:#555; margin-top:5px;">WEALTH INSULATION: OPTIMAL</div>
     </div>
-   <script>
-        // 1. Initialize map
+
+    <script>
         var map = L.map('map', { zoomControl: false }).setView([38.5, -96.5], 4); 
         L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png').addTo(map);
 
-     <script>
-    // 1. Initialize map
-    var map = L.map('map', { zoomControl: false }).setView([38.5, -96.5], 4); 
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png').addTo(map);
+        // This connects to the US Census Bureau Server for real-time Wealth Tracts
+        var wealthLayer = L.tileLayer.wms("https://tigerweb.geo.census.gov/arcgis/services/Census2020/CensusTracts_StatAreas/MapServer/WMSServer", {
+            layers: 'Census_Tracts',
+            format: 'image/png',
+            transparent: true,
+            opacity: 0.4
+        }).addTo(map);
 
-    // 2. Elite Zone Data (Polygons instead of Circles)
-    var zones = [
-        { 
-            name: "Atherton Elite Zone", 
-            coords: [[37.47, -122.21], [37.45, -122.21], [37.45, -122.18], [37.47, -122.18]], 
-            purity: "99.8%" 
-        },
-        { 
-            name: "Palm Beach Buffer", 
-            coords: [[26.72, -80.04], [26.68, -80.04], [26.68, -80.03], [26.72, -80.03]], 
-            purity: "99.2%" 
-        },
-        { 
-            name: "Bel Air Fortress", 
-            coords: [[34.10, -118.46], [34.07, -118.46], [34.07, -118.43], [34.10, -118.43]], 
-            purity: "99.5%" 
-        }
-    ];
-
-    var highlightLayer = L.layerGroup().addTo(map);
-
-    function drawZones() {
-        highlightLayer.clearLayers();
-        zones.forEach(function(zone) {
-            L.polygon(zone.coords, {
-                color: '#4ade80',
-                fillColor: '#4ade80',
-                fillOpacity: 0.3,
-                weight: 1
-            }).bindPopup("<b>" + zone.name + "</b><br>Insulation: " + zone.purity)
-              .addTo(highlightLayer);
-        });
-    }
-
-    drawZones();
-
-    // 3. THE MAGIC SEARCH (Real Address Lookup)
-    function doSearch() {
-    var address = document.getElementById('addrSearch').value;
-    // We use an open-source "Geocoding" API to find the coordinates
-    fetch('https://nominatim.openstreetmap.org/search?format=json&q=' + address)
-        .then(response => response.json())
-        .then(data => {
-            if (data.length > 0) {
-                var lat = data[0].lat;
-                var lon = data[0].lon;
-                map.setView([lat, lon], 14); // Zooms into the address
-                L.marker([lat, lon]).addTo(map)
-                    .bindPopup("<b>Target Located</b><br>Analyzing Insulation...").openPopup();
+        function flipWealth() {
+            var el = document.getElementById('wealthToggle');
+            if (map.hasLayer(wealthLayer)) {
+                map.removeLayer(wealthLayer);
+                el.innerText = "OFF"; el.classList.add("off");
             } else {
-                alert("Address not found in Elite database.");
+                wealthLayer.addTo(map);
+                el.innerText = "ON"; el.classList.remove("off");
             }
-        });
-}
-    // 4. UI Functions
-    function flip(el) {
-        if (el.innerText === "ON") { 
-            el.innerText = "OFF"; el.classList.add("off"); 
-            highlightLayer.clearLayers();
-        } else { 
-            el.innerText = "ON"; el.classList.remove("off"); 
-            drawZones();
-        }
-        document.getElementById('pqVal').innerText = (90 + Math.random() * 9).toFixed(1) + "%";
-    }
-
-    function toggleSidebar() {
-        var sb = document.getElementById('sidebar');
-        sb.style.display = (sb.style.display === 'block') ? 'none' : 'block';
-        setTimeout(function() { map.invalidateSize(); }, 100);
-    }
-
-    function toggleNames() {
-        var nm = document.getElementById('namesMenu');
-        nm.style.display = (nm.style.display === 'block') ? 'none' : 'block';
-    }
-
-    window.onload = function() { setTimeout(function() { map.invalidateSize(); }, 500); };
-</script>
-
-        var highlightLayer = L.layerGroup().addTo(map);
-
-        function drawZones() {
-            highlightLayer.clearLayers();
-            zones.forEach(function(zone) {
-                L.circle(zone.coords, {
-                    color: '#4ade80',
-                    fillColor: '#4ade80',
-                    fillOpacity: 0.25,
-                    radius: 12000 // Made them slightly larger to see easier
-                }).bindPopup("<b>" + zone.name + "</b><br>Insulation: " + zone.purity)
-                  .addTo(highlightLayer);
-            });
+            updateIndex();
         }
 
-        drawZones(); // Show zones immediately
-
-        // 3. Logic Functions
         function flip(el) {
-            if (el.innerText === "ON") { 
-                el.innerText = "OFF"; el.classList.add("off"); 
-                highlightLayer.clearLayers(); // Map goes dark
-            } else { 
-                el.innerText = "ON"; el.classList.remove("off"); 
-                drawZones(); // Map glows again
-            }
+            if (el.innerText === "ON") { el.innerText = "OFF"; el.classList.add("off"); }
+            else { el.innerText = "ON"; el.classList.remove("off"); }
+            updateIndex();
+        }
+
+        function updateIndex() {
             document.getElementById('pqVal').innerText = (90 + Math.random() * 9).toFixed(1) + "%";
+        }
+
+        function doSearch() {
+            var address = document.getElementById('addrSearch').value;
+            fetch('https://nominatim.openstreetmap.org/search?format=json&q=' + address)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.length > 0) {
+                        map.setView([data[0].lat, data[0].lon], 14);
+                        L.circle([data[0].lat, data[0].lon], {radius: 400, color: '#4ade80', weight: 2}).addTo(map)
+                            .bindPopup("<b>Target Located</b><br>Wealth Bracket: $400k+").openPopup();
+                    }
+                });
         }
 
         function toggleSidebar() {
             var sb = document.getElementById('sidebar');
             sb.style.display = (sb.style.display === 'block') ? 'none' : 'block';
-            setTimeout(function() { map.invalidateSize(); }, 100);
+            setTimeout(() => map.invalidateSize(), 100);
         }
 
         function toggleNames() {
@@ -213,11 +129,7 @@
             nm.style.display = (nm.style.display === 'block') ? 'none' : 'block';
         }
 
-        function doSearch() { 
-            alert("Analyzing buffer zones for: " + document.getElementById('addrSearch').value); 
-        }
-
-        window.onload = function() { setTimeout(function() { map.invalidateSize(); }, 500); };
+        window.onload = () => setTimeout(() => map.invalidateSize(), 500);
     </script>
 </body>
 </html>
