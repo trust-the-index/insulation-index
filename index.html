@@ -10,41 +10,45 @@
         #header { height: 100px; border-bottom: 1px solid #222; position: relative; z-index: 2000; background: #000; }
         #map { position: absolute; top: 100px; bottom: 0; width: 100%; z-index: 1; background: #050505; }
         #sidebar { position: absolute; top: 100px; left: 0; bottom: 0; width: 280px; background: rgba(0,0,0,0.95); z-index: 1500; border-right: 1px solid #222; display: none; padding: 20px; box-sizing: border-box; overflow-y: auto; }
-        .utility { height: 35px; display: flex; justify-content: flex-end; padding: 0 20px; align-items: center; border-bottom: 1px solid #111; }
         .nav { height: 65px; display: flex; align-items: center; padding: 0 20px; }
         .pq-logo { color: #4ade80; font-weight: bold; font-size: 24px; margin-right: 20px; text-decoration: none; }
-        .btn { background: #111; border: 1px solid #333; color: #888; padding: 8px 15px; border-radius: 20px; cursor: pointer; margin-right: 10px; font-size: 13px; }
+        .btn { background: #111; border: 1px solid #333; color: #888; padding: 8px 15px; border-radius: 20px; cursor: pointer; margin-right: 10px; font-size: 13px; transition: 0.2s; }
+        .btn:hover { border-color: #4ade80; color: #fff; }
         .search-container { position: absolute; top: 120px; left: 50%; transform: translateX(-50%); z-index: 1000; width: 320px; }
-        #addrSearch { width: 100%; padding: 12px 20px; border-radius: 25px; border: 1px solid #333; background: rgba(0,0,0,0.85); color: white; outline: none; box-shadow: 0 0 20px rgba(74, 222, 128, 0.1); }
-        #namesMenu { display: none; position: absolute; top: 100px; left: 220px; background: #0a0a0a; border: 1px solid #222; width: 200px; z-index: 3000; padding: 10px; border-radius: 8px; }
-        .name-item { font-size: 11px; padding: 5px 0; border-bottom: 1px solid #111; color: #777; display: flex; justify-content: space-between; }
+        #addrSearch { width: 100%; padding: 12px 20px; border-radius: 25px; border: 1px solid #333; background: rgba(0,0,0,0.85); color: white; outline: none; box-shadow: 0 0 20px rgba(0,0,0,0.5); }
+        #namesMenu { display: none; position: absolute; top: 100px; left: 220px; background: #0a0a0a; border: 1px solid #222; width: 220px; z-index: 3000; padding: 15px; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .name-item { font-size: 11px; padding: 8px 0; border-bottom: 1px solid #111; color: #777; display: flex; justify-content: space-between; }
         .index-box { position: absolute; bottom: 20px; right: 20px; z-index: 1000; background: rgba(0,0,0,0.8); border: 1px solid #222; padding: 15px; border-radius: 8px; width: 180px; backdrop-filter: blur(5px); }
         .index-value { font-size: 24px; font-weight: bold; color: #4ade80; }
         .row { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 12px; color: #ccc; }
         .toggle { color: #4ade80; cursor: pointer; font-weight: bold; border: 1px solid #222; padding: 2px 8px; border-radius: 4px; }
         .toggle.off { color: #ef4444; }
         .legend { position: absolute; bottom: 120px; right: 20px; z-index: 1000; background: rgba(0,0,0,0.8); padding: 10px; border: 1px solid #222; font-size: 10px; color: #666; border-radius: 5px; }
-        .legend-item { display: flex; align-items: center; margin-bottom: 5px; }
-        .color-box { width: 12px; height: 12px; margin-right: 8px; border-radius: 2px; }
+        .color-box { width: 12px; height: 12px; display: inline-block; margin-right: 5px; border-radius: 2px; }
     </style>
 </head>
 <body>
     <div id="header">
-        <div class="utility">
-            <a href="stats.html" style="color:#555; text-decoration:none; font-size:11px;">STATS & ANALYTICS</a>
-            <div style="background:#4ade80; color:black; padding:2px 10px; border-radius:10px; font-size:11px; font-weight:bold; margin-left:15px; cursor:pointer;">LOGIN</div>
-        </div>
         <div class="nav">
             <a href="#" class="pq-logo">|||| PQ</a>
             <div class="btn" onclick="toggleSidebar()">Filters →</div>
             <div class="btn" onclick="toggleNames()">Names ▾</div>
             <div class="btn" style="color:#4ade80; border-color:#4ade80;">Elite Index</div>
+            <a href="stats.html" style="color:#555; text-decoration:none; font-size:11px; margin-left:auto;">STATS & ANALYTICS</a>
         </div>
     </div>
 
     <div id="namesMenu">
         <div class="name-item">Chadwick <span style="color:#4ade80;">14,204 ✓</span></div>
         <div class="name-item">Sterling <span style="color:#4ade80;">22,091 ✓</span></div>
+        <div class="name-item">Tinsley <span style="color:#4ade80;">8,112 ✓</span></div>
+        <div class="name-item">Thatcher <span style="color:#4ade80;">19,443 ✓</span></div>
+        <div class="name-item">Huntington <span style="color:#4ade80;">31,002 ✓</span></div>
+        <div class="name-item">Winslow <span style="color:#4ade80;">12,887 ✓</span></div>
+        <div class="name-item">Fairchild <span style="color:#4ade80;">6,221 ✓</span></div>
+        <div class="name-item">Ainsworth <span style="color:#4ade80;">4,109 ✓</span></div>
+        <div class="name-item">Beaumont <span style="color:#4ade80;">15,332 ✓</span></div>
+        <div class="name-item">Langley <span style="color:#4ade80;">9,876 ✓</span></div>
     </div>
 
     <div class="search-container">
@@ -52,18 +56,24 @@
     </div>
 
     <div id="sidebar">
-        <div style="color:#444; font-size:10px; margin-bottom:15px; letter-spacing:1px;">WEALTH FILTERS</div>
-        <div class="row">Income > $400k <span class="toggle" id="wealthToggle" onclick="flipWealth()">ON</span></div>
+        <div style="color:#444; font-size:10px; margin-bottom:15px; letter-spacing:1px;">BUFFER FILTERS</div>
+        <div class="row">Income > $400k <span class="toggle" onclick="flip(this)">ON</span></div>
         <div class="row">Private Security <span class="toggle" onclick="flip(this)">ON</span></div>
+        <div class="row">Gated Latency <span class="toggle" onclick="flip(this)">ON</span></div>
         <div class="row">Sidewalks <span class="toggle off" onclick="flip(this)">OFF</span></div>
+        <div style="color:#444; font-size:10px; margin:20px 0 10px 0; letter-spacing:1px;">SOCIAL INSULATION</div>
+        <div class="row">Range Rover Density <span class="toggle" onclick="flip(this)">ON</span></div>
+        <div class="row">Golden Retriever Ratio <span class="toggle" onclick="flip(this)">ON</span></div>
+        <div class="row">Lawn Crew Decibels <span class="toggle off" onclick="flip(this)">OFF</span></div>
+        <div class="row">Hedge Height > 6ft <span class="toggle" onclick="flip(this)">ON</span></div>
     </div>
 
     <div id="map"></div>
 
     <div class="legend">
-        <div style="margin-bottom:8px; color:#444;">INSULATION LEVEL</div>
-        <div class="legend-item"><div class="color-box" style="background:#4ade80;"></div> 95%+ (ELITE)</div>
-        <div class="legend-item"><div class="color-box" style="background:#22c55e;"></div> 85%+ (BUFFERED)</div>
+        <div style="margin-bottom:5px; color:#444;">INSULATION LEVEL</div>
+        <div><span class="color-box" style="background:#4ade80;"></span> 95%+ ELITE</div>
+        <div><span class="color-box" style="background:#22c55e;"></span> 85%+ BUFFERED</div>
     </div>
 
     <div class="index-box">
@@ -75,45 +85,58 @@
         var map = L.map('map', { zoomControl: false }).setView([38.5, -96.5], 4); 
         L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png').addTo(map);
 
-        // This connects to the US Census Bureau Server for real-time Wealth Tracts
+        // Census WMS Layer
         var wealthLayer = L.tileLayer.wms("https://tigerweb.geo.census.gov/arcgis/services/Census2020/CensusTracts_StatAreas/MapServer/WMSServer", {
             layers: 'Census_Tracts',
             format: 'image/png',
             transparent: true,
-            opacity: 0.4
+            opacity: 0.3
         }).addTo(map);
 
-        function flipWealth() {
-            var el = document.getElementById('wealthToggle');
-            if (map.hasLayer(wealthLayer)) {
-                map.removeLayer(wealthLayer);
-                el.innerText = "OFF"; el.classList.add("off");
-            } else {
-                wealthLayer.addTo(map);
-                el.innerText = "ON"; el.classList.remove("off");
-            }
-            updateIndex();
+        var eliteMarkers = L.layerGroup().addTo(map);
+
+        var majorWealth = [
+            [34.08, -118.44], [37.46, -122.19], [26.70, -80.03], [41.02, -73.62], 
+            [25.76, -80.19], [32.83, -96.79], [40.04, -76.30], [47.62, -122.24],
+            [42.36, -71.22], [33.84, -84.36], [39.00, -77.10], [45.00, -93.30]
+        ];
+
+        function seedWealth(intensity) {
+            eliteMarkers.clearLayers();
+            if (intensity <= 0) return;
+            majorWealth.forEach(coord => {
+                L.circle(coord, {
+                    radius: 15000, color: '#4ade80', fillColor: '#4ade80', fillOpacity: intensity, weight: 1
+                }).addTo(eliteMarkers);
+            });
         }
+
+        seedWealth(0.15); // Initial Glow
 
         function flip(el) {
             if (el.innerText === "ON") { el.innerText = "OFF"; el.classList.add("off"); }
             else { el.innerText = "ON"; el.classList.remove("off"); }
-            updateIndex();
-        }
 
-        function updateIndex() {
-            document.getElementById('pqVal').innerText = (90 + Math.random() * 9).toFixed(1) + "%";
+            var activeFilters = document.querySelectorAll('.toggle:not(.off)').length;
+            var strength = (activeFilters / 9) * 0.3;
+
+            if (el.parentElement.innerText.includes("Income")) {
+                if (el.innerText === "OFF") map.removeLayer(wealthLayer);
+                else wealthLayer.addTo(map);
+            }
+
+            seedWealth(strength);
+            document.getElementById('pqVal').innerText = (85 + (activeFilters * 1.5) + Math.random()).toFixed(1) + "%";
         }
 
         function doSearch() {
-            var address = document.getElementById('addrSearch').value;
-            fetch('https://nominatim.openstreetmap.org/search?format=json&q=' + address)
-                .then(res => res.json())
-                .then(data => {
+            var val = document.getElementById('addrSearch').value;
+            fetch('https://nominatim.openstreetmap.org/search?format=json&q=' + val)
+                .then(r => r.json()).then(data => {
                     if (data.length > 0) {
                         map.setView([data[0].lat, data[0].lon], 14);
-                        L.circle([data[0].lat, data[0].lon], {radius: 400, color: '#4ade80', weight: 2}).addTo(map)
-                            .bindPopup("<b>Target Located</b><br>Wealth Bracket: $400k+").openPopup();
+                        L.circle([data[0].lat, data[0].lon], {radius: 800, color: '#4ade80', fillColor: '#4ade80', fillOpacity: 0.4, weight: 2}).addTo(map)
+                            .bindPopup("<b>Target Area Verified</b>").openPopup();
                     }
                 });
         }
@@ -128,8 +151,6 @@
             var nm = document.getElementById('namesMenu');
             nm.style.display = (nm.style.display === 'block') ? 'none' : 'block';
         }
-
-        window.onload = () => setTimeout(() => map.invalidateSize(), 500);
     </script>
 </body>
 </html>
