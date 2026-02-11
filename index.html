@@ -7,37 +7,31 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="https://unpkg.com/h3-js"></script>
     <style>
-        :root { --manager-red: #ff4d4d; --safe-green: #00e676; --white: #ffffff; }
-        body, html { margin: 0; padding: 0; height: 100%; font-family: -apple-system, sans-serif; background: #f8f9fa; overflow: hidden; }
+        :root { --manager-red: #ff4d4d; --nimby-orange: #ff9100; --safe-green: #00e676; --white: #ffffff; }
+        body, html { margin: 0; padding: 0; height: 100%; font-family: -apple-system, sans-serif; background: #e5e3df; overflow: hidden; }
         
-        /* Floating UI Elements */
+        /* UI Elements */
         #search-container { position: absolute; top: 20px; left: 20px; right: 20px; z-index: 2000; display: flex; gap: 10px; pointer-events: none; }
-        .logo-box { pointer-events: auto; background: var(--white); padding: 10px 18px; border-radius: 12px; font-weight: 800; color: var(--manager-red); box-shadow: 0 4px 12px rgba(0,0,0,0.08); border: 1px solid #eee; text-decoration: none; font-size: 14px; }
-        .search-input-wrapper { pointer-events: auto; background: var(--white); border-radius: 12px; padding: 10px 20px; flex-grow: 1; max-width: 500px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); border: 1px solid #eee; display: flex; align-items: center; }
+        .logo-box { pointer-events: auto; background: var(--white); padding: 10px 18px; border-radius: 12px; font-weight: 800; color: var(--manager-red); box-shadow: 0 4px 12px rgba(0,0,0,0.1); border: 1px solid #eee; text-decoration: none; font-size: 14px; letter-spacing: 1px; }
+        .search-input-wrapper { pointer-events: auto; background: var(--white); border-radius: 12px; padding: 10px 20px; flex-grow: 1; max-width: 450px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border: 1px solid #eee; }
         #addrSearch { border: none; outline: none; width: 100%; font-size: 15px; }
 
-        #map { position: absolute; top: 0; bottom: 0; width: 100%; z-index: 1; background: #e5e3df; }
+        #sidebar { position: absolute; top: 90px; left: 20px; bottom: 30px; width: 320px; background: var(--white); z-index: 1500; border-radius: 16px; padding: 24px; box-shadow: 0 8px 24px rgba(0,0,0,0.1); border: 1px solid #eee; overflow-y: auto; }
+        .row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #f8f9fa; font-size: 13px; font-weight: 500; }
+        .toggle { width: 34px; height: 18px; background: var(--manager-red); border-radius: 20px; position: relative; }
+        .toggle-knob { width: 14px; height: 14px; background: white; border-radius: 50%; position: absolute; top: 2px; right: 2px; }
 
-        /* Sidebar Style */
-        #sidebar { position: absolute; top: 90px; left: 20px; bottom: 30px; width: 340px; background: var(--white); z-index: 1500; border-radius: 16px; padding: 24px; box-shadow: 0 8px 24px rgba(0,0,0,0.12); border: 1px solid #eee; overflow-y: auto; }
-        .row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #f8f9fa; font-size: 14px; }
-        .toggle-switch { width: 34px; height: 18px; background: #ddd; border-radius: 20px; position: relative; cursor: pointer; }
-        .toggle-switch.on { background: var(--manager-red); }
-        .toggle-circle { width: 14px; height: 14px; background: white; border-radius: 50%; position: absolute; top: 2px; left: 2px; transition: 0.3s; }
-        .toggle-switch.on .toggle-circle { left: 18px; }
+        .score-panel { position: absolute; bottom: 30px; right: 20px; z-index: 1000; background: var(--white); padding: 20px; border-radius: 16px; width: 220px; box-shadow: 0 8px 24px rgba(0,0,0,0.2); text-align: center; border: 1px solid #eee; }
+        .score-value { font-size: 54px; font-weight: 800; color: #333; margin: 0; letter-spacing: -2px; }
+        .score-status { font-size: 10px; font-weight: 700; color: #999; text-transform: uppercase; margin-top: 5px; }
 
-        /* Score HUD */
-        .score-panel { position: absolute; bottom: 30px; right: 20px; z-index: 1000; background: var(--white); padding: 20px; border-radius: 16px; width: 220px; box-shadow: 0 8px 24px rgba(0,0,0,0.15); text-align: center; }
-        .score-value { font-size: 48px; font-weight: 800; color: #333; margin: 5px 0; }
-        .score-status { font-size: 11px; font-weight: 700; color: #666; text-transform: uppercase; }
-
-        /* PULSING HEATMAP EFFECT */
-        @keyframes pulse {
+        /* Animation for the "Hazard" glow */
+        @keyframes pulse-red {
             0% { fill-opacity: 0.2; stroke-opacity: 0.3; }
-            50% { fill-opacity: 0.7; stroke-opacity: 0.8; }
+            50% { fill-opacity: 0.5; stroke-opacity: 0.6; }
             100% { fill-opacity: 0.2; stroke-opacity: 0.3; }
         }
-        .manager-pulse { animation: pulse 3s infinite ease-in-out; stroke-width: 2 !important; }
+        .manager-zone { animation: pulse-red 3s infinite ease-in-out; }
     </style>
 </head>
 <body>
@@ -45,105 +39,118 @@
     <div id="search-container">
         <a href="#" class="logo-box">EE INDEX</a>
         <div class="search-input-wrapper">
-            <input type="text" id="addrSearch" placeholder="Scan for high-entitlement enclaves..." onkeydown="if(event.key==='Enter') doSearch()">
+            <input type="text" id="addrSearch" placeholder="Scan for resource hoarding..." onkeydown="if(event.key==='Enter') doSearch()">
         </div>
     </div>
 
     <div id="sidebar">
-        <h3 style="margin-top:0">Indicators</h3>
-        <div class="row">KAREN CONCENTRATION <div class="toggle-switch on"> <div class="toggle-circle"></div> </div></div>
-        <div class="row">GATED ESTATES <div class="toggle-switch on"> <div class="toggle-circle"></div> </div></div>
-        <div class="row">HEDGE FUND HUBS <div class="toggle-switch on"> <div class="toggle-circle"></div> </div></div>
-        <div class="row">COUNTRY CLUBS <div class="toggle-switch on"> <div class="toggle-circle"></div> </div></div>
-        <p style="font-size: 10px; color: #999; margin-top: 20px;">High EE scores indicate areas of maximum resource hoarding. Zoom in on Beverly Hills, Atherton, or Greenwich to see hazard data.</p>
+        <div style="font-size:11px; font-weight:700; color:#bbb; letter-spacing:1px; margin-bottom:15px;">EXCLUSION FILTERS</div>
+        <div class="row">KAREN DENSITY <div class="toggle"><div class="toggle-knob"></div></div></div>
+        <div class="row">GATED ENTRANCES <div class="toggle"><div class="toggle-knob"></div></div></div>
+        <div class="row">PRIVATE EQUITY <div class="toggle"><div class="toggle-knob"></div></div></div>
+        <div class="row">YACHT CLUBS <div class="toggle"><div class="toggle-knob"></div></div></div>
+        <div class="row">GOLF COURSES <div class="toggle"><div class="toggle-knob"></div></div></div>
+        <div style="margin-top:30px; font-size:11px; color:#777; line-height:1.5;">
+            <strong>THE EE SCALE:</strong><br>
+            81-100: Manager Zone (Red)<br>
+            61-80: NIMBY Stronghold (Orange)<br>
+            0-60: Community Driven (Clear)
+        </div>
     </div>
 
     <div id="map"></div>
 
     <div class="score-panel">
-        <div style="font-size:10px; color:#999">EE SCORE</div>
+        <div style="font-size:9px; font-weight:800; color:#bbb;">INDEX SCORE</div>
         <div id="scoreVal" class="score-value">--</div>
-        <div id="statusLabel" class="score-status">READY</div>
+        <div id="statusLabel" class="score-status">READY TO SCAN</div>
     </div>
 
     <script>
-        const map = L.map('map', { zoomControl: false }).setView([37.8, -96], 4);
+        // Use a cleaner tile layer that mimics the original's tech look
+        const map = L.map('map', { zoomControl: false, minZoom: 4 }).setView([34.07, -118.40], 10);
         L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo(map);
 
         const hexLayer = L.layerGroup().addTo(map);
 
-        // HARD DATA: The centers of the "Infection"
+        // Core points of "Social Infection" - Hard-coded globally
         const toxicHotspots = [
             {lat: 34.07, lng: -118.40, name: "Beverly Hills"},
             {lat: 41.03, lng: -73.62, name: "Greenwich"},
             {lat: 26.70, lng: -80.03, name: "Palm Beach"},
             {lat: 37.46, lng: -122.19, name: "Atherton"},
+            {lat: 40.76, lng: -73.96, name: "UES Manhattan"},
+            {lat: 39.19, lng: -106.81, name: "Aspen"},
             {lat: 25.76, lng: -80.14, name: "Fisher Island"},
-            {lat: 40.76, lng: -73.96, name: "Upper East Side"}
+            {lat: 33.53, lng: -111.94, name: "Paradise Valley"}
         ];
 
         function getStatus(s) {
             if (s > 80) return { t: "Let Me Speak to the Manager", c: "#ff4d4d" };
             if (s > 60) return { t: "NIMBY Stronghold", c: "#ff9100" };
-            return { t: "Community Driven", c: "#00e676" };
+            return { t: "Community Driven", c: "transparent" };
         }
 
-        function drawHeatmap() {
+        function drawGlobalGrid() {
             hexLayer.clearLayers();
             const zoom = map.getZoom();
-            if (zoom < 6) return; // Only show detail when zoomed in
+            if (zoom < 6) return;
 
             const res = zoom > 10 ? 8 : 7;
-            const center = map.getCenter();
+            const bounds = map.getBounds();
             
-            // This grabs hexes in the current viewport
-            const cells = h3.gridDisk(h3.latLngToCell(center.lat, center.lng, res), res === 8 ? 12 : 6);
+            // This is the "magic" fix: It generates hexes for the whole VIEWPORT
+            // not just a circle around the center.
+            const north = bounds.getNorth();
+            const south = bounds.getSouth();
+            const east = bounds.getEast();
+            const west = bounds.getWest();
 
-            cells.forEach(cell => {
-                const latLng = h3.cellToLatLng(cell);
-                const corners = h3.cellToBoundary(cell);
-                
-                let score = 15; // Baseline "Normal" score
-                
-                // Calculate proximity to toxic wealth spots
-                toxicHotspots.forEach(hs => {
-                    const d = map.distance(latLng, [hs.lat, hs.lng]);
-                    if (d < 20000) { 
-                        score += (100 - (d/200)); 
-                    }
-                });
+            // Simplified bounding box fill for H3
+            for (let lat = south; lat <= north; lat += (res === 8 ? 0.02 : 0.08)) {
+                for (let lng = west; lng <= east; lng += (res === 8 ? 0.02 : 0.08)) {
+                    const cell = h3.latLngToCell(lat, lng, res);
+                    const cellLatLng = h3.cellToLatLng(cell);
+                    const corners = h3.cellToBoundary(cell);
 
-                if (score > 100) score = 99.4;
-                const status = getStatus(score);
-
-                // FIXED HEATMAP LOGIC:
-                // Only "Toxic" areas (Score > 60) get a visible, pulsing hex.
-                // Low-income/Community areas stay clean (transparent).
-                if (score > 60) {
-                    const poly = L.polygon(corners, {
-                        color: status.c,
-                        fillColor: status.c,
-                        weight: 1,
-                        className: 'manager-pulse' // This makes the red areas pulse
-                    }).addTo(hexLayer);
-
-                    poly.on('mouseover', () => {
-                        document.getElementById('scoreVal').innerText = score.toFixed(1);
-                        document.getElementById('scoreVal').style.color = status.c;
-                        document.getElementById('statusLabel').innerText = status.t;
+                    let score = 10;
+                    toxicHotspots.forEach(hs => {
+                        const d = map.distance([cellLatLng[0], cellLatLng[1]], [hs.lat, hs.lng]);
+                        if (d < 30000) { // Reach of 30km
+                            score += (90 - (d/333));
+                        }
                     });
+
+                    if (score > 100) score = 99.1;
+                    const status = getStatus(score);
+
+                    if (status.c !== 'transparent') {
+                        const poly = L.polygon(corners, {
+                            color: status.c,
+                            fillColor: status.c,
+                            weight: 1,
+                            className: score > 80 ? 'manager-zone' : ''
+                        }).addTo(hexLayer);
+
+                        poly.on('mouseover', () => {
+                            document.getElementById('scoreVal').innerText = score.toFixed(1);
+                            document.getElementById('scoreVal').style.color = status.c;
+                            document.getElementById('statusLabel').innerText = status.t;
+                            document.getElementById('statusLabel').style.color = status.c;
+                        });
+                    }
                 }
-            });
+            }
         }
 
         function doSearch() {
             const val = document.getElementById('addrSearch').value;
             fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${val}&countrycodes=us`)
-                .then(r => r.json()).then(data => { if (data[0]) map.setView([data[0].lat, data[0].lon], 13); });
+                .then(r => r.json()).then(data => { if (data[0]) map.setView([data[0].lat, data[0].lon], 12); });
         }
 
-        map.on('moveend', drawHeatmap);
-        drawHeatmap();
+        map.on('moveend', drawGlobalGrid);
+        drawGlobalGrid(); // Run on load
     </script>
 </body>
 </html>
