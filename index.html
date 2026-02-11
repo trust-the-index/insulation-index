@@ -2,114 +2,112 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>PQ // The Hazard Map</title>
+    <title>PQ // The EE Index</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="https://unpkg.com/h3-js"></script>
     <style>
-        :root { --hazard-red: #ef4444; --safe-blue: #3b82f6; --elite-toxic: #4ade80; }
-        body, html { margin: 0; padding: 0; height: 100%; background: #000; color: white; font-family: 'Courier New', monospace; overflow: hidden; }
+        :root { --manager-red: #ef4444; --community-green: #22c55e; --nimby-orange: #f97316; }
+        body, html { margin: 0; padding: 0; height: 100%; background: #050505; color: white; font-family: 'Courier New', monospace; overflow: hidden; }
         
-        #header { height: 60px; border-bottom: 1px solid #333; display: flex; align-items: center; padding: 0 20px; background: #000; z-index: 2000; position: relative; }
-        #map { position: absolute; top: 60px; bottom: 0; width: 100%; z-index: 1; background: #050505; }
-        #sidebar { position: absolute; top: 60px; left: 0; bottom: 0; width: 300px; background: rgba(0,0,0,0.9); z-index: 1500; border-right: 1px solid #333; padding: 20px; }
+        #header { height: 65px; border-bottom: 1px solid #333; display: flex; align-items: center; padding: 0 20px; background: #000; z-index: 2000; position: relative; }
+        #map { position: absolute; top: 65px; bottom: 0; width: 100%; z-index: 1; background: #000; }
+        #sidebar { position: absolute; top: 65px; left: 0; bottom: 0; width: 320px; background: rgba(0,0,0,0.95); z-index: 1500; border-right: 1px solid #333; padding: 25px; box-sizing: border-box; }
 
-        .pq-logo { color: var(--hazard-red); font-weight: bold; border: 1px solid var(--hazard-red); padding: 5px 10px; margin-right: 20px; text-decoration: none; }
-        #addrSearch { flex-grow: 1; max-width: 400px; padding: 8px 15px; border: 1px solid #333; background: #111; color: var(--hazard-red); outline: none; }
+        .pq-logo { color: var(--manager-red); font-weight: bold; border: 1.5px solid var(--manager-red); padding: 5px 12px; margin-right: 20px; text-decoration: none; font-size: 14px; letter-spacing: 1px; }
+        #addrSearch { flex-grow: 1; max-width: 450px; padding: 10px 15px; border: 1px solid #444; background: #000; color: var(--manager-red); outline: none; border-radius: 4px; font-family: inherit; }
         
-        .row { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 11px; color: #888; }
-        .toggle { color: var(--hazard-red); cursor: pointer; font-weight: bold; }
-        .toggle.off { color: #333; }
+        .row { display: flex; justify-content: space-between; margin-bottom: 18px; font-size: 11px; color: #888; }
+        .toggle { color: var(--manager-red); cursor: pointer; text-decoration: underline; font-weight: bold; }
+        .toggle.off { color: #444; text-decoration: none; }
         
-        .index-panel { position: absolute; bottom: 25px; right: 25px; z-index: 1000; background: #000; border: 1px solid var(--hazard-red); padding: 15px; width: 220px; text-align: center; }
-        .warning-text { font-size: 10px; color: var(--hazard-red); letter-spacing: 2px; animation: blink 1s infinite; }
-        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+        .index-panel { position: absolute; bottom: 30px; right: 30px; z-index: 1000; background: #000; border: 2px solid var(--manager-red); padding: 20px; width: 250px; text-align: center; box-shadow: 0 0 20px rgba(239, 68, 68, 0.2); }
+        .score-big { font-size: 48px; font-weight: bold; margin: 10px 0; }
+        .status-label { font-size: 10px; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; }
     </style>
 </head>
 <body>
 
     <div id="header">
-        <a href="#" class="pq-logo">HAZARD // ELITE_SCAN</a>
-        <input type="text" id="addrSearch" placeholder="SCANNING FOR TOXIC WEALTH..." onkeydown="if(event.key==='Enter') doSearch()">
+        <a href="#" class="pq-logo">EE_INDEX // V.1.0</a>
+        <input type="text" id="addrSearch" placeholder="LOCATE ENCLAVE BY ADDRESS..." onkeydown="if(event.key==='Enter') doSearch()">
     </div>
 
     <div id="sidebar">
-        <div style="font-size:10px; color:var(--hazard-red); margin-bottom:20px;">[ TOXICITY INDICATORS ]</div>
-        <div class="row">GOLF COURSE PROXIMITY <span class="toggle" onclick="flip(this)">ON</span></div>
-        <div class="row">WHOLE FOODS SATURATION <span class="toggle" onclick="flip(this)">ON</span></div>
-        <div class="row">GATED LATENCY <span class="toggle" onclick="flip(this)">ON</span></div>
-        <div class="row">EQUESTRIAN OVERLAY <span class="toggle" onclick="flip(this)">ON</span></div>
-        <div class="row">ZERO SIDEWALK ZONES <span class="toggle" onclick="flip(this)">ON</span></div>
+        <div style="font-size:10px; color:var(--manager-red); margin-bottom:25px; letter-spacing: 2px;">[ EXCLUSION CRITERIA ]</div>
+        <div class="row">KAREN/CHAD DENSITY (1.8w) <span class="toggle" onclick="flip(this)">ON</span></div>
+        <div class="row">RESOURCE HOARDING (1.5w) <span class="toggle" onclick="flip(this)">ON</span></div>
+        <div class="row">NIMBY SENTIMENT (1.2w) <span class="toggle" onclick="flip(this)">ON</span></div>
+        <div class="row">"GATED" PSYCHOSIS (1.0w) <span class="toggle" onclick="flip(this)">ON</span></div>
         
-        <hr style="border:0; border-top:1px solid #222; margin:20px 0;">
-        <div style="font-size:10px; color:#444;">NOTE: High PQ Index (80+) indicates a "Dead Zone" or high-exclusion enclave. Avoid for normal social interaction.</div>
+        <hr style="border:0; border-top:1px solid #333; margin:25px 0;">
+        <div style="font-size:10px; color:#555; line-height: 1.6;">
+            <strong>THE EE SCALE:</strong><br>
+            81-100: "MANAGER" ZONE (DANGER)<br>
+            61-80: NIMBY STRONGHOLD<br>
+            41-60: GENTRI-FIED<br>
+            21-40: TOUCH GRASS<br>
+            00-20: COMMUNITY DRIVEN (SAFE)
+        </div>
     </div>
 
     <div id="map"></div>
 
     <div class="index-panel">
-        <div class="warning-text">!! HAZARD DETECTED !!</div>
-        <div style="font-size:10px; color:#666; margin: 5px 0;">INSULATION SCORE</div>
-        <div id="pqVal" style="font-size:40px; font-weight:bold; color:var(--hazard-red);">--</div>
+        <div id="statusLabel" class="status-label" style="color:var(--manager-red);">WAITING FOR SCAN</div>
+        <div id="pqVal" class="score-big" style="color:var(--manager-red);">--</div>
+        <div style="font-size:9px; color:#444;">NORMALIZED TO 99th PERCENTILE ENTITLEMENT</div>
     </div>
 
     <script>
-        const map = L.map('map', { zoomControl: false }).setView([37.8, -96], 4);
+        const usaBounds = L.latLngBounds([24.39, -125.0], [49.38, -66.93]);
+        const map = L.map('map', { zoomControl: false, maxBounds: usaBounds, minZoom: 4 }).setView([37.8, -96], 4);
         L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png').addTo(map);
 
         const hexLayer = L.layerGroup().addTo(map);
 
-        // We use a persistent seed for "Wealth Hazard" locations
-        const toxicHotspots = [
-            [34.07, -118.40], [41.03, -73.62], [26.70, -80.03], [37.46, -122.19],
-            [40.99, -73.79], [25.76, -80.14], [47.62, -122.23], [42.10, -87.73]
-        ];
+        function getStatus(score) {
+            if (score > 80) return { t: "Let Me Speak to the Manager", c: "#ef4444" };
+            if (score > 60) return { t: "NIMBY Stronghold", c: "#f97316" };
+            if (score > 40) return { t: "Gentri-fied", c: "#fbbf24" };
+            if (score > 20) return { t: "Touch Grass", c: "#3b82f6" };
+            return { t: "Community Driven", c: "#22c55e" };
+        }
 
-        function renderHazards() {
+        function updateGrid() {
             hexLayer.clearLayers();
             const zoom = map.getZoom();
-            if (zoom < 5) return;
+            if (zoom < 6) return;
 
-            const bounds = map.getBounds();
             const res = zoom > 10 ? 8 : 7;
-            
-            // Get hexes in the current view
             const center = map.getCenter();
-            const hexes = h3.gridDisk(h3.latLngToCell(center.lat, center.lng, res), res === 8 ? 8 : 5);
+            const hexes = h3.gridDisk(h3.latLngToCell(center.lat, center.lng, res), res === 8 ? 6 : 4);
 
             hexes.forEach(hex => {
-                const coords = h3.cellToLatLng(hex);
                 const corners = h3.cellToBoundary(hex);
+                const activeFilters = document.querySelectorAll('.toggle:not(.off)').length;
                 
-                // Calculate "Toxicity" based on proximity to rich spots or random affluent noise
-                let distToElite = 100;
-                toxicHotspots.forEach(spot => {
-                    const d = map.distance(coords, spot);
-                    if (d < distToElite) distToElite = d;
-                });
+                // Satirical "Entitlement" logic - higher score = more exclusionary
+                let score = 10 + (activeFilters * 15) + (Math.random() * 20);
+                if (score > 100) score = 99.1;
 
-                // Scoring: Rich = 100 (Bad), Poor = 0 (Good/Normal)
-                let score = Math.floor(Math.random() * 40); // Baseline "Normal" score
+                const status = getStatus(score);
                 
-                // If it's a known rich area or matches our filters, spike the score
-                if (Math.abs(coords[0] - 34) < 0.5) score += 50; // Beverly Hills area hazard
-                
-                const color = score > 70 ? '#4ade80' : score > 40 ? '#422006' : 'transparent';
-                
-                if (color !== 'transparent') {
-                    L.polygon(corners, {
-                        color: '#222', weight: 1, fillColor: color, fillOpacity: 0.6
-                    }).addTo(hexLayer).on('mouseover', () => {
-                        document.getElementById('pqVal').innerText = score;
-                        document.getElementById('pqVal').style.color = (score > 70) ? '#4ade80' : '#888';
-                    });
-                }
+                L.polygon(corners, {
+                    color: '#111', weight: 1, fillColor: status.c, fillOpacity: 0.4
+                }).addTo(hexLayer).on('mouseover', () => {
+                    document.getElementById('pqVal').innerText = score.toFixed(1);
+                    document.getElementById('pqVal').style.color = status.c;
+                    document.getElementById('statusLabel').innerText = status.t;
+                    document.getElementById('statusLabel').style.color = status.c;
+                });
             });
         }
 
         function flip(el) {
+            el.innerText = (el.innerText === "ON") ? "OFF" : "ON";
             el.classList.toggle("off");
-            renderHazards();
+            updateGrid();
         }
 
         function doSearch() {
@@ -120,8 +118,8 @@
                 });
         }
 
-        map.on('moveend', renderHazards);
-        renderHazards();
+        map.on('moveend', updateGrid);
+        updateGrid();
     </script>
 </body>
 </html>
