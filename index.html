@@ -40,8 +40,13 @@
         .score-value { font-size: 48px; font-weight: 800; color: #333; margin: 5px 0; letter-spacing: -1px; }
         .score-status { font-size: 11px; font-weight: 700; color: #666; text-transform: uppercase; }
 
-        /* Custom Map Tiles style to look like the original light/minimalist map */
-        .leaflet-container { background: #f0f0f0 !important; }
+        /* Heatmap Glow Animation */
+        @keyframes pulse-glow {
+            0% { fill-opacity: 0.35; stroke-width: 0.5; }
+            50% { fill-opacity: 0.6; stroke-width: 2; }
+            100% { fill-opacity: 0.35; stroke-width: 0.5; }
+        }
+        .toxic-hex { animation: pulse-glow 2s infinite ease-in-out; }
     </style>
 </head>
 <body>
@@ -63,11 +68,11 @@
         <div class="filter-header">Indicators</div>
         <input type="text" class="name-search-bar" placeholder="Filter by name (e.g. Karen, Chad, Hunter)">
 
-        <div class="row">GOLF COURSES <div class="toggle-switch on" onclick="toggle(this)"> <div class="toggle-circle"></div> </div></div>
+        <div class="row">KAREN DENSITY <div class="toggle-switch on" onclick="toggle(this)"> <div class="toggle-circle"></div> </div></div>
         <div class="row">HEDGE FUNDS <div class="toggle-switch on" onclick="toggle(this)"> <div class="toggle-circle"></div> </div></div>
         <div class="row">YACHT CLUBS <div class="toggle-switch on" onclick="toggle(this)"> <div class="toggle-circle"></div> </div></div>
         <div class="row">GATED ENTRANCES <div class="toggle-switch on" onclick="toggle(this)"> <div class="toggle-circle"></div> </div></div>
-        <div class="row">NO SIDEWALKS <div class="toggle-switch on" onclick="toggle(this)"> <div class="toggle-circle"></div> </div></div>
+        <div class="row">GOLF COURSES <div class="toggle-switch on" onclick="toggle(this)"> <div class="toggle-circle"></div> </div></div>
         
         <div style="margin-top:auto; padding-top:20px;">
             <button style="width:100%; background:#000; color:#fff; border:none; padding:12px; border-radius:8px; font-weight:600; cursor:pointer;">Request a Name</button>
@@ -83,20 +88,15 @@
     </div>
 
     <script>
-        // Map Init (Light Minimal style like the original)
         const map = L.map('map', { zoomControl: false }).setView([37.8, -96], 4);
         L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo(map);
 
         const hexLayer = L.layerGroup().addTo(map);
 
-        // Pre-loaded "EE Hazard" data points (The 1%)
         const eliteSpots = [
-            {lat: 34.07, lng: -118.40, base: 98}, // Beverly Hills
-            {lat: 41.03, lng: -73.62, base: 99}, // Greenwich
-            {lat: 26.70, lng: -80.03, base: 97}, // Palm Beach
-            {lat: 37.46, lng: -122.19, base: 99}, // Atherton
-            {lat: 43.47, lng: -110.76, base: 92}, // Jackson Hole
-            {lat: 40.75, lng: -73.98, base: 85}  // Upper East Side
+            {lat: 34.07, lng: -118.40, base: 98}, {lat: 41.03, lng: -73.62, base: 99}, 
+            {lat: 26.70, lng: -80.03, base: 97}, {lat: 37.46, lng: -122.19, base: 99}, 
+            {lat: 43.47, lng: -110.76, base: 92}, {lat: 40.75, lng: -73.98, base: 85}
         ];
 
         function getEEStatus(score) {
@@ -111,7 +111,6 @@
             hexLayer.clearLayers();
             const zoom = map.getZoom();
             if (zoom < 6) return;
-
             const res = zoom > 10 ? 8 : 7;
             const center = map.getCenter();
             const cells = h3.gridDisk(h3.latLngToCell(center.lat, center.lng, res), res === 8 ? 10 : 6);
@@ -119,21 +118,23 @@
             cells.forEach(cell => {
                 const latLng = h3.cellToLatLng(cell);
                 const corners = h3.cellToBoundary(cell);
-                
-                let score = 12 + (Math.random() * 5); // Base "reality" score
-                
+                let score = 12 + (Math.random() * 5);
                 eliteSpots.forEach(hs => {
                     const d = map.distance(latLng, [hs.lat, hs.lng]);
                     if (d < 20000) score += (hs.base - (d/200));
                 });
-
                 if (score > 100) score = 99.8;
                 const status = getEEStatus(score);
 
-                // We color every hex, but subtlely
-                L.polygon(corners, {
-                    color: 'rgba(0,0,0,0.05)', weight: 0.5, fillColor: status.c, fillOpacity: 0.35
-                }).addTo(hexLayer).on('mouseover', () => {
+                const poly = L.polygon(corners, {
+                    color: score > 80 ? status.c : 'rgba(0,0,0,0.05)',
+                    weight: 0.5,
+                    fillColor: status.c,
+                    fillOpacity: 0.35,
+                    className: score > 80 ? 'toxic-hex' : ''
+                }).addTo(hexLayer);
+
+                poly.on('mouseover', () => {
                     document.getElementById('scoreVal').innerText = score.toFixed(1);
                     document.getElementById('scoreVal').style.color = status.c;
                     document.getElementById('statusLabel').innerText = status.t;
@@ -143,15 +144,11 @@
         }
 
         function toggle(el) { el.classList.toggle("on"); refreshGrid(); }
-
         function doSearch() {
             const val = document.getElementById('addrSearch').value;
             fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${val}&countrycodes=us`)
-                .then(r => r.json()).then(data => {
-                    if (data[0]) map.setView([data[0].lat, data[0].lon], 13);
-                });
+                .then(r => r.json()).then(data => { if (data[0]) map.setView([data[0].lat, data[0].lon], 13); });
         }
-
         map.on('moveend', refreshGrid);
         refreshGrid();
     </script>
