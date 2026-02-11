@@ -14,110 +14,75 @@
         .nav { height: 65px; display: flex; align-items: center; padding: 0 20px; }
         .pq-logo { color: #4ade80; font-weight: bold; font-size: 24px; margin-right: 20px; text-decoration: none; }
         .btn { background: #111; border: 1px solid #333; color: #888; padding: 8px 15px; border-radius: 20px; cursor: pointer; margin-right: 10px; font-size: 13px; }
-        .row { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 12px; }
-        .toggle { color: #4ade80; cursor: pointer; font-weight: bold; border: 1px solid #222; padding: 2px 8px; border-radius: 4px; }
-        .toggle.off { color: #ef4444; }
-        
-        /* Search Bar Styling */
-        .search-container { position: absolute; top: 120px; left: 50%; transform: translateX(-50%); z-index: 1000; width: 300px; }
-        #addrSearch { width: 100%; padding: 10px 15px; border-radius: 25px; border: 1px solid #333; background: rgba(0,0,0,0.8); color: white; outline: none; }
-        
-        /* Names Dropdown */
+        .search-container { position: absolute; top: 120px; left: 50%; transform: translateX(-50%); z-index: 1000; width: 320px; }
+        #addrSearch { width: 100%; padding: 12px 20px; border-radius: 25px; border: 1px solid #333; background: rgba(0,0,0,0.85); color: white; outline: none; }
         #namesMenu { display: none; position: absolute; top: 100px; left: 220px; background: #0a0a0a; border: 1px solid #222; width: 200px; z-index: 3000; padding: 10px; border-radius: 8px; }
         .name-item { font-size: 11px; padding: 5px 0; border-bottom: 1px solid #111; color: #777; display: flex; justify-content: space-between; }
-   /* Support Project (Middle Bottom) */
         .support-footer { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 1000; font-size: 11px; color: #444; letter-spacing: 1px; }
-        .support-footer a { color: #666; text-decoration: none; border-bottom: 1px solid #222; }
-
-        /* PQ Index Box (Bottom Right) */
         .index-box { position: absolute; bottom: 20px; right: 20px; z-index: 1000; background: rgba(0,0,0,0.8); border: 1px solid #222; padding: 15px; border-radius: 8px; width: 180px; backdrop-filter: blur(5px); }
-        .index-label { font-size: 10px; color: #444; text-transform: uppercase; margin-bottom: 5px; }
         .index-value { font-size: 24px; font-weight: bold; color: #4ade80; }
+        .row { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 12px; color: #ccc; }
+        .toggle { color: #4ade80; cursor: pointer; font-weight: bold; border: 1px solid #222; padding: 2px 8px; border-radius: 4px; }
+        .toggle.off { color: #ef4444; }
     </style>
 </head>
 <body>
-<div id="header">
-    <div class="utility">
-        <a href="stats.html" style="color:#555; text-decoration:none; font-size:11px;">STATS & ANALYTICS</a>
-        <div style="background:#4ade80; color:black; padding:2px 10px; border-radius:10px; font-size:11px; font-weight:bold; margin-left:15px; cursor:pointer;">LOGIN</div>
+    <div id="header">
+        <div class="utility">
+            <a href="stats.html" style="color:#555; text-decoration:none; font-size:11px;">STATS & ANALYTICS</a>
+            <div style="background:#4ade80; color:black; padding:2px 10px; border-radius:10px; font-size:11px; font-weight:bold; margin-left:15px; cursor:pointer;">LOGIN</div>
+        </div>
+        <div class="nav">
+            <a href="#" class="pq-logo">|||| PQ</a>
+            <div class="btn" onclick="toggleSidebar()">Filters →</div>
+            <div class="btn" onclick="toggleNames()">Names ▾</div>
+            <div class="btn" style="color:#4ade80; border-color:#4ade80;">Elite Index</div>
+        </div>
     </div>
-    <div class="nav">
-        <a href="#" class="pq-logo">|||| PQ</a>
-        <div class="btn" onclick="toggleSidebar()">Filters →</div>
-        <div class="btn" onclick="toggleNames()">Names ▾</div>
-        <div class="btn" style="color:#4ade80; border-color:#4ade80;">Elite Index</div>
+    <div id="namesMenu">
+        <div class="name-item">Chadwick <span style="color:#4ade80;">14,204 ✓</span></div>
+        <div class="name-item">Tinsley <span style="color:#4ade80;">8,112 ✓</span></div>
+        <div class="name-item">Sterling <span style="color:#4ade80;">22,091 ✓</span></div>
     </div>
-</div>
-
-<div id="namesMenu">
-    <div class="name-item">Chadwick <span style="color:#4ade80;">14,204 ✓</span></div>
-    <div class="name-item">Tinsley <span style="color:#4ade80;">8,112 ✓</span></div>
-    <div class="name-item">Bartholomew <span style="color:#4ade80;">3,490 ✓</span></div>
-    <div class="name-item">Sterling <span style="color:#4ade80;">22,091 ✓</span></div>
-</div>
-
-<div class="search-container">
-    <input type="text" id="addrSearch" placeholder="Search Address..." onkeydown="if(event.key==='Enter') doSearch()">
-</div>
-
-<div id="sidebar">
-    <div style="color:#444; font-size:10px; margin-bottom:15px; letter-spacing:1px;">BUFFER FILTERS</div>
-    <div class="row">Private Security <span class="toggle" onclick="flip(this)">ON</span></div>
-    <div class="row">Gated Latency <span class="toggle" onclick="flip(this)">ON</span></div>
-    <div class="row">Sidewalks <span class="toggle off" onclick="flip(this)">OFF</span></div>
-    
-    <div style="color:#444; font-size:10px; margin:20px 0 10px 0; letter-spacing:1px;">SOCIAL INSULATION</div>
-    <div class="row">Range Rover Density <span class="toggle" onclick="flip(this)">ON</span></div>
-    <div class="row">Golden Retriever Ratio <span class="toggle" onclick="flip(this)">ON</span></div>
-    <div class="row">Lawn Crew Decibels <span class="toggle off" onclick="flip(this)">OFF</span></div>
-    <div class="row">Lacrosse Stick Count <span class="toggle" onclick="flip(this)">ON</span></div>
-    <div class="row">Generational Guilt <span class="toggle off" onclick="flip(this)">OFF</span></div>
-</div>
-
-<div id="map"></div>
-    <div class="support-footer">
-    SUPPORT THIS PROJECT: <a href="#">CONTRIBUTE</a>
-</div>
-
-<div class="index-box">
-    <div class="index-label">PQ INDEX STATUS</div>
-    <div class="index-value" id="pqVal">94.2%</div>
-    <div style="font-size:9px; color:#555; margin-top:5px;">WEALTH INSULATION: OPTIMAL</div>
-</div>
-
-<script>
-    var map = L.map('map', { zoomControl: false }).setView([39.8, -98.5], 4);
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png').addTo(map);
-
-    function toggleSidebar() {
-        var sb = document.getElementById('sidebar');
-        sb.style.display = (sb.style.display === 'block') ? 'none' : 'block';
-        setTimeout(function() { map.invalidateSize(); }, 100);
-    }
-
-    function toggleNames() {
-        var nm = document.getElementById('namesMenu');
-        nm.style.display = (nm.style.display === 'block') ? 'none' : 'block';
-    }
-
-    function flip(el) {
-        if (el.innerText === "ON") { 
-            el.innerText = "OFF"; el.classList.add("off"); 
-        } else { 
-            el.innerText = "ON"; el.classList.remove("off"); 
+    <div class="search-container">
+        <input type="text" id="addrSearch" placeholder="Search Address..." onkeydown="if(event.key==='Enter') doSearch()">
+    </div>
+    <div id="sidebar">
+        <div style="color:#444; font-size:10px; margin-bottom:15px; letter-spacing:1px;">BUFFER FILTERS</div>
+        <div class="row">Private Security <span class="toggle" onclick="flip(this)">ON</span></div>
+        <div class="row">Gated Latency <span class="toggle" onclick="flip(this)">ON</span></div>
+        <div class="row">Sidewalks <span class="toggle off" onclick="flip(this)">OFF</span></div>
+        <div style="color:#444; font-size:10px; margin:20px 0 10px 0; letter-spacing:1px;">SOCIAL INSULATION</div>
+        <div class="row">Range Rover Density <span class="toggle" onclick="flip(this)">ON</span></div>
+        <div class="row">Golden Retriever Ratio <span class="toggle" onclick="flip(this)">ON</span></div>
+        <div class="row">Lawn Crew Decibels <span class="toggle off" onclick="flip(this)">OFF</span></div>
+    </div>
+    <div id="map"></div>
+    <div class="support-footer">SUPPORT THIS PROJECT: <a href="#" style="color:#666; text-decoration:none;">CONTRIBUTE</a></div>
+    <div class="index-box">
+        <div style="font-size:10px; color:#444;">PQ INDEX STATUS</div>
+        <div class="index-value" id="pqVal">94.2%</div>
+        <div style="font-size:9px; color:#555; margin-top:5px;">WEALTH INSULATION: OPTIMAL</div>
+    </div>
+    <script>
+        var map = L.map('map', { zoomControl: false }).setView([39.8, -98.5], 4);
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png').addTo(map);
+        function toggleSidebar() {
+            var sb = document.getElementById('sidebar');
+            sb.style.display = (sb.style.display === 'block') ? 'none' : 'block';
+            setTimeout(function() { map.invalidateSize(); }, 100);
         }
-        // This part updates the percentage in the bottom-right box
-        var newVal = (90 + Math.random() * 9).toFixed(1);
-        document.getElementById('pqVal').innerText = newVal + "%";
-    }
-    }
-
-    function doSearch() {
-        var val = document.getElementById('addrSearch').value;
-        alert("Analyzing Wealth Insulation for: " + val + "\n\nResult: 98% Elite Purity. Deploying Buffer Zones.");
-    }
-
-    window.onload = function() { setTimeout(function() { map.invalidateSize(); }, 500); };
-</script>
+        function toggleNames() {
+            var nm = document.getElementById('namesMenu');
+            nm.style.display = (nm.style.display === 'block') ? 'none' : 'block';
+        }
+        function flip(el) {
+            if (el.innerText === "ON") { el.innerText = "OFF"; el.classList.add("off"); }
+            else { el.innerText = "ON"; el.classList.remove("off"); }
+            document.getElementById('pqVal').innerText = (90 + Math.random() * 9).toFixed(1) + "%";
+        }
+        function doSearch() { alert("Analyzing buffer zones for: " + document.getElementById('addrSearch').value); }
+        window.onload = function() { setTimeout(function() { map.invalidateSize(); }, 500); };
+    </script>
 </body>
 </html>
