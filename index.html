@@ -5,121 +5,86 @@
     <title>Price & Quiet | The Elite Index</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://leaflet.github.io/Leaflet.heat/dist/leaflet-heat.js"></script>
     <style>
-        body, html { margin: 0; padding: 0; height: 100%; background: #000; color: white; font-family: sans-serif; overflow: hidden; }
-        #header { height: 100px; border-bottom: 1px solid #222; position: relative; z-index: 2000; background: #000; }
-        #map { position: absolute; top: 100px; bottom: 0; width: 100%; z-index: 1; background: #050505; }
-        #sidebar { position: absolute; top: 100px; left: 0; bottom: 0; width: 280px; background: rgba(0,0,0,0.95); z-index: 1500; border-right: 1px solid #222; display: none; padding: 20px; box-sizing: border-box; overflow-y: auto; }
-        .nav { height: 65px; display: flex; align-items: center; padding: 0 20px; }
-        .pq-logo { color: #4ade80; font-weight: bold; font-size: 24px; margin-right: 20px; text-decoration: none; }
-        .btn { background: #111; border: 1px solid #333; color: #888; padding: 8px 15px; border-radius: 20px; cursor: pointer; margin-right: 10px; font-size: 13px; transition: 0.2s; }
-        .btn:hover { border-color: #4ade80; color: #fff; }
-        .search-container { position: absolute; top: 120px; left: 50%; transform: translateX(-50%); z-index: 1000; width: 320px; }
-        #addrSearch { width: 100%; padding: 12px 20px; border-radius: 25px; border: 1px solid #333; background: rgba(0,0,0,0.85); color: white; outline: none; box-shadow: 0 0 20px rgba(0,0,0,0.5); }
-        #namesMenu { display: none; position: absolute; top: 100px; left: 220px; background: #0a0a0a; border: 1px solid #222; width: 220px; z-index: 3000; padding: 15px; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .name-item { font-size: 11px; padding: 8px 0; border-bottom: 1px solid #111; color: #777; display: flex; justify-content: space-between; }
-        .index-box { position: absolute; bottom: 20px; right: 20px; z-index: 1000; background: rgba(0,0,0,0.8); border: 1px solid #222; padding: 15px; border-radius: 8px; width: 180px; backdrop-filter: blur(5px); }
-        .index-value { font-size: 24px; font-weight: bold; color: #4ade80; }
-        .row { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 12px; color: #ccc; }
-        .toggle { color: #4ade80; cursor: pointer; font-weight: bold; border: 1px solid #222; padding: 2px 8px; border-radius: 4px; }
-        .toggle.off { color: #ef4444; }
-        .legend { position: absolute; bottom: 120px; right: 20px; z-index: 1000; background: rgba(0,0,0,0.8); padding: 10px; border: 1px solid #222; font-size: 10px; color: #666; border-radius: 5px; }
-        .color-box { width: 12px; height: 12px; display: inline-block; margin-right: 5px; border-radius: 2px; }
+        body, html { margin: 0; padding: 0; height: 100%; background: #000; color: white; font-family: 'Courier New', Courier, monospace; overflow: hidden; }
+        #header { height: 80px; border-bottom: 1px solid #333; position: relative; z-index: 2000; background: #000; display: flex; align-items: center; padding: 0 20px; }
+        #map { position: absolute; top: 80px; bottom: 0; width: 100%; z-index: 1; background: #050505; }
+        #sidebar { position: absolute; top: 80px; left: 0; bottom: 0; width: 300px; background: rgba(0,0,0,0.9); z-index: 1500; border-right: 1px solid #333; padding: 25px; display: block; box-sizing: border-box; }
+        .pq-logo { color: #4ade80; font-weight: bold; font-size: 22px; text-decoration: none; margin-right: 40px; border: 1px solid #4ade80; padding: 5px 10px; }
+        .search-box { flex-grow: 1; max-width: 500px; }
+        #addrSearch { width: 100%; padding: 12px 25px; border-radius: 5px; border: 1px solid #444; background: #000; color: #4ade80; outline: none; font-family: monospace; }
+        .index-panel { position: absolute; bottom: 30px; right: 30px; z-index: 1000; background: #000; border: 1px solid #4ade80; padding: 20px; width: 220px; box-shadow: 0 0 15px rgba(74, 222, 128, 0.2); }
+        .row { display: flex; justify-content: space-between; margin-bottom: 15px; font-size: 12px; color: #888; letter-spacing: 1px; }
+        .toggle { color: #4ade80; cursor: pointer; font-weight: bold; text-decoration: underline; }
+        .toggle.off { color: #555; text-decoration: none; }
+        .status-light { display: inline-block; width: 8px; height: 8px; background: #4ade80; border-radius: 50%; margin-right: 8px; box-shadow: 0 0 5px #4ade80; }
     </style>
 </head>
 <body>
+
     <div id="header">
-        <div class="nav">
-            <a href="#" class="pq-logo">|||| PQ</a>
-            <div class="btn" onclick="toggleSidebar()">Filters →</div>
-            <div class="btn" onclick="toggleNames()">Names ▾</div>
-            <div class="btn" style="color:#4ade80; border-color:#4ade80;">Elite Index</div>
-            <a href="stats.html" style="color:#555; text-decoration:none; font-size:11px; margin-left:auto;">STATS & ANALYTICS</a>
+        <a href="#" class="pq-logo">PQ // ELITE</a>
+        <div class="search-box">
+            <input type="text" id="addrSearch" placeholder="SCANNING FOR ENCLAVES... ENTER ADDRESS" onkeydown="if(event.key==='Enter') doSearch()">
         </div>
     </div>
 
-    <div id="namesMenu">
-        <div class="name-item">Chadwick <span style="color:#4ade80;">14,204 ✓</span></div>
-        <div class="name-item">Sterling <span style="color:#4ade80;">22,091 ✓</span></div>
-        <div class="name-item">Tinsley <span style="color:#4ade80;">8,112 ✓</span></div>
-        <div class="name-item">Thatcher <span style="color:#4ade80;">19,443 ✓</span></div>
-        <div class="name-item">Huntington <span style="color:#4ade80;">31,002 ✓</span></div>
-        <div class="name-item">Winslow <span style="color:#4ade80;">12,887 ✓</span></div>
-        <div class="name-item">Fairchild <span style="color:#4ade80;">6,221 ✓</span></div>
-        <div class="name-item">Ainsworth <span style="color:#4ade80;">4,109 ✓</span></div>
-        <div class="name-item">Beaumont <span style="color:#4ade80;">15,332 ✓</span></div>
-        <div class="name-item">Langley <span style="color:#4ade80;">9,876 ✓</span></div>
-    </div>
-
-    <div class="search-container">
-        <input type="text" id="addrSearch" placeholder="Search Address..." onkeydown="if(event.key==='Enter') doSearch()">
-    </div>
-
     <div id="sidebar">
-        <div style="color:#444; font-size:10px; margin-bottom:15px; letter-spacing:1px;">BUFFER FILTERS</div>
-        <div class="row">Income > $400k <span class="toggle" onclick="flip(this)">ON</span></div>
-        <div class="row">Private Security <span class="toggle" onclick="flip(this)">ON</span></div>
-        <div class="row">Gated Latency <span class="toggle" onclick="flip(this)">ON</span></div>
-        <div class="row">Sidewalks <span class="toggle off" onclick="flip(this)">OFF</span></div>
-        <div style="color:#444; font-size:10px; margin:20px 0 10px 0; letter-spacing:1px;">SOCIAL INSULATION</div>
-        <div class="row">Range Rover Density <span class="toggle" onclick="flip(this)">ON</span></div>
-        <div class="row">Golden Retriever Ratio <span class="toggle" onclick="flip(this)">ON</span></div>
-        <div class="row">Lawn Crew Decibels <span class="toggle off" onclick="flip(this)">OFF</span></div>
-        <div class="row">Hedge Height > 6ft <span class="toggle" onclick="flip(this)">ON</span></div>
+        <div style="font-size:11px; color:#4ade80; margin-bottom:30px; border-bottom:1px solid #333; padding-bottom:10px;">[ SYSTEM FILTERS ]</div>
+        <div class="row">HOUSEHOLD > $400K <span class="toggle" onclick="flip(this)">ON</span></div>
+        <div class="row">SECURITY PATROL <span class="toggle" onclick="flip(this)">ON</span></div>
+        <div class="row">ZERO SIDEWALKS <span class="toggle" onclick="flip(this)">ON</span></div>
+        <div class="row">RANGE ROVERS <span class="toggle" onclick="flip(this)">ON</span></div>
+        <div class="row">GATED ENTRY <span class="toggle" onclick="flip(this)">ON</span></div>
+        <div class="row">ESTATE GARDENING <span class="toggle" onclick="flip(this)">ON</span></div>
+        <div class="row">HEDGE HEIGHT > 8FT <span class="toggle" onclick="flip(this)">ON</span></div>
     </div>
 
     <div id="map"></div>
 
-    <div class="legend">
-        <div style="margin-bottom:5px; color:#444;">DATA SOURCE: US CENSUS BUREAU</div>
-        <div><span class="color-box" style="background:rgba(74, 222, 128, 0.5);"></span> TRACT VERIFIED</div>
-    </div>
-
-    <div class="index-box">
-        <div style="font-size:10px; color:#444;">PQ INDEX STATUS</div>
-        <div class="index-value" id="pqVal">94.2%</div>
+    <div class="index-panel">
+        <div style="font-size:10px; color:#4ade80; margin-bottom:10px;">INSULATION INDEX</div>
+        <div id="pqVal" style="font-size:32px; font-weight:bold; color:#4ade80;">96.4%</div>
+        <div style="font-size:9px; color:#555; margin-top:10px;"><span class="status-light"></span>DATABASE CONNECTED</div>
     </div>
 
     <script>
-        // Setup Map
-        var map = L.map('map', { zoomControl: false }).setView([38.5, -96.5], 4); 
+        var map = L.map('map', { zoomControl: false }).setView([39.8, -98.5], 4);
+        
+        // Dark Base Layer
         L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png').addTo(map);
 
-        // REAL DATABASE LAYER: US Census Bureau Tracts
-        // This pulls the actual boundaries from the gov database
-        var wealthLayer = L.tileLayer.wms("https://tigerweb.geo.census.gov/arcgis/services/Census2020/CensusTracts_StatAreas/MapServer/WMSServer", {
-            layers: 'Census_Tracts',
-            format: 'image/png',
-            transparent: true,
-            opacity: 0.5,
-            styles: 'default'
+        // This creates the "Always On" data look. 
+        // It covers the US with enough points that it looks like a continuous "wealth map"
+        var baseWealth = [
+            [34.05, -118.24, 0.8], [37.77, -122.41, 0.9], [40.71, -74.00, 1], [25.76, -80.19, 0.9],
+            [41.87, -87.62, 0.7], [29.76, -95.36, 0.7], [33.74, -84.38, 0.7], [42.36, -71.05, 0.8],
+            [39.73, -104.99, 0.6], [32.77, -96.79, 0.7], [47.60, -122.33, 0.8], [33.44, -112.07, 0.6],
+            [38.90, -77.03, 0.9], [39.95, -75.16, 0.7], [40.44, -79.99, 0.5], [36.16, -115.13, 0.6],
+            [45.51, -122.67, 0.7], [26.70, -80.03, 1], [41.02, -73.62, 1], [37.46, -122.19, 1]
+        ];
+
+        // The Heatmap Layer
+        var heat = L.heatLayer(baseWealth, {
+            radius: 35,
+            blur: 20,
+            maxZoom: 10,
+            gradient: {0.4: '#1a4a2e', 0.6: '#22c55e', 1.0: '#4ade80'}
         }).addTo(map);
 
         function flip(el) {
-            // Toggle Logic
-            if (el.innerText === "ON") { 
-                el.innerText = "OFF"; 
-                el.classList.add("off"); 
-            } else { 
-                el.innerText = "ON"; 
-                el.classList.remove("off"); 
-            }
-
-            // Calculate "Data Heat"
-            var activeFilters = document.querySelectorAll('.toggle:not(.off)').length;
-            var newOpacity = (activeFilters / 9) * 0.8;
-
-            // Update the real Database Layer based on filters
-            if (el.parentElement.innerText.includes("Income")) {
-                if (el.innerText === "OFF") map.removeLayer(wealthLayer);
-                else wealthLayer.addTo(map);
-            } else {
-                // Adjust the intensity of the database tracts based on satire filters
-                wealthLayer.setOpacity(newOpacity);
-            }
-
-            // Update PQ Index
-            document.getElementById('pqVal').innerText = (80 + (activeFilters * 2) + Math.random()).toFixed(1) + "%";
+            el.innerText = (el.innerText === "ON") ? "OFF" : "ON";
+            el.classList.toggle("off");
+            
+            var active = document.querySelectorAll('.toggle:not(.off)').length;
+            var intensity = active / 7;
+            
+            // Adjust the heatmap visually as filters change
+            heat.setOptions({radius: 10 + (intensity * 30), blur: 5 + (intensity * 20)});
+            
+            // Randomize the percentage slightly for "real-time" feel
+            document.getElementById('pqVal').innerText = (70 + (active * 4) + Math.random()).toFixed(1) + "%";
         }
 
         function doSearch() {
@@ -127,23 +92,18 @@
             fetch('https://nominatim.openstreetmap.org/search?format=json&q=' + val)
                 .then(r => r.json()).then(data => {
                     if (data.length > 0) {
-                        map.setView([data[0].lat, data[0].lon], 13);
-                        L.circle([data[0].lat, data[0].lon], {
-                            radius: 1000, color: '#4ade80', weight: 2, fillOpacity: 0.2
-                        }).addTo(map).bindPopup("<b>Census Tract Scanned</b><br>Wealth Status: Verified").openPopup();
+                        var lat = parseFloat(data[0].lat);
+                        var lon = parseFloat(data[0].lon);
+                        map.setView([lat, lon], 14);
+                        
+                        // Drop a data point at the search location so it glows
+                        heat.addLatLng([lat, lon, 1]);
+                        
+                        L.circle([lat, lon], {
+                            radius: 600, color: '#4ade80', weight: 1, fillColor: '#4ade80', fillOpacity: 0.1
+                        }).addTo(map).bindPopup("SCAN COMPLETE: INSULATED").openPopup();
                     }
                 });
-        }
-
-        function toggleSidebar() {
-            var sb = document.getElementById('sidebar');
-            sb.style.display = (sb.style.display === 'block') ? 'none' : 'block';
-            setTimeout(() => map.invalidateSize(), 100);
-        }
-
-        function toggleNames() {
-            var nm = document.getElementById('namesMenu');
-            nm.style.display = (nm.style.display === 'block') ? 'none' : 'block';
         }
     </script>
 </body>
