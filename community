@@ -11,6 +11,7 @@
         header h1 { margin: 0; font-size: 22px; color: var(--primary); letter-spacing: -1px; }
         nav { display: flex; gap: 25px; }
         nav a { text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 13px; text-transform: uppercase; }
+        nav a:hover { color: var(--primary); }
         
         main { max-width: 600px; margin: 60px auto; padding: 20px; }
         .report-card { background: #f9f9f9; padding: 30px; border-radius: 12px; border: 2px solid #eee; }
@@ -29,13 +30,13 @@
 
 <header>
     <h1>InsulationIndex<span>.io</span></h1>
-   <nav style="display: flex; gap: 25px;">
-    <a href="index" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 13px; text-transform: uppercase;">Map</a>
-    <a href="methodology" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 13px; text-transform: uppercase;">Science</a>
-    <a href="leaderboard" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 13px; text-transform: uppercase;">Ranks</a>
-    <a href="community" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 13px; text-transform: uppercase;">Void Reports</a>
-    <a href="press" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 13px; text-transform: uppercase;">Press</a>
-</nav>
+    <nav>
+        <a href="index.html">Map</a>
+        <a href="methodology.html">Science</a>
+        <a href="leaderboard.html">Ranks</a>
+        <a href="community.html" style="color: var(--primary);">Void Reports</a>
+        <a href="press.html">Press</a>
+    </nav>
 </header>
 
 <main>
@@ -47,7 +48,7 @@
             <label>Location Coordinates (or City Name)</label>
             <input type="text" placeholder="e.g. Suburbia Hell, VA">
 
-            <label>Blandness Severity</label>
+            <label>Void Severity Level</label>
             <select>
                 <option>Level 1: Passive Beige (Too many matching lawn chairs)</option>
                 <option>Level 2: Acoustic Friction (Neighbor shushed a leaf blower)</option>
@@ -57,7 +58,7 @@
             <label>Incident Description</label>
             <textarea rows="4" placeholder="What happened? Did they ask you to turn the music down at 2 PM?"></textarea>
 
-            <button type="button" onclick="alert('Report Transmitted to the Minister of Noise.')">Transmit to Command</button>
+            <button type="button" onclick="alert('Void Report Transmitted to the Minister of Noise.')">Transmit to Command</button>
         </form>
     </div>
 
