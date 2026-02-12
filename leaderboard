@@ -37,16 +37,18 @@
 </head>
 <body>
 
-    <header>
-        <h1>VibrantAndVocal<span>.io</span></h1>
-        <nav>
-            <a href="index.html">The Map</a>
-            <a href="methodology.html">Methodology</a>
-            <a href="leaderboard.html">Rankings</a>
-            <a href="community.html">Community</a>
-            <a href="press.html">Press</a>
-        </nav>
-    </header>
+    <header style="background: white; border-bottom: 2px solid #ff3e00; padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 9999;">
+    <div style="display: flex; align-items: center; gap: 10px;">
+        <h1 style="margin: 0; font-size: 22px; color: #ff3e00; letter-spacing: -1px;">VibrantAndVocal<span style="color: #1a1a1a;">.io</span></h1>
+    </div>
+    <nav style="display: flex; gap: 25px;">
+        <a href="index.html" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 14px; text-transform: uppercase;">The Map</a>
+        <a href="methodology.html" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 14px; text-transform: uppercase;">Methodology</a>
+        <a href="leaderboard.html" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 14px; text-transform: uppercase;">Rankings</a>
+        <a href="community.html" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 14px; text-transform: uppercase;">Community</a>
+        <a href="press.html" style="text-decoration: none; color: #ff3e00; font-weight: bold; font-size: 14px; text-transform: uppercase;">Press</a>
+    </nav>
+</header>
 
     <main>
         <h1>National Vibe Rankings</h1>
