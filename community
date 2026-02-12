@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Community Hub | VibrantAndVocal.io</title>
+    <style>
+        body { font-family: 'Helvetica Neue', sans-serif; padding: 40px; line-height: 1.6; max-width: 900px; margin: 0 auto; }
+        nav { margin-bottom: 40px; border-bottom: 1px solid #eee; padding-bottom: 20px; }
+        nav a { margin-right: 20px; text-decoration: none; color: #ff3e00; font-weight: bold; }
+        .form-card { background: #fffaf9; border: 2px border: 2px solid #ff3e00; padding: 30px; border-radius: 12px; }
+        h1 { color: #ff3e00; }
+        label { display: block; margin-top: 15px; font-weight: bold; }
+        input, select, textarea { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        button { background: #ff3e00; color: white; border: none; padding: 12px 24px; border-radius: 4px; font-weight: bold; cursor: pointer; margin-top: 20px; }
+        button:hover { background: #cc3200; }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html">Map</a>
+        <a href="methodology.html">Methodology</a>
+        <a href="leaderboard.html">Leaderboard</a>
+        <a href="community.html">Community</a>
+    </nav>
+
+    <h1>Blandness Reporting Tool</h1>
+    <p>Did you wander into a neighborhood that was suspiciously "peaceful"? Help us keep the Vibe Map accurate by reporting cultural deserts.</p>
+
+    <div class="form-card">
+        <form action="#" onsubmit="alert('Report Filed. A local taco truck has been dispatched to the area.'); return false;">
+            <label for="location">Location (Zip Code or City)</label>
+            <input type="text" id="location" placeholder="e.g., Suburbia Heights" required>
+
+            <label for="offense">Primary Offense</label>
+            <select id="offense">
+                <option value="silence">Eerie, suspicious levels of silence</option>
+                <option value="bland">Food contains zero visible spices</option>
+                <option value="lawns">Aggressive lawn maintenance (High HOA Energy)</option>
+                <option value="beige">Everything is painted 'Greige'</option>
+            </select>
+
+            <label for="description">Describe the lack of vibe:</label>
+            <textarea id="description" rows="4" placeholder="e.g., I saw a man shush a bird. It was harrowing."></textarea>
+
+            <button type="submit">File Report</button>
+        </form>
+    </div>
+
+    <h2 style="margin-top: 40px;">Recent "Vocal" Requests</h2>
+    <ul>
+        <li><strong>User77:</strong> Requesting more Bass in the Downtown Sector.</li>
+        <li><strong>ChefM:</strong> Need higher density of Cumin in the West End.</li>
+        <li><strong>VibeCheck:</strong> Requesting 24-hour Karaoke coverage for Zone 4.</li>
+    </ul>
+</body>
+</html>
