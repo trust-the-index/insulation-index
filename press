@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Press | VibrantAndVocal.io</title>
+    <style>
+        body { font-family: 'Helvetica Neue', sans-serif; line-height: 1.6; color: #333; max-width: 800px; margin: 0 auto; padding: 60px 20px; }
+        nav { margin-bottom: 40px; border-bottom: 1px solid #eee; padding-bottom: 20px; }
+        nav a { margin-right: 20px; text-decoration: none; color: #ff3e00; font-weight: bold; }
+        .dateline { font-weight: bold; text-transform: uppercase; margin-bottom: 20px; }
+        h1 { color: #ff3e00; font-size: 28px; line-height: 1.2; }
+        .boilerplate { margin-top: 50px; padding: 20px; background: #f9f9f9; font-size: 14px; border-radius: 8px; }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html">Map</a>
+        <a href="methodology.html">Methodology</a>
+        <a href="community.html">Community</a>
+    </nav>
+
+    <p style="color: #666; font-weight: bold;">FOR IMMEDIATE RELEASE</p>
+    <h1>VibrantAndVocal.io Launches "Monoculture Monitor" to Combat National Boredom Epidemic</h1>
+    
+    <p class="dateline">City of Vibrancy — February 2026</p>
+
+    <p>Today, the developers behind <strong>VibrantAndVocal.io</strong> officially declared war on "The Void," launching a suite of digital tools designed to help citizens escape the stifling grip of performative silence and aggressive neighborhood conformity.</p>
+
+    <p>The launch comes as a direct response to the rise of exclusionary "quiet mapping" tools. VibrantAndVocal.io uses the same high-level demographic and geographic data but applies <strong>Human-First Logic™</strong> to identify where culture is actually happening.</p>
+
+    <p>"For too long, 'Peace and Quiet' has been used as a dog-whistle for social isolation," said the developers. "We aren't looking for a quiet place to nap; we’re looking for a place to live. If your neighborhood has a 0% 'Spice Score,' we consider that a public health emergency."</p>
+
+    <div class="boilerplate">
+        <strong>About VibrantAndVocal.io:</strong><br>
+        VibrantAndVocal.io is a data-science collective dedicated to the belief that a neighborhood's value is measured by the number of different ways its residents say "Hello." 
+    </div>
+</body>
+</html>
