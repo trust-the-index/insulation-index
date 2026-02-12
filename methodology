@@ -9,48 +9,69 @@
         body { margin: 0; font-family: 'Helvetica Neue', sans-serif; line-height: 1.6; background: var(--bg); color: var(--text); }
         header { background: white; border-bottom: 2px solid var(--primary); padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 9999; }
         header h1 { margin: 0; font-size: 22px; color: var(--primary); letter-spacing: -1px; }
+        header h1 span { color: var(--text); }
+        
         nav { display: flex; gap: 25px; }
         nav a { text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 13px; text-transform: uppercase; }
+        nav a:hover { color: var(--primary); }
+
         main { max-width: 800px; margin: 60px auto; padding: 0 20px; }
-        h1 { color: var(--primary); font-size: 32px; letter-spacing: -1px; text-transform: uppercase; }
+        h1 { color: var(--primary); font-size: 32px; letter-spacing: -1px; text-transform: uppercase; margin-bottom: 10px; }
+        p.lead { font-size: 18px; color: #555; margin-bottom: 40px; }
+
         .metric-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 40px; }
-        .metric-card { padding: 20px; border: 1px solid #eee; border-radius: 8px; background: #fafafa; }
-        .metric-card h3 { color: var(--primary); margin-top: 0; font-size: 14px; text-transform: uppercase; }
+        .metric-card { padding: 30px; border: 1px solid #eee; border-radius: 12px; background: #fafafa; transition: 0.3s; }
+        .metric-card:hover { border-color: var(--primary); background: #fff; box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+        .metric-card h3 { color: var(--primary); margin-top: 0; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; }
+        .metric-card p { font-size: 14px; color: #444; margin-bottom: 0; }
+        
+        .formula-box { background: #1a1a1a; color: #fff; padding: 30px; border-radius: 12px; margin-top: 50px; text-align: center; }
+        .formula-box h4 { color: var(--primary); text-transform: uppercase; margin-top: 0; font-size: 12px; }
+        .formula-box code { font-size: 20px; font-family: 'Courier New', monospace; color: #00ff41; }
     </style>
 </head>
 <body>
+
 <header>
     <h1>InsulationIndex<span>.io</span></h1>
     <nav>
-        <a href="index">Map</a>
-        <a href="methodology" style="color: var(--primary);">Science</a>
-        <a href="leaderboard">Ranks</a>
-        <a href="community">Void Reports</a>
-        <a href="press">Press</a>
+        <a href="index.html">Map</a>
+        <a href="methodology.html" style="color: var(--primary);">Science</a>
+        <a href="leaderboard.html">Ranks</a>
+        <a href="community.html">Void Reports</a>
+        <a href="press.html">Press</a>
     </nav>
 </header>
+
 <main>
     <h1>The Science of the Void</h1>
-    <p>How do we calculate neighborhood vibrancy? It’s not a guess—it’s data. We measure the "Insulation Index" of a zip code using three primary cultural sensors.</p>
+    <p class="lead">Vibrancy isn't a feeling; it’s a measurable output. We use four primary metrics to determine if a zip code is thriving or merely insulating itself from reality.</p>
     
     <div class="metric-grid">
         <div class="metric-card">
             <h3>1. Acoustic Permeability</h3>
-            <p>We measure the distance a 100Hz bass frequency travels before hitting a "Noise Complaint" trigger. Low permeability indicates "The Void."</p>
+            <p>We calculate the "Sub-to-Shush" ratio. This measures how many decibels of bass a wall can handle before a neighbor mentions "work in the morning."</p>
         </div>
         <div class="metric-card">
             <h3>2. The Spice Constant</h3>
-            <p>A calculation of the density of non-franchise restaurants. If the only available seasoning is 'Black Pepper,' the index drops by 40%.</p>
+            <p>A density scan of local grocery stores. Points are deducted for neighborhoods where the "International" aisle is just three jars of mild salsa.</p>
         </div>
         <div class="metric-card">
-            <h3>3. Beige Saturation</h3>
-            <p>Using satellite imagery, we scan for architectural monotony. High concentrations of 'Eggshell' and 'Desert Sand' paint indicate social stagnation.</p>
+            <h3>3. Beige Saturation Index</h3>
+            <p>Using high-resolution satellite imagery, we detect levels of architectural boredom. A 90% concentration of Tan, Eggshell, or Sandstone paint triggers a "Void Alert."</p>
         </div>
         <div class="metric-card">
-            <h3>4. The Shush Factor</h3>
-            <p>A real-time tracking of neighborhood forum keywords. High frequencies of "Is it just me or is it loud?" signal a Critical Void event.</p>
+            <h3>4. The Friction Factor</h3>
+            <p>Real-time analysis of HOA message boards. High frequencies of the phrases "excessive noise," "unapproved plants," or "curfew" signal a Critical Void event.</p>
         </div>
     </div>
+
+    <div class="formula-box">
+        <h4>The Core Algorithm</h4>
+        <code>Vibe = (Spice / Silence) * (Bass / Beige)</code>
+        <p style="font-size: 11px; margin-top: 15px; color: #888;">*Final score is weighted against local street-mural density.</p>
+    </div>
 </main>
+
 </body>
 </html>
