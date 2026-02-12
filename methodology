@@ -3,82 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Methodology | VibrantAndVocal.io</title>
+    <title>The Science | Insulation Index</title>
     <style>
         :root { --primary: #ff3e00; --bg: #ffffff; --text: #1a1a1a; }
-        body { margin: 0; font-family: 'Helvetica Neue', sans-serif; line-height: 1.6; background: var(--bg); color: var(--text); display: flex; flex-direction: column; min-height: 100vh; }
-        
-        /* Navigation Styles */
-        header { background: white; border-bottom: 2px solid #ff3e00; padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 9999; }
+        body { margin: 0; font-family: 'Helvetica Neue', sans-serif; line-height: 1.6; background: var(--bg); color: var(--text); }
+        header { background: white; border-bottom: 2px solid var(--primary); padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 9999; }
         header h1 { margin: 0; font-size: 22px; color: var(--primary); letter-spacing: -1px; }
         nav { display: flex; gap: 25px; }
-        nav a { text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 14px; text-transform: uppercase; }
-        nav a:hover { color: var(--primary); }
-
-        /* Content Styles */
-        main { max-width: 800px; margin: 60px auto; padding: 0 20px; flex-grow: 1; }
-        h1 { font-size: 42px; letter-spacing: -2px; line-height: 1.1; margin-bottom: 20px; color: var(--primary); }
-        h2 { font-size: 24px; margin-top: 40px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
-        
-        .mission-box { background: #fffaf9; border: 1px solid #ff3e00; padding: 30px; border-radius: 12px; margin-bottom: 40px; }
-        .formula { background: #1a1a1a; color: #00ff00; padding: 25px; border-radius: 8px; font-family: 'Courier New', monospace; margin: 20px 0; border-left: 5px solid var(--primary); font-size: 18px; }
-        .highlight { font-weight: bold; color: var(--primary); }
-        
-        ul { padding-left: 20px; }
-        li { margin-bottom: 15px; }
-
-        footer { background: #1a1a1a; color: #666; padding: 40px; text-align: center; font-size: 12px; margin-top: 60px; }
+        nav a { text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 13px; text-transform: uppercase; }
+        main { max-width: 800px; margin: 60px auto; padding: 0 20px; }
+        h1 { color: var(--primary); font-size: 32px; letter-spacing: -1px; text-transform: uppercase; }
+        .metric-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 40px; }
+        .metric-card { padding: 20px; border: 1px solid #eee; border-radius: 8px; background: #fafafa; }
+        .metric-card h3 { color: var(--primary); margin-top: 0; font-size: 14px; text-transform: uppercase; }
     </style>
 </head>
 <body>
-
-    <header style="background: white; border-bottom: 2px solid #ff3e00; padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 9999;">
-    <div style="display: flex; align-items: center; gap: 10px;">
-        <h1 style="margin: 0; font-size: 22px; color: #ff3e00; letter-spacing: -1px;">VibrantAndVocal<span style="color: #1a1a1a;">.io</span></h1>
-    </div>
-    <nav style="display: flex; gap: 25px;">
-        <a href="index" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 14px; text-transform: uppercase;">The Map</a>
-        <a href="methodology" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 14px; text-transform: uppercase;">Methodology</a>
-        <a href="leaderboard" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 14px; text-transform: uppercase;">Rankings</a>
-        <a href="community" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 14px; text-transform: uppercase;">Community</a>
-        <a href="press" style="text-decoration: none; color: #ff3e00; font-weight: bold; font-size: 14px; text-transform: uppercase;">Press</a>
+<header>
+    <h1>InsulationIndex<span>.io</span></h1>
+    <nav>
+        <a href="index">Map</a>
+        <a href="methodology" style="color: var(--primary);">Science</a>
+        <a href="leaderboard">Ranks</a>
+        <a href="community">Void Reports</a>
+        <a href="press">Press</a>
     </nav>
 </header>
-
-    <main>
-        <div class="mission-box">
-            <strong>The Mission:</strong> We believe that "Peace and Quiet" is often just a synonym for social stagnation. Our algorithm doesn't track silence; it tracks <strong>participation</strong>. We help you find the places where the heartbeat of the city is loudest.
+<main>
+    <h1>The Science of the Void</h1>
+    <p>How do we calculate neighborhood vibrancy? It’s not a guess—it’s data. We measure the "Insulation Index" of a zip code using three primary cultural sensors.</p>
+    
+    <div class="metric-grid">
+        <div class="metric-card">
+            <h3>1. Acoustic Permeability</h3>
+            <p>We measure the distance a 100Hz bass frequency travels before hitting a "Noise Complaint" trigger. Low permeability indicates "The Void."</p>
         </div>
-
-        <h1>The Science of the Vibe</h1>
-        <p>At <span class="highlight">VibrantAndVocal</span>, we use 100% organic, publicly available data to measure the life force of a neighborhood. While other maps help you hide, we help you arrive.</p>
-
-        <h2>The Vibe Index (VI) Formula</h2>
-        <div class="formula">
-            VI = (Spice * Polyglot) / (Gatekeeping + HOA)
+        <div class="metric-card">
+            <h3>2. The Spice Constant</h3>
+            <p>A calculation of the density of non-franchise restaurants. If the only available seasoning is 'Black Pepper,' the index drops by 40%.</p>
         </div>
-        <p style="font-size: 14px; color: #666;">
-            * <strong>Spice:</strong> Density of independent, non-chain restaurants per sq mile.<br>
-            * <strong>Polyglot:</strong> Number of unique languages identified in local business registries.<br>
-            * <strong>Gatekeeping:</strong> Number of "No Trespassing" signs and private security cameras.
-        </p>
-
-        <h2>Our Primary Data Layers</h2>
-        <ul>
-            <li><strong>Acoustic Vitality:</strong> We prioritize areas where the sound of human existence—music, street markets, and conversation—thrives. High decibels equal high soul.</li>
-            <li><strong>Inclusive Name Analytics:</strong> We use census and voter data to reward areas with high cultural variance. A neighborhood where everyone has the same origin is flagged as a "Low-Energy Zone."</li>
-            <li><strong>The Scent Trail:</strong> We track business licenses for international grocers. If your neighborhood doesn't smell like cilantro, garlic, or curry by 6:00 PM, your Vibe Index drops significantly.</li>
-        </ul>
-
-        <p style="margin-top: 40px; font-style: italic; border-top: 1px solid #eee; padding-top: 20px;">
-            Note: We do not track "peace." We track "pulse." If a neighborhood is too quiet, our system automatically classifies it as a <strong>Cultural Desert</strong>.
-        </p>
-    </main>
-
-    <footer>
-        <p>&copy; 2026 VibrantAndVocal.io | Curated by <strong>The Minister of Noise</strong></p>
-        <p>Built to prove that "Quiet" is just "Boring" in a fancy suit.</p>
-    </footer>
-
+        <div class="metric-card">
+            <h3>3. Beige Saturation</h3>
+            <p>Using satellite imagery, we scan for architectural monotony. High concentrations of 'Eggshell' and 'Desert Sand' paint indicate social stagnation.</p>
+        </div>
+        <div class="metric-card">
+            <h3>4. The Shush Factor</h3>
+            <p>A real-time tracking of neighborhood forum keywords. High frequencies of "Is it just me or is it loud?" signal a Critical Void event.</p>
+        </div>
+    </div>
+</main>
 </body>
 </html>
