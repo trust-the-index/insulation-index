@@ -29,13 +29,13 @@
 
 <header>
     <h1>InsulationIndex<span>.io</span></h1>
-    <nav>
-        <a href="index">Map</a>
-        <a href="methodology">Science</a>
-        <a href="leaderboard">Ranks</a>
-        <a href="community" style="color: var(--primary);">Void Reports</a>
-        <a href="press">Press</a>
-    </nav>
+   <nav style="display: flex; gap: 25px;">
+    <a href="index" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 13px; text-transform: uppercase;">Map</a>
+    <a href="methodology" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 13px; text-transform: uppercase;">Science</a>
+    <a href="leaderboard" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 13px; text-transform: uppercase;">Ranks</a>
+    <a href="community" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 13px; text-transform: uppercase;">Void Reports</a>
+    <a href="press" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 13px; text-transform: uppercase;">Press</a>
+</nav>
 </header>
 
 <main>
