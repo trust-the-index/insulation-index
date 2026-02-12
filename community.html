@@ -1,161 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Void Reports | VibrantAndVocal.io</title>
-    <style>
-        :root { --primary: #ff3e00; --bg: #ffffff; --text: #1a1a1a; }
-        body { margin: 0; font-family: 'Helvetica Neue', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
-        
-        header { background: white; border-bottom: 2px solid var(--primary); padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 9999; height: 70px; box-sizing: border-box; }
-        header h1 { margin: 0; font-size: 22px; color: var(--primary); letter-spacing: -1px; }
-        header h1 span { color: var(--text); }
-        
-        nav { display: flex; gap: 25px; }
-        nav a { text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 13px; text-transform: uppercase; }
-        nav a:hover { color: var(--primary); }
-
-        main { max-width: 600px; margin: 80px auto; padding: 0 20px; }
-        
-        h1 { font-size: 32px; letter-spacing: -1px; text-transform: uppercase; margin-bottom: 10px; }
-        p.subtitle { color: #666; margin-bottom: 40px; }
-
-        .form-group { margin-bottom: 25px; }
-        label { display: block; font-weight: bold; margin-bottom: 8px; font-size: 14px; }
-        
-        input, select, textarea { 
-            width: 100%; 
-            padding: 12px 15px; 
-            border: 1px solid #ddd; 
-            border-radius: 8px; 
-            font-size: 16px; 
-            font-family: inherit; 
-            box-sizing: border-box; 
-            transition: border-color 0.2s;
-        }
-        
-        input:focus, select:focus, textarea:focus { 
-            outline: none; 
-            border-color: var(--primary); 
-        }
-
-        button { 
-            background: var(--primary); 
-            color: white; 
-            border: none; 
-            padding: 16px 30px; 
-            border-radius: 8px; 
-            font-size: 16px; 
-            font-weight: bold; 
-            cursor: pointer; 
-            width: 100%; 
-            transition: background 0.2s;
-        }
-        
-        button:hover { background: #e63800; }
-
-        .success-msg { color: #2ecc71; font-weight: bold; display: none; margin-top: 20px; text-align: center; }
-    </style>
-</head>
-<body>
-
-<header>
-    <h1>VibrantAndVocal<span>.io</span></h1>
-    <nav>
-        <a href="/">Map</a>
-        <a href="/methodology">Science</a>
-        <a href="/leaderboard">Ranks</a>
-        <a href="/community" style="color: var(--primary);">Void Reports</a>
-        <a href="/press">Press</a>
-    </nav>
-</header>
-
-<main>
-    <h1>Log a Void Report</h1>
-    <p class="subtitle">Witnessed a lack of neighborhood soul? Help us map the silence by submitting a report below.</p>
-    
-    <form id="voidForm">
-        <div class="form-group">
-            <label for="loc">Location</label>
-            <input type="text" id="loc" placeholder="City, neighborhood, or zip code" required>
-        </div>
-
-        <div class="form-group">
+<div class="form-group">
     <label for="severity">Vibe Decay Severity</label>
-    <select id="severity">
+    <select id="severity" onchange="updateExplainer()">
         <option value="Level 1: Passive Beige">Level 1: Passive Beige</option>
         <option value="Level 2: Auditory Insulation">Level 2: Auditory Insulation</option>
         <option value="Level 3: Cultural Flatline">Level 3: Cultural Flatline</option>
         <option value="Level 4: Total Isolation">Level 4: Total Isolation</option>
     </select>
+    <p id="severityExplainer" style="font-size: 12px; color: #ff3e00; margin-top: 8px; font-style: italic;">
+        Visual stagnation. Architecture and landscaping stripped of all personality.
+    </p>
 </div>
 
-        <div class="form-group">
-            <label for="desc">Observations</label>
-            <textarea id="desc" rows="5" placeholder="Tell us what you noticed (e.g., noise complaints for normal music, lack of local flavor, etc.)"></textarea>
-        </div>
-
-        <button type="button" id="submitBtn" onclick="sendToDiscord()">Submit Report</button>
-        <div id="successMsg" class="success-msg">Report transmitted successfully.</div>
-    </form>
-</main>
-
 <script>
-async function sendToDiscord() {
-    // ⚠️ PASTE YOUR DISCORD WEBHOOK URL BELOW
-    const webhookURL = "YOUR_DISCORD_WEBHOOK_URL_HERE"; 
-    
-    const location = document.getElementById('loc').value;
+// Add this function to your script section to handle the explainers
+function updateExplainer() {
     const severity = document.getElementById('severity').value;
-    const description = document.getElementById('desc').value;
-    const btn = document.getElementById('submitBtn');
-    const success = document.getElementById('successMsg');
-
-    if (!location) {
-        alert("Please provide a location.");
-        return;
-    }
-
-    btn.disabled = true;
-    btn.innerText = "Transmitting...";
-
-    const payload = {
-        embeds: [{
-            title: "New Void Report Logged",
-            color: 16727552, 
-            fields: [
-                { name: "Location", value: location, inline: true },
-                { name: "Severity", value: severity, inline: true },
-                { name: "Description", value: description || "No additional notes." }
-            ],
-            timestamp: new Date().toISOString(),
-            footer: { text: "VibrantAndVocal.io Community Intel" }
-        }]
-    };
-
-    try {
-        const response = await fetch(webhookURL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-        });
-
-        if (response.ok) {
-            document.getElementById('voidForm').style.display = 'none';
-            success.style.display = 'block';
-        } else {
-            alert('Signal failed. Please try again.');
-            btn.disabled = false;
-            btn.innerText = "Submit Report";
-        }
-    } catch (error) {
-        alert('Error connecting to Command.');
-        btn.disabled = false;
-        btn.innerText = "Submit Report";
+    const explainer = document.getElementById('severityExplainer');
+    
+    if (severity.includes("Level 1")) {
+        explainer.innerText = "Visual stagnation. Architecture and landscaping stripped of all personality.";
+    } else if (severity.includes("Level 2")) {
+        explainer.innerText = "Active suppression of sound. Music and laughter are treated as nuisances.";
+    } else if (severity.includes("Level 3")) {
+        explainer.innerText = "Zero signs of life. No local hangouts or spontaneous social interaction.";
+    } else if (severity.includes("Level 4")) {
+        explainer.innerText = "The Absolute Void. Neighbors are strangers; the only sound is air conditioners.";
     }
 }
 </script>
-
-</body>
-</html>
