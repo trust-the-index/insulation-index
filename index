@@ -3,16 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VibrantAndVocal.io | Find Your Pulse</title>
+    <title>Insulation Index | Monitoring The Void</title>
     
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     
     <style>
         :root { --primary: #ff3e00; --bg: #ffffff; --text: #1a1a1a; }
-        body { margin: 0; font-family: 'Helvetica Neue', sans-serif; background: var(--bg); color: var(--text); display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
         
-        header { background: white; border-bottom: 2px solid var(--primary); padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; z-index: 9999; }
-        .logo-link { text-decoration: none; }
+        /* 1. Global Reset */
+        body { 
+            margin: 0; 
+            font-family: 'Helvetica Neue', sans-serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            display: flex; 
+            flex-direction: column; 
+            height: 100vh; 
+            overflow: hidden; 
+        }
+
+        /* 2. Header / Navigation */
+        header { 
+            background: white; 
+            border-bottom: 2px solid var(--primary); 
+            padding: 15px 40px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            z-index: 10000; 
+            height: 70px;
+            box-sizing: border-box;
+        }
         header h1 { margin: 0; font-size: 22px; color: var(--primary); letter-spacing: -1px; }
         header h1 span { color: var(--text); }
         
@@ -20,27 +41,90 @@
         nav a { text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 13px; text-transform: uppercase; }
         nav a:hover { color: var(--primary); }
 
-        .main-container { display: flex; flex-grow: 1; height: calc(100vh - 70px); position: relative; }
-        #map { flex-grow: 1; height: 100%; z-index: 1; }
-        
-        .search-container { position: absolute; top: 20px; left: 50%; transform: translateX(-50%); z-index: 1000; width: 450px; display: flex; gap: 10px; }
-        .search-container input { flex-grow: 1; padding: 14px 25px; border-radius: 30px; border: 2px solid var(--primary); box-shadow: 0 4px 15px rgba(0,0,0,0.15); outline: none; font-size: 14px; }
-        .search-container button { background: var(--primary); color: white; border: none; padding: 10px 25px; border-radius: 30px; font-weight: bold; cursor: pointer; text-transform: uppercase; font-size: 12px; transition: 0.2s; }
-        .search-container button:hover { background: #e63700; transform: scale(1.05); }
+        /* 3. Main Layout Container */
+        .main-container { 
+            display: flex; 
+            flex-grow: 1; 
+            height: calc(100vh - 70px); 
+            position: relative; 
+        }
 
-        .vibe-panel { position: absolute; bottom: 30px; left: 30px; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); z-index: 1000; width: 300px; border: 2px solid var(--primary); transition: 0.3s; }
-        .score-box { font-size: 48px; font-weight: bold; color: var(--primary); margin-bottom: 5px; }
-        .status-tag { background: #ffefea; color: var(--primary); padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: bold; text-transform: uppercase; }
-        
-        .sidebar { width: 320px; background: #1a1a1a; color: white; padding: 30px; overflow-y: auto; border-left: 4px solid var(--primary); z-index: 1001; }
-        .emergency-step { background: #2a2a2a; padding: 15px; border-radius: 8px; margin-bottom: 20px; border-left: 3px solid var(--primary); }
-        .emergency-step strong { display: block; color: var(--primary); margin-bottom: 5px; font-size: 14px; }
+        /* 4. Map Styling */
+        #map { 
+            flex-grow: 1; 
+            height: 100%; 
+            z-index: 1; 
+        }
+
+        /* 5. UI Elements on Map */
+        .search-container { 
+            position: absolute; 
+            top: 20px; 
+            left: 50%; 
+            transform: translateX(-50%); 
+            z-index: 1000; 
+            width: 450px; 
+            display: flex; 
+            gap: 10px; 
+        }
+        .search-container input { 
+            flex-grow: 1; 
+            padding: 14px 25px; 
+            border-radius: 30px; 
+            border: 2px solid var(--primary); 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15); 
+            outline: none; 
+        }
+        .search-container button { 
+            background: var(--primary); 
+            color: white; 
+            border: none; 
+            padding: 0 25px; 
+            border-radius: 30px; 
+            font-weight: bold; 
+            cursor: pointer; 
+            text-transform: uppercase; 
+        }
+
+        .vibe-panel { 
+            position: absolute; 
+            bottom: 30px; 
+            left: 30px; 
+            background: white; 
+            padding: 20px; 
+            border-radius: 12px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1); 
+            z-index: 1000; 
+            width: 300px; 
+            border: 2px solid var(--primary); 
+        }
+
+        /* 6. Sidebar Styling */
+        .sidebar { 
+            width: 320px; 
+            background: #1a1a1a; 
+            color: white; 
+            padding: 30px; 
+            overflow-y: auto; 
+            border-left: 4px solid var(--primary); 
+            z-index: 1001; 
+            display: flex;
+            flex-direction: column;
+        }
+        .emergency-step { 
+            background: #2a2a2a; 
+            padding: 15px; 
+            border-radius: 8px; 
+            margin-bottom: 20px; 
+            border-left: 3px solid var(--primary); 
+        }
+        .emergency-step strong { color: var(--primary); display: block; margin-bottom: 5px; }
     </style>
 </head>
 <body>
 
 <header>
-    <a href="index.html" class="logo-link"><h1>VibrantAndVocal<span>.io</span></h1></a>
+    <h1>InsulationIndex<span>.io</span></h1>
     <nav>
         <a href="index.html">Map</a>
         <a href="methodology.html">Science</a>
@@ -53,88 +137,54 @@
 <div class="main-container">
     <div id="map">
         <div class="search-container">
-            <input type="text" id="addr-input" placeholder="Type an address (e.g. 123 Main St, NY)...">
-            <button onclick="searchAddress()">Scan Pulse</button>
+            <input type="text" id="addr-input" placeholder="Scan an address for signs of life...">
+            <button onclick="searchAddress()">Scan</button>
         </div>
 
         <div class="vibe-panel" id="vibe-panel">
-            <span class="status-tag" id="status-tag">National Overview</span>
-            <div class="score-box" id="vibe-score">--</div>
+            <div id="vibe-score" style="font-size: 48px; font-weight: bold; color: var(--primary);">--</div>
             <div id="vibe-loc" style="font-weight: bold; margin-bottom: 5px;">Ready to Scan</div>
-            <p id="vibe-desc" style="font-size: 13px; color: #555; line-height: 1.4;">Enter a location above to see if it's alive or part of The Void.</p>
+            <p id="vibe-desc" style="font-size: 13px; color: #555;">Enter a location to calculate its Insulation Index.</p>
         </div>
     </div>
 
     <div class="sidebar">
-        <h2 style="color: #ff3e00; text-transform: uppercase; font-size: 18px; margin-top: 0;">⚠️ Emergency Protocol</h2>
+        <h2 style="color: var(--primary); text-transform: uppercase; font-size: 18px; margin-top: 0;">⚠️ Emergency Protocol</h2>
         <div class="emergency-step">
             <strong>Step 1: Sound Therapy</strong>
-            <p style="font-size: 13px; color: #ccc;">Open all windows. Play music with a high BPM immediately.</p>
+            <p style="font-size: 13px; color: #ccc;">Open windows. Increase volume until the "Void" recedes.</p>
         </div>
         <div class="emergency-step">
-            <strong>Step 2: Tactical Spice Deployment</strong>
-            <p style="font-size: 13px; color: #ccc;">Find a store with more than one pepper type. Evacuate if only 'Bell' is present.</p>
+            <strong>Step 2: Spice Injection</strong>
+            <p style="font-size: 13px; color: #ccc;">Locate nearest non-chain restaurant. Order the 'extra hot'.</p>
         </div>
-        <footer style="margin-top: 40px; font-size: 11px; color: #555;">&copy; 2026 VibrantAndVocal.io</footer>
+        <div style="flex-grow: 1;"></div>
+        <footer style="font-size: 11px; color: #555; padding-top: 20px;">
+            &copy; 2026 InsulationIndex.io | Anti-Void Division
+        </footer>
     </div>
 </div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
 <script>
     const map = L.map('map').setView([39.8283, -98.5795], 4);
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-        attribution: '&copy; OpenStreetMap'
-    }).addTo(map);
-
-    const hotspots = [
-        { name: "Jackson Heights, NY", coords: [40.7557, -73.8831], score: 99, desc: "Global epicenter of spice. Acoustic vitality off the charts." },
-        { name: "Sterling Woods, VA", coords: [39.0067, -77.4291], score: 8, desc: "Critical Level Blandness. Beige siding detected in 100% of structures." },
-        { name: "Mission District, CA", coords: [37.7599, -122.4148], score: 94, desc: "High-frequency zone. High density of murals and community interaction." }
-    ];
-
-    hotspots.forEach(place => {
-        let color = place.score > 80 ? '#ff3e00' : '#cccccc';
-        L.circle(place.coords, { color, fillColor: color, fillOpacity: 0.6, radius: 30000 }).addTo(map)
-         .on('click', () => updatePanel(place, true));
-    });
-
-    function updatePanel(data, zoom = true) {
-        document.getElementById('vibe-score').innerText = data.score;
-        document.getElementById('vibe-loc').innerText = data.name;
-        document.getElementById('vibe-desc').innerText = data.desc;
-        document.getElementById('status-tag').innerText = data.score > 50 ? "Electric Zone" : "Blandness Alert";
-        if(zoom) map.flyTo(data.coords, 14);
-    }
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo(map);
 
     async function searchAddress() {
         const query = document.getElementById('addr-input').value;
         if (!query) return;
-
         try {
-            const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`);
-            const results = await response.json();
-
-            if (results.length > 0) {
-                const topResult = results[0];
-                const lat = parseFloat(topResult.lat);
-                const lon = parseFloat(topResult.lon);
-                const randomScore = Math.floor(Math.random() * 100);
-                
-                const searchData = {
-                    name: topResult.display_name.split(',')[0],
-                    coords: [lat, lon],
-                    score: randomScore,
-                    desc: randomScore < 30 ? "Analysis: Sub-optimal energy levels. High risk of HOA gatekeeping." : "Analysis: High cultural frequency detected. Safe for loud music."
-                };
-
-                updatePanel(searchData);
-            } else {
-                alert("Location not found in our Vibe Database.");
+            const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`);
+            const data = await res.json();
+            if (data.length > 0) {
+                const score = Math.floor(Math.random() * 100);
+                const loc = data[0];
+                document.getElementById('vibe-score').innerText = score;
+                document.getElementById('vibe-loc').innerText = loc.display_name.split(',')[0];
+                document.getElementById('vibe-desc').innerText = score < 40 ? "Warning: Critical insulation levels detected." : "Status: Resonant frequency confirmed.";
+                map.flyTo([loc.lat, loc.lon], 14);
             }
-        } catch (error) {
-            console.error("Search failed:", error);
-        }
+        } catch(e) { console.error(e); }
     }
 </script>
 </body>
