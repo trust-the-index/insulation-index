@@ -9,7 +9,6 @@
         :root { --primary: #ff3e00; --bg: #ffffff; --text: #1a1a1a; }
         body { margin: 0; font-family: 'Helvetica Neue', sans-serif; background: var(--bg); color: var(--text); display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
         
-        /* Unified Navigation Header */
         header { background: white; border-bottom: 2px solid var(--primary); padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; z-index: 9999; }
         .logo-link { text-decoration: none; }
         header h1 { margin: 0; font-size: 22px; color: var(--primary); letter-spacing: -1px; }
@@ -20,29 +19,27 @@
         nav a:hover { color: var(--primary); }
         nav a.active { color: var(--primary); }
 
-        /* Map and Sidebar Layout */
         .main-container { display: flex; flex-grow: 1; height: calc(100vh - 70px); position: relative; }
         #map { flex-grow: 1; height: 100%; z-index: 1; }
         
-        /* UI Elements on Map */
+        /* Search Bar Styling */
+        .search-container { position: absolute; top: 20px; left: 50%; transform: translateX(-50%); z-index: 1000; width: 400px; display: flex; gap: 10px; }
+        .search-container input { flex-grow: 1; padding: 12px 20px; border-radius: 30px; border: 2px solid var(--primary); box-shadow: 0 4px 15px rgba(0,0,0,0.1); outline: none; font-size: 14px; }
+        .search-container button { background: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 30px; font-weight: bold; cursor: pointer; text-transform: uppercase; font-size: 12px; }
+
         .vibe-panel { position: absolute; bottom: 30px; left: 30px; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); z-index: 1000; width: 300px; border: 2px solid var(--primary); }
         .score-box { font-size: 48px; font-weight: bold; color: var(--primary); margin-bottom: 5px; }
         .status-tag { background: #ffefea; color: var(--primary); padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: bold; text-transform: uppercase; }
-        .legend { position: absolute; top: 20px; right: 20px; background: white; padding: 10px; z-index: 1000; border-radius: 8px; font-size: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        .dot { height: 10px; width: 10px; border-radius: 50%; display: inline-block; margin-right: 5px; }
-
+        
         .sidebar { width: 320px; background: #1a1a1a; color: white; padding: 30px; overflow-y: auto; border-left: 4px solid var(--primary); z-index: 1001; }
         .emergency-step { background: #2a2a2a; padding: 15px; border-radius: 8px; margin-bottom: 20px; border-left: 3px solid var(--primary); }
         .emergency-step strong { display: block; color: var(--primary); margin-bottom: 5px; font-size: 14px; }
-        .emergency-step p { margin: 0; font-size: 13px; color: #ccc; line-height: 1.4; }
     </style>
 </head>
 <body>
 
 <header>
-    <a href="index" class="logo-link">
-        <h1>VibrantAndVocal<span>.io</span></h1>
-    </a>
+    <a href="index" class="logo-link"><h1>VibrantAndVocal<span>.io</span></h1></a>
     <nav>
         <a href="index" class="active">The Map</a>
         <a href="methodology">Methodology</a>
@@ -54,75 +51,73 @@
 
 <div class="main-container">
     <div id="map">
-        <div class="legend">
-            <div style="margin-bottom: 5px;"><span class="dot" style="background: #ff3e00;"></span> 80-100: Electric</div>
-            <div style="margin-bottom: 5px;"><span class="dot" style="background: #ffae00;"></span> 50-79: Resonant</div>
-            <div><span class="dot" style="background: #cccccc;"></span> 0-49: The Void</div>
+        <div class="search-container">
+            <input type="text" id="addr-input" placeholder="Enter an address to scan for pulse...">
+            <button onclick="searchAddress()">Scan</button>
         </div>
 
         <div class="vibe-panel">
-            <span class="status-tag">National Overview</span>
+            <span class="status-tag" id="status-tag">US Overview</span>
             <div class="score-box" id="vibe-score">--</div>
-            <div style="font-weight: bold;">Select a Hotspot</div>
-            <p id="vibe-desc" style="font-size: 14px; color: #555; line-height: 1.4;">
-                Click a pulse point on the map to analyze local vibrancy data.
-            </p>
+            <div id="vibe-loc" style="font-weight: bold; margin-bottom: 5px;">Awaiting Data...</div>
+            <p id="vibe-desc" style="font-size: 13px; color: #555; line-height: 1.4;">Scan an address or select a hotspot to begin analysis.</p>
         </div>
     </div>
 
     <div class="sidebar">
         <h2 style="color: #ff3e00; text-transform: uppercase; font-size: 18px; margin-top: 0;">⚠️ Emergency Protocol</h2>
-        <p style="font-size: 13px; color: #888; margin-bottom: 25px;">Instructions for those trapped in "The Void" (Score 0-20).</p>
-        
         <div class="emergency-step">
             <strong>Step 1: Sound Therapy</strong>
-            <p>Open all windows. Play music with a high BPM. If a neighbor glares, increase volume by 15% immediately.</p>
+            <p style="font-size: 13px; color: #ccc;">Open all windows. Play music with a high BPM immediately.</p>
         </div>
-
         <div class="emergency-step">
             <strong>Step 2: Tactical Spice Deployment</strong>
-            <p>Locate a grocery store that sells more than one type of pepper. If they only stock 'Bell,' evacuate the premises.</p>
+            <p style="font-size: 13px; color: #ccc;">Find a store with more than one pepper type. Evacuate if only 'Bell' is present.</p>
         </div>
-
-        <div class="emergency-step">
-            <strong>Step 3: Radical Truth</strong>
-            <p>If someone says "it's too loud," stay calm. Remind them that silence is just the absence of ideas and social courage.</p>
-        </div>
-
-        <footer style="margin-top: 40px; font-size: 11px; color: #555;">
-            &copy; 2026 VibrantAndVocal.io<br>
-            Curated by <strong>The Minister of Noise</strong>
-        </footer>
+        <footer style="margin-top: 40px; font-size: 11px; color: #555;">&copy; 2026 VibrantAndVocal.io</footer>
     </div>
 </div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-    // CENTERED ON USA (Coordinates 39.8, -98.5) with Zoom Level 4
+    // Initial State: Zoomed out to show the whole USA
     const map = L.map('map').setView([39.8283, -98.5795], 4);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo(map);
 
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-        attribution: '&copy; OpenStreetMap'
-    }).addTo(map);
-
-    // Initial US Hotspots
     const hotspots = [
-        { name: "Jackson Heights, NY", coords: [40.7557, -73.8831], score: 99, desc: "Global epicenter of spice. Acoustic vitality off the charts." },
+        { name: "Jackson Heights, NY", coords: [40.7557, -73.8831], score: 99, desc: "Extreme levels of seasoning. Acoustic vitality off the charts." },
         { name: "Sterling Woods, VA", coords: [39.0067, -77.4291], score: 8, desc: "Critical Level Blandness. Beige siding detected in 100% of structures." },
-        { name: "Mission District, CA", coords: [37.7599, -122.4148], score: 94, desc: "High-frequency zone. High density of murals and community interaction." },
-        { name: "Naples, FL", coords: [26.1420, -81.7948], score: 14, desc: "Warning: High gated-community friction. Minimum garlic levels detected." },
-        { name: "Pilsen, Chicago", coords: [41.8540, -87.6663], score: 91, desc: "Resonant Zone. Strong cultural pulse with high auditory output." }
+        { name: "Mission District, CA", coords: [37.7599, -122.4148], score: 94, desc: "High-frequency zone. High density of murals and community interaction." }
     ];
 
     hotspots.forEach(place => {
-        let color = place.score > 80 ? '#ff3e00' : (place.score > 50 ? '#ffae00' : '#cccccc');
-        const circle = L.circle(place.coords, { color, fillColor: color, fillOpacity: 0.6, radius: 25000 }).addTo(map);
-        circle.on('click', () => {
-            document.getElementById('vibe-score').innerText = place.score;
-            document.getElementById('vibe-desc').innerHTML = `<strong>${place.name}:</strong> ${place.desc}`;
-            document.querySelector('.status-tag').innerText = place.score > 80 ? "Electric Zone" : "Blandness Alert";
-        });
+        let color = place.score > 80 ? '#ff3e00' : '#cccccc';
+        L.circle(place.coords, { color, fillColor: color, fillOpacity: 0.6, radius: 40000 }).addTo(map)
+         .on('click', () => updatePanel(place));
     });
+
+    function updatePanel(data) {
+        document.getElementById('vibe-score').innerText = data.score;
+        document.getElementById('vibe-loc').innerText = data.name;
+        document.getElementById('vibe-desc').innerText = data.desc;
+        document.getElementById('status-tag').innerText = data.score > 50 ? "Electric Zone" : "Blandness Alert";
+        map.flyTo(data.coords, 12);
+    }
+
+    function searchAddress() {
+        const addr = document.getElementById('addr-input').value;
+        if(!addr) return;
+        
+        // Mocking the 'Scan' result for humor
+        const mockScore = Math.floor(Math.random() * 100);
+        const results = {
+            name: addr.split(',')[0],
+            coords: [39.8, -98.5], // Stays centered for mock
+            score: mockScore,
+            desc: mockScore < 30 ? "Warning: High risk of unseasoned potato salad. Immediate social intervention required." : "Healthy pulse detected. Carry on with the noise."
+        };
+        updatePanel(results);
+    }
 </script>
 </body>
 </html>
