@@ -3,96 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Press | VibrantAndVocal.io</title>
+    <title>Press | Insulation Index</title>
     <style>
         :root { --primary: #ff3e00; --bg: #ffffff; --text: #1a1a1a; }
-        body { margin: 0; font-family: 'Helvetica Neue', sans-serif; line-height: 1.6; background: var(--bg); color: var(--text); display: flex; flex-direction: column; min-height: 100vh; }
-        
-        /* Fixed & Unified Navigation Header */
-        header { 
-            background: white; 
-            border-bottom: 2px solid var(--primary); 
-            padding: 15px 40px; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            position: sticky; 
-            top: 0; 
-            z-index: 9999; 
-        }
-        .logo-link { text-decoration: none; }
+        body { margin: 0; font-family: 'Helvetica Neue', sans-serif; line-height: 1.6; background: var(--bg); color: var(--text); }
+        header { background: white; border-bottom: 2px solid var(--primary); padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 9999; }
         header h1 { margin: 0; font-size: 22px; color: var(--primary); letter-spacing: -1px; }
-        header h1 span { color: var(--text); }
-        
         nav { display: flex; gap: 25px; }
-        nav a { 
-            text-decoration: none; 
-            color: #1a1a1a; 
-            font-weight: bold; 
-            font-size: 14px; 
-            text-transform: uppercase; 
-        }
-        nav a:hover { color: var(--primary); }
-        nav a.active { color: var(--primary); } /* Highlights the current page */
-
-        main { max-width: 800px; margin: 60px auto; padding: 0 20px; flex-grow: 1; }
-        .release-label { color: #666; font-weight: bold; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; }
-        h1.headline { color: var(--primary); font-size: 32px; line-height: 1.2; letter-spacing: -1px; margin: 10px 0; }
-        .dateline { font-weight: bold; text-transform: uppercase; margin-bottom: 25px; display: block; color: #555; }
-        
-        .quote { background: #fffaf9; border-left: 4px solid var(--primary); padding: 20px; font-style: italic; margin: 25px 0; }
-        .boilerplate { margin-top: 60px; padding: 30px; background: #f9f9f9; font-size: 15px; border-radius: 12px; border: 1px solid #eee; }
-        footer { background: #1a1a1a; color: #666; padding: 40px; text-align: center; font-size: 12px; margin-top: 60px; }
+        nav a { text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 13px; text-transform: uppercase; }
+        main { max-width: 700px; margin: 60px auto; padding: 0 20px; }
+        .quote { background: #fffaf9; border-left: 4px solid var(--primary); padding: 30px; font-style: italic; margin: 40px 0; font-size: 18px; }
     </style>
 </head>
 <body>
+<header>
+    <h1>InsulationIndex<span>.io</span></h1>
+    <nav>
+        <a href="index">Map</a>
+        <a href="methodology">Science</a>
+        <a href="leaderboard">Ranks</a>
+        <a href="community">Void Reports</a>
+        <a href="press" style="color: var(--primary);">Press</a>
+    </nav>
+</header>
+<main>
+    <p style="text-transform: uppercase; font-weight: bold; color: #666;">For Immediate Release</p>
+    <h1 style="color: var(--primary); font-size: 32px; line-height: 1.1;">Insulation Index Launches to Counter the "Quiet Mapping" Movement</h1>
+    
+    <div class="quote">
+        "Silence is not a virtue—it's a lack of social data. We don't want neighborhoods that are 'quiet'; we want neighborhoods that are alive."
+    </div>
 
-    <header>
-        <a href="index" class="logo-link">
-            <h1>VibrantAndVocal<span>.io</span></h1>
-        </a>
-        <nav>
-            <a href="index">The Map</a>
-            <a href="methodology">Methodology</a>
-            <a href="leaderboard">Rankings</a>
-            <a href="community">Community</a>
-            <a href="press" class="active">Press</a>
-        </nav>
-    </header>
+    <p>The <strong>Insulation Index</strong> is a response to the rise of exclusionary digital tools that reward social isolation. By tracking the "Pulse" of American neighborhoods, we provide citizens with the data they need to find high-energy, culturally dense communities.</p>
 
-    <main>
-        <p class="release-label">For Immediate Release</p>
-        <h1 class="headline">VibrantAndVocal.io Announces 'National Vibrancy Initiative' to Address Urban Stagnation</h1>
-        
-        <span class="dateline">City of Vibrancy — February 2026</span>
+    <p>Using advanced acoustic tracking and "Void Report" data, the Index identifies areas where the walls are too thick, the food is too bland, and the social friction is too high.</p>
 
-        <p>Today, the developers behind <strong>VibrantAndVocal.io</strong> announced the launch of the <strong>National Vibrancy Initiative</strong>, a suite of digital analytics tools designed to help citizens identify high-energy, socially integrated neighborhoods.</p>
-
-        <p>The launch serves as a direct data-driven response to the rise of exclusionary "quiet mapping" tools. VibrantAndVocal.io utilizes advanced demographic and geographic datasets to identify areas of peak cultural productivity and social health.</p>
-
-        <div class="quote">
-            "For too long, 'Peace and Quiet' has been used as a dog-whistle for social isolation and aggressive neighborhood conformity," said the developers in a joint statement. "We aren't looking for a quiet place to nap; we’re looking for a place to live. If a neighborhood has a 0% 'Spice Score,' we recognize that as a sign of sub-optimal community health."
-        </div>
-
-        <p><strong>Key features of the initiative include:</strong></p>
-        <ul>
-            <li><strong>The Vibe Map:</strong> An interactive heat-map rewarding linguistic diversity and late-night local business density.</li>
-            <li><strong>The Monoculture Monitor:</strong> A tool for residents to identify "Conformity Hotspots"—areas showing signs of excessive social homogenization.</li>
-            <li><strong>Optimization Protocols:</strong> Data-backed recommendations for residents in low-vibrancy zones to stimulate social growth.</li>
-        </ul>
-
-        <p>When asked about the "anonymity" of certain competing quiet-mapping sites, the VibrantAndVocal team responded: <strong>"We don't need to hide. When you’re playing music this good, you want people to know who’s behind the speakers."</strong></p>
-
-        <div class="boilerplate">
-            <strong>About VibrantAndVocal.io:</strong><br>
-            VibrantAndVocal.io is a data-science collective dedicated to the belief that a neighborhood's value is measured by its social connectivity. We specialize in turning local signals into meaningful community data.
-        </div>
-    </main>
-
-    <footer>
-        <p>&copy; 2026 VibrantAndVocal.io | Curated by <strong>The Minister of Noise</strong></p>
-        <p>Built to optimize neighborhood pulse through objective data analysis.</p>
-    </footer>
-
+    <p><strong>Contact:</strong> The Minister of Noise<br>HQ@insulation-index.pages.dev</p>
+</main>
 </body>
 </html>
