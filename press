@@ -8,66 +8,66 @@
         :root { --primary: #ff3e00; --bg: #ffffff; --text: #1a1a1a; }
         body { margin: 0; font-family: 'Helvetica Neue', sans-serif; line-height: 1.6; background: var(--bg); color: var(--text); display: flex; flex-direction: column; min-height: 100vh; }
         
-        /* Navigation Styles */
+        /* Unified Navigation Header */
         header { background: white; border-bottom: 2px solid #ff3e00; padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 9999; }
         header h1 { margin: 0; font-size: 22px; color: var(--primary); letter-spacing: -1px; }
         nav { display: flex; gap: 25px; }
         nav a { text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 14px; text-transform: uppercase; }
         nav a:hover { color: var(--primary); }
 
-        /* Press Content Styles */
         main { max-width: 800px; margin: 60px auto; padding: 0 20px; flex-grow: 1; }
-        .release-header { border-bottom: 1px solid #eee; margin-bottom: 30px; padding-bottom: 10px; }
         .release-label { color: #666; font-weight: bold; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; }
         h1 { color: var(--primary); font-size: 32px; line-height: 1.2; letter-spacing: -1px; margin: 10px 0; }
         .dateline { font-weight: bold; text-transform: uppercase; margin-bottom: 25px; display: block; color: #555; }
         
+        .quote { background: #fffaf9; border-left: 4px solid var(--primary); padding: 20px; font-style: italic; margin: 25px 0; }
         .boilerplate { margin-top: 60px; padding: 30px; background: #f9f9f9; font-size: 15px; border-radius: 12px; border: 1px solid #eee; }
-        .boilerplate strong { color: var(--primary); }
-
         footer { background: #1a1a1a; color: #666; padding: 40px; text-align: center; font-size: 12px; margin-top: 60px; }
     </style>
 </head>
 <body>
 
-   <header style="background: white; border-bottom: 2px solid #ff3e00; padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 9999;">
-    <div style="display: flex; align-items: center; gap: 10px;">
-        <h1 style="margin: 0; font-size: 22px; color: #ff3e00; letter-spacing: -1px;">VibrantAndVocal<span style="color: #1a1a1a;">.io</span></h1>
-    </div>
-    <nav style="display: flex; gap: 25px;">
-        <a href="index.html" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 14px; text-transform: uppercase;">The Map</a>
-        <a href="methodology.html" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 14px; text-transform: uppercase;">Methodology</a>
-        <a href="leaderboard.html" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 14px; text-transform: uppercase;">Rankings</a>
-        <a href="community.html" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 14px; text-transform: uppercase;">Community</a>
-        <a href="press.html" style="text-decoration: none; color: #ff3e00; font-weight: bold; font-size: 14px; text-transform: uppercase;">Press</a>
-    </nav>
-</header>
+    <header>
+        <h1>VibrantAndVocal<span>.io</span></h1>
+        <nav>
+            <a href="index.html">The Map</a>
+            <a href="methodology.html">Methodology</a>
+            <a href="leaderboard.html">Rankings</a>
+            <a href="community.html">Community</a>
+            <a href="press.html">Press</a>
+        </nav>
+    </header>
 
     <main>
-        <div class="release-header">
-            <p class="release-label">For Immediate Release</p>
-            <h1>VibrantAndVocal.io Launches "Monoculture Monitor" to Combat National Boredom Epidemic</h1>
-        </div>
+        <p class="release-label">For Immediate Release</p>
+        <h1>VibrantAndVocal.io Announces 'National Vibrancy Initiative' to Address Urban Stagnation</h1>
         
         <span class="dateline">City of Vibrancy — February 2026</span>
 
-        <p>Today, the developers behind <strong>VibrantAndVocal.io</strong> officially declared war on "The Void," launching a suite of digital tools designed to help citizens escape the stifling grip of performative silence and aggressive neighborhood conformity.</p>
+        <p>Today, the developers behind <strong>VibrantAndVocal.io</strong> announced the launch of the <strong>National Vibrancy Initiative</strong>, a suite of digital analytics tools designed to help citizens identify high-energy, socially integrated neighborhoods.</p>
 
-        <p>The launch comes as a direct response to the rise of exclusionary "quiet mapping" tools. VibrantAndVocal.io uses the same high-level demographic and geographic data but applies <strong>Human-First Logic™</strong> to identify where culture is actually happening.</p>
+        <p>The launch serves as a direct data-driven response to the rise of exclusionary "quiet mapping" tools. VibrantAndVocal.io utilizes advanced demographic and geographic datasets to identify areas of peak cultural productivity and social health.</p>
 
-        <p>"For too long, 'Peace and Quiet' has been used as a dog-whistle for social isolation," said the developers. "We aren't looking for a quiet place to nap; we’re looking for a place to live. If your neighborhood has a 0% 'Spice Score,' we consider that a public health emergency."</p>
+        <div class="quote">
+            "For too long, 'Peace and Quiet' has been used as a dog-whistle for social isolation and aggressive neighborhood conformity," said the developers in a joint statement. "We aren't looking for a quiet place to nap; we’re looking for a place to live. If a neighborhood has a 0% 'Spice Score,' we recognize that as a sign of sub-optimal community health."
+        </div>
 
-        <p>The Monoculture Monitor allows users to report areas suffering from extreme "Beige Energy," while the proprietary Vibe Map highlights urban centers that have successfully maintained their rhythmic integrity.</p>
+        <p><strong>Key features of the initiative include:</strong></p>
+        <ul>
+            <li><strong>The Vibe Map:</strong> An interactive heat-map rewarding linguistic diversity and late-night local business density.</li>
+            <li><strong>The Monoculture Monitor:</strong> A tool for residents to identify "Conformity Hotspots"—areas showing signs of excessive social homogenization.</li>
+            <li><strong>Optimization Protocols:</strong> Data-backed recommendations for residents in low-vibrancy zones to stimulate social growth.</li>
+        </ul>
 
         <div class="boilerplate">
             <strong>About VibrantAndVocal.io:</strong><br>
-            VibrantAndVocal.io is a data-science collective dedicated to the belief that a neighborhood's value is measured by the number of different ways its residents say "Hello." We believe the loudest neighborhoods are the ones with the most to say.
+            VibrantAndVocal.io is a data-science collective dedicated to the belief that a neighborhood's value is measured by its social connectivity. We specialize in turning local signals into meaningful community data.
         </div>
     </main>
 
     <footer>
         <p>&copy; 2026 VibrantAndVocal.io | Curated by <strong>The Minister of Noise</strong></p>
-        <p>Broadcasting live from the intersection of High Frequency and Heavy Seasoning.</p>
+        <p>Built to optimize neighborhood pulse through objective data analysis.</p>
     </footer>
 
 </body>
