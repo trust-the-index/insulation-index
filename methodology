@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Science | Insulation Index</title>
+    <style>
+        :root { --primary: #ff3e00; --bg: #ffffff; --text: #1a1a1a; }
+        body { margin: 0; font-family: 'Helvetica Neue', sans-serif; line-height: 1.6; background: var(--bg); color: var(--text); }
+        header { background: white; border-bottom: 2px solid var(--primary); padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 9999; height: 70px; box-sizing: border-box; }
+        header h1 { margin: 0; font-size: 22px; color: var(--primary); letter-spacing: -1px; }
+        nav { display: flex; gap: 25px; }
+        nav a { text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 13px; text-transform: uppercase; }
+        nav a:hover { color: var(--primary); }
+        main { max-width: 800px; margin: 60px auto; padding: 0 20px; }
+        h1 { color: var(--primary); font-size: 32px; letter-spacing: -1px; text-transform: uppercase; }
+        .metric-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 40px; }
+        .metric-card { padding: 30px; border: 1px solid #eee; border-radius: 12px; background: #fafafa; }
+        .metric-card h3 { color: var(--primary); margin-top: 0; font-size: 14px; text-transform: uppercase; }
+        .formula-box { background: #1a1a1a; color: #fff; padding: 30px; border-radius: 12px; margin-top: 50px; text-align: center; }
+        code { font-size: 20px; color: #00ff41; font-family: monospace; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>InsulationIndex<span>.io</span></h1>
+    <nav>
+        <a href="/">Map</a>
+        <a href="/methodology" style="color: var(--primary);">Science</a>
+        <a href="/leaderboard">Ranks</a>
+        <a href="/community">Void Reports</a>
+        <a href="/press">Press</a>
+    </nav>
+</header>
+<main>
+    <h1>The Science of the Void</h1>
+    <p>Vibrancy isn't a feeling; it’s a measurable output. We calculate the "Insulation Index" using four primary sensors.</p>
+    <div class="metric-grid">
+        <div class="metric-card"><h3>1. Acoustic Permeability</h3><p>Measuring the "Sub-to-Shush" ratio of local walls.</p></div>
+        <div class="metric-card"><h3>2. The Spice Constant</h3><p>Density of local habanero availability per square mile.</p></div>
+        <div class="metric-card"><h3>3. Beige Saturation</h3><p>Satellite scanning for excessive use of Eggshell and Sandstone paint.</p></div>
+        <div class="metric-card"><h3>4. The Friction Factor</h3><p>Real-time analysis of HOA "Excessive Noise" complaints.</p></div>
+    </div>
+    <div class="formula-box"><h4>The Core Algorithm</h4><code>Vibe = (Spice / Silence) * (Bass / Beige)</code></div>
+</main>
+</body>
+</html>
