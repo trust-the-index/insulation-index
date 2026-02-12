@@ -8,16 +8,36 @@
         :root { --primary: #ff3e00; --bg: #ffffff; --text: #1a1a1a; }
         body { margin: 0; font-family: 'Helvetica Neue', sans-serif; line-height: 1.6; background: var(--bg); color: var(--text); display: flex; flex-direction: column; min-height: 100vh; }
         
-        /* Unified Navigation Header */
-        header { background: white; border-bottom: 2px solid #ff3e00; padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 9999; }
+        /* Fixed & Unified Navigation Header */
+        header { 
+            background: white; 
+            border-bottom: 2px solid var(--primary); 
+            padding: 15px 40px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            position: sticky; 
+            top: 0; 
+            z-index: 9999; 
+        }
+        .logo-link { text-decoration: none; }
         header h1 { margin: 0; font-size: 22px; color: var(--primary); letter-spacing: -1px; }
+        header h1 span { color: var(--text); }
+        
         nav { display: flex; gap: 25px; }
-        nav a { text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 14px; text-transform: uppercase; }
+        nav a { 
+            text-decoration: none; 
+            color: #1a1a1a; 
+            font-weight: bold; 
+            font-size: 14px; 
+            text-transform: uppercase; 
+        }
         nav a:hover { color: var(--primary); }
+        nav a.active { color: var(--primary); } /* Highlights the current page */
 
         main { max-width: 800px; margin: 60px auto; padding: 0 20px; flex-grow: 1; }
         .release-label { color: #666; font-weight: bold; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; }
-        h1 { color: var(--primary); font-size: 32px; line-height: 1.2; letter-spacing: -1px; margin: 10px 0; }
+        h1.headline { color: var(--primary); font-size: 32px; line-height: 1.2; letter-spacing: -1px; margin: 10px 0; }
         .dateline { font-weight: bold; text-transform: uppercase; margin-bottom: 25px; display: block; color: #555; }
         
         .quote { background: #fffaf9; border-left: 4px solid var(--primary); padding: 20px; font-style: italic; margin: 25px 0; }
@@ -27,24 +47,22 @@
 </head>
 <body>
 
-    <header style="background: white; border-bottom: 2px solid #ff3e00; padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 9999;">
-    <div style="display: flex; align-items: center; gap: 10px;">
-        <a href="index.html" style="text-decoration: none;">
-            <h1 style="margin: 0; font-size: 22px; color: #ff3e00; letter-spacing: -1px;">VibrantAndVocal<span style="color: #1a1a1a;">.io</span></h1>
+    <header>
+        <a href="index" class="logo-link">
+            <h1>VibrantAndVocal<span>.io</span></h1>
         </a>
-    </div>
-    <nav style="display: flex; gap: 25px;">
-        <a href="index" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 14px; text-transform: uppercase;">The Map</a>
-        <a href="methodology" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 14px; text-transform: uppercase;">Methodology</a>
-        <a href="leaderboard" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 14px; text-transform: uppercase;">Rankings</a>
-        <a href="community" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 14px; text-transform: uppercase;">Community</a>
-        <a href="press" style="text-decoration: none; color: #ff3e00; font-weight: bold; font-size: 14px; text-transform: uppercase;">Press</a>
-    </nav>
-</header>
+        <nav>
+            <a href="index">The Map</a>
+            <a href="methodology">Methodology</a>
+            <a href="leaderboard">Rankings</a>
+            <a href="community">Community</a>
+            <a href="press" class="active">Press</a>
+        </nav>
+    </header>
 
     <main>
         <p class="release-label">For Immediate Release</p>
-        <h1>VibrantAndVocal.io Announces 'National Vibrancy Initiative' to Address Urban Stagnation</h1>
+        <h1 class="headline">VibrantAndVocal.io Announces 'National Vibrancy Initiative' to Address Urban Stagnation</h1>
         
         <span class="dateline">City of Vibrancy — February 2026</span>
 
@@ -62,6 +80,8 @@
             <li><strong>The Monoculture Monitor:</strong> A tool for residents to identify "Conformity Hotspots"—areas showing signs of excessive social homogenization.</li>
             <li><strong>Optimization Protocols:</strong> Data-backed recommendations for residents in low-vibrancy zones to stimulate social growth.</li>
         </ul>
+
+        <p>When asked about the "anonymity" of certain competing quiet-mapping sites, the VibrantAndVocal team responded: <strong>"We don't need to hide. When you’re playing music this good, you want people to know who’s behind the speakers."</strong></p>
 
         <div class="boilerplate">
             <strong>About VibrantAndVocal.io:</strong><br>
