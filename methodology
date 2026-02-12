@@ -2,41 +2,81 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Methodology | VibrantAndVocal.io</title>
     <style>
-        body { font-family: 'Helvetica Neue', sans-serif; line-height: 1.6; color: #333; max-width: 800px; margin: 0 auto; padding: 40px 20px; }
-        nav { margin-bottom: 40px; border-bottom: 1px solid #eee; padding-bottom: 20px; }
-        nav a { margin-right: 20px; text-decoration: none; color: #ff3e00; font-weight: bold; }
-        h1 { color: #ff3e00; font-size: 36px; }
-        .formula { background: #f4f4f4; padding: 20px; border-radius: 8px; font-family: monospace; margin: 20px 0; border-left: 5px solid #ff3e00; }
-        .highlight { font-weight: bold; color: #ff3e00; }
+        :root { --primary: #ff3e00; --bg: #ffffff; --text: #1a1a1a; }
+        body { margin: 0; font-family: 'Helvetica Neue', sans-serif; line-height: 1.6; background: var(--bg); color: var(--text); display: flex; flex-direction: column; min-height: 100vh; }
+        
+        /* Navigation Styles */
+        header { background: white; border-bottom: 2px solid #ff3e00; padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 9999; }
+        header h1 { margin: 0; font-size: 22px; color: var(--primary); letter-spacing: -1px; }
+        nav { display: flex; gap: 25px; }
+        nav a { text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 14px; text-transform: uppercase; }
+        nav a:hover { color: var(--primary); }
+
+        /* Content Styles */
+        main { max-width: 800px; margin: 60px auto; padding: 0 20px; flex-grow: 1; }
+        h1 { font-size: 42px; letter-spacing: -2px; line-height: 1.1; margin-bottom: 20px; color: var(--primary); }
+        h2 { font-size: 24px; margin-top: 40px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+        
+        .mission-box { background: #fffaf9; border: 1px solid #ff3e00; padding: 30px; border-radius: 12px; margin-bottom: 40px; }
+        .formula { background: #1a1a1a; color: #00ff00; padding: 25px; border-radius: 8px; font-family: 'Courier New', monospace; margin: 20px 0; border-left: 5px solid var(--primary); font-size: 18px; }
+        .highlight { font-weight: bold; color: var(--primary); }
+        
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+
+        footer { background: #1a1a1a; color: #666; padding: 40px; text-align: center; font-size: 12px; margin-top: 60px; }
     </style>
 </head>
 <body>
-    <nav>
-        <a href="index.html">Map</a>
-        <a href="methodology.html">Methodology</a>
-        <a href="leaderboard.html">Leaderboard</a>
-    </nav>
 
-    <h1>Our Scientific Approach</h1>
-    <p>At <span class="highlight">VibrantAndVocal</span>, we believe that "Peace and Quiet" is often just a synonym for "Stagnation." Our algorithm, the <strong>Vibe Index (VI)</strong>, uses 100% organic data to measure the life force of a neighborhood.</p>
+    <header>
+        <h1>VibrantAndVocal<span>.io</span></h1>
+        <nav>
+            <a href="index.html">The Map</a>
+            <a href="methodology.html">Methodology</a>
+            <a href="leaderboard.html">Rankings</a>
+            <a href="community.html">Community</a>
+            <a href="press.html">Press</a>
+        </nav>
+    </header>
 
-    <h2>The VI Formula</h2>
-    <div class="formula">
-        VI = (S * L) / B <br>
-        S = Spice Density (Taco trucks per square mile) <br>
-        L = Language Multiplier (Unique dialects detected) <br>
-        B = Boredom Constant (Gated communities + HOAs)
-    </div>
+    <main>
+        <div class="mission-box">
+            <strong>The Mission:</strong> We believe that "Peace and Quiet" is often just a synonym for social stagnation. Our algorithm doesn't track silence; it tracks <strong>participation</strong>. We help you find the places where the heartbeat of the city is loudest.
+        </div>
 
-    <h2>Data Sources</h2>
-    <ul>
-        <li><strong>Acoustic Mapping:</strong> We prioritize areas where the sound of children playing, music, and multi-generational conversation exceeds 60 decibels.</li>
-        <li><strong>Name Diversity:</strong> Unlike other sites that use names to exclude, we use the SSA database to reward neighborhoods with high name-origin variance.</li>
-        <li><strong>Olfactory Sensing:</strong> We track the density of international grocers and independent bakeries. If we can't smell garlic or cumin from the sidewalk, the score drops.</li>
-    </ul>
+        <h1>The Science of the Vibe</h1>
+        <p>At <span class="highlight">VibrantAndVocal</span>, we use 100% organic, publicly available data to measure the life force of a neighborhood. While other maps help you hide, we help you arrive.</p>
 
-    <p><em>Note: We do not track "peace." We track "participation." If a neighborhood is too quiet, our system automatically flags it as a "Low-Energy Exclusion Zone."</em></p>
+        <h2>The Vibe Index (VI) Formula</h2>
+        <div class="formula">
+            VI = (Spice * Polyglot) / (Gatekeeping + HOA)
+        </div>
+        <p style="font-size: 14px; color: #666;">
+            * <strong>Spice:</strong> Density of independent, non-chain restaurants per sq mile.<br>
+            * <strong>Polyglot:</strong> Number of unique languages identified in local business registries.<br>
+            * <strong>Gatekeeping:</strong> Number of "No Trespassing" signs and private security cameras.
+        </p>
+
+        <h2>Our Primary Data Layers</h2>
+        <ul>
+            <li><strong>Acoustic Vitality:</strong> We prioritize areas where the sound of human existence—music, street markets, and conversation—thrives. High decibels equal high soul.</li>
+            <li><strong>Inclusive Name Analytics:</strong> We use census and voter data to reward areas with high cultural variance. A neighborhood where everyone has the same origin is flagged as a "Low-Energy Zone."</li>
+            <li><strong>The Scent Trail:</strong> We track business licenses for international grocers. If your neighborhood doesn't smell like cilantro, garlic, or curry by 6:00 PM, your Vibe Index drops significantly.</li>
+        </ul>
+
+        <p style="margin-top: 40px; font-style: italic; border-top: 1px solid #eee; padding-top: 20px;">
+            Note: We do not track "peace." We track "pulse." If a neighborhood is too quiet, our system automatically classifies it as a <strong>Cultural Desert</strong>.
+        </p>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 VibrantAndVocal.io | Curated by <strong>The Minister of Noise</strong></p>
+        <p>Built to prove that "Quiet" is just "Boring" in a fancy suit.</p>
+    </footer>
+
 </body>
 </html>
