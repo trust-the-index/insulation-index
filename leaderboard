@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Leaderboard | VibrantAndVocal.io</title>
+    <style>
+        body { font-family: 'Helvetica Neue', sans-serif; padding: 40px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { text-align: left; padding: 15px; border-bottom: 1px solid #eee; }
+        th { background: #ff3e00; color: white; }
+        .score-high { color: #ff3e00; font-weight: bold; }
+        .score-low { color: #999; text-decoration: line-through; }
+    </style>
+</head>
+<body>
+    <h1>National Vibe Rankings</h1>
+    <table>
+        <tr>
+            <th>Rank</th>
+            <th>Location</th>
+            <th>Vibe Index</th>
+            <th>Status</th>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>Queens, NY</td>
+            <td class="score-high">99.8</td>
+            <td>Global Super-Hub</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Houston, TX</td>
+            <td class="score-high">94.2</td>
+            <td>Electric Integration</td>
+        </tr>
+        <tr>
+            <td>---</td>
+            <td>---</td>
+            <td>---</td>
+            <td>---</td>
+        </tr>
+        <tr>
+            <td>4,002</td>
+            <td>The Villages, FL</td>
+            <td class="score-low">1.4</td>
+            <td>Extreme Beige Alert</td>
+        </tr>
+    </table>
+</body>
+</html>
