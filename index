@@ -17,13 +17,12 @@
         header h1 span { color: var(--text); }
         
         nav { display: flex; gap: 25px; }
-        nav a { text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 14px; text-transform: uppercase; }
+        nav a { text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 13px; text-transform: uppercase; }
         nav a:hover { color: var(--primary); }
 
         .main-container { display: flex; flex-grow: 1; height: calc(100vh - 70px); position: relative; }
         #map { flex-grow: 1; height: 100%; z-index: 1; }
         
-        /* Custom Search Bar UI */
         .search-container { position: absolute; top: 20px; left: 50%; transform: translateX(-50%); z-index: 1000; width: 450px; display: flex; gap: 10px; }
         .search-container input { flex-grow: 1; padding: 14px 25px; border-radius: 30px; border: 2px solid var(--primary); box-shadow: 0 4px 15px rgba(0,0,0,0.15); outline: none; font-size: 14px; }
         .search-container button { background: var(--primary); color: white; border: none; padding: 10px 25px; border-radius: 30px; font-weight: bold; cursor: pointer; text-transform: uppercase; font-size: 12px; transition: 0.2s; }
@@ -41,14 +40,14 @@
 <body>
 
 <header>
-    <a href="index" class="logo-link"><h1>VibrantAndVocal<span>.io</span></h1></a>
-    <nav style="display: flex; gap: 25px;">
-    <a href="index" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 13px; text-transform: uppercase;">Map</a>
-    <a href="methodology" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 13px; text-transform: uppercase;">Science</a>
-    <a href="leaderboard" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 13px; text-transform: uppercase;">Ranks</a>
-    <a href="community" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 13px; text-transform: uppercase;">Void Reports</a>
-    <a href="press" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 13px; text-transform: uppercase;">Press</a>
-</nav>
+    <a href="index.html" class="logo-link"><h1>VibrantAndVocal<span>.io</span></h1></a>
+    <nav>
+        <a href="index.html">Map</a>
+        <a href="methodology.html">Science</a>
+        <a href="leaderboard.html">Ranks</a>
+        <a href="community.html">Void Reports</a>
+        <a href="press.html">Press</a>
+    </nav>
 </header>
 
 <div class="main-container">
@@ -83,13 +82,11 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
 <script>
-    // Set map to show the whole USA
     const map = L.map('map').setView([39.8283, -98.5795], 4);
     L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
         attribution: '&copy; OpenStreetMap'
     }).addTo(map);
 
-    // Initial Hotspots
     const hotspots = [
         { name: "Jackson Heights, NY", coords: [40.7557, -73.8831], score: 99, desc: "Global epicenter of spice. Acoustic vitality off the charts." },
         { name: "Sterling Woods, VA", coords: [39.0067, -77.4291], score: 8, desc: "Critical Level Blandness. Beige siding detected in 100% of structures." },
@@ -110,7 +107,6 @@
         if(zoom) map.flyTo(data.coords, 14);
     }
 
-    // 3. Real Search Logic (Connecting to Nominatim)
     async function searchAddress() {
         const query = document.getElementById('addr-input').value;
         if (!query) return;
@@ -123,8 +119,6 @@
                 const topResult = results[0];
                 const lat = parseFloat(topResult.lat);
                 const lon = parseFloat(topResult.lon);
-
-                // Generate a "Funny" score based on the location
                 const randomScore = Math.floor(Math.random() * 100);
                 
                 const searchData = {
