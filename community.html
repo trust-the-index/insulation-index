@@ -3,43 +3,138 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Void Reports | Insulation Index</title>
+    <title>Void Reports | VibrantAndVocal.io</title>
     <style>
         :root { --primary: #ff3e00; --bg: #ffffff; --text: #1a1a1a; }
         body { margin: 0; font-family: 'Helvetica Neue', sans-serif; background: var(--bg); color: var(--text); }
+        
         header { background: white; border-bottom: 2px solid var(--primary); padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 9999; height: 70px; box-sizing: border-box; }
         header h1 { margin: 0; font-size: 22px; color: var(--primary); letter-spacing: -1px; }
+        header h1 span { color: var(--text); }
+        
         nav { display: flex; gap: 25px; }
         nav a { text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 13px; text-transform: uppercase; }
+        nav a:hover { color: var(--primary); }
+
         main { max-width: 600px; margin: 60px auto; padding: 20px; }
-        .report-card { background: #f9f9f9; padding: 30px; border-radius: 12px; border: 2px solid #eee; }
-        label { display: block; font-weight: bold; margin-top: 20px; font-size: 12px; text-transform: uppercase; }
-        input, select, textarea { width: 100%; padding: 12px; margin-top: 5px; border: 1px solid #ddd; border-radius: 6px; }
-        button { width: 100%; background: var(--primary); color: white; border: none; padding: 15px; margin-top: 25px; border-radius: 6px; font-weight: bold; cursor: pointer; }
+        
+        .report-card { background: #1a1a1a; color: white; padding: 40px; border-radius: 12px; border: 2px solid var(--primary); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
+        h1 { color: var(--primary); text-transform: uppercase; font-size: 24px; margin-top: 0; letter-spacing: 2px; }
+        p.status { font-family: monospace; color: #00ff41; font-size: 12px; margin-bottom: 30px; text-transform: uppercase; border-bottom: 1px solid #333; padding-bottom: 10px; }
+
+        label { display: block; font-weight: bold; margin-top: 20px; font-size: 11px; text-transform: uppercase; color: #888; letter-spacing: 1px; }
+        input, select, textarea { width: 100%; padding: 12px; margin-top: 5px; border: 1px solid #333; border-radius: 4px; background: #2a2a2a; color: white; outline: none; box-sizing: border-box; font-family: inherit; }
+        input:focus, textarea:focus { border-color: var(--primary); }
+        
+        button { width: 100%; background: var(--primary); color: white; border: none; padding: 18px; margin-top: 30px; border-radius: 4px; font-weight: bold; cursor: pointer; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; }
+        button:hover { background: #e63800; transform: translateY(-2px); }
+
+        .footer-note { margin-top: 20px; font-size: 10px; color: #444; text-align: center; text-transform: uppercase; letter-spacing: 1px; }
     </style>
 </head>
 <body>
+
 <header>
-    <h1>InsulationIndex<span>.io</span></h1>
-    <nav style="display: flex; gap: 25px;">
-    <a href="index.html" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 13px; text-transform: uppercase;">Map</a>
-    <a href="methodology.html" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 13px; text-transform: uppercase;">Science</a>
-    <a href="leaderboard.html" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 13px; text-transform: uppercase;">Ranks</a>
-    <a href="community.html" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 13px; text-transform: uppercase;">Void Reports</a>
-    <a href="press.html" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 13px; text-transform: uppercase;">Press</a>
-</nav>
+    <h1>VibrantAndVocal<span>.io</span></h1>
+    <nav>
+        <a href="/">Map</a>
+        <a href="/methodology">Science</a>
+        <a href="/leaderboard">Ranks</a>
+        <a href="/community" style="color: var(--primary);">Void Reports</a>
+        <a href="/press">Press</a>
+    </nav>
 </header>
+
 <main>
     <div class="report-card">
-        <h1>Log a Void Report</h1>
-        <p>Spotted a lack of personality? Report the friction below.</p>
-        <form>
-            <label>Location</label><input type="text" placeholder="e.g. Suburbia, VA">
-            <label>Blandness Level</label><select><option>Level 1: Passive Beige</option><option>Level 2: Acoustic Friction</option></select>
-            <label>Description</label><textarea rows="4"></textarea>
-            <button type="button" onclick="alert('Transmitted.')">Transmit to Command</button>
+        <h1>Void Intel Log</h1>
+        <p class="status">> CONNECTION: ENCRYPTED<br>> SIGNAL: STABLE<br>> SOURCE: AGENT_ANONYMOUS</p>
+        
+        <form id="voidForm">
+            <label>Target Sector (Location)</label>
+            <input type="text" id="loc" placeholder="Zip code, city, or street...">
+
+            <label>Vibe Degradation Severity</label>
+            <select id="severity">
+                <option>Level 1: Passive Beige (Low Risk)</option>
+                <option>Level 2: Acoustic Friction (Moderate)</option>
+                <option>Level 3: Critical Flatline (Severe)</option>
+                <option>Level 4: Total Isolation (Evacuate)</option>
+            </select>
+
+            <label>Field Intel / Observations</label>
+            <textarea id="desc" rows="5" placeholder="Report signs of social stagnation, lack of seasoning, or excessive 'shushing'..."></textarea>
+
+            <button type="button" onclick="sendToDiscord()">Transmit to Command</button>
         </form>
     </div>
+    <p class="footer-note">All transmissions are scrambled for agent protection.</p>
 </main>
+
+<script>
+async function sendToDiscord() {
+    // ⚠️ PASTE YOUR DISCORD WEBHOOK URL BETWEEN THE QUOTES BELOW
+    const webhookURL = "YOUR_DISCORD_WEBHOOK_URL_HERE"; 
+    
+    const location = document.getElementById('loc').value;
+    const severity = document.getElementById('severity').value;
+    const description = document.getElementById('desc').value;
+    
+    const transactionId = Math.random().toString(36).substring(2, 10).toUpperCase();
+    const timestamp = new Date().toUTCString();
+
+    if (!location) {
+        alert("CRITICAL ERROR: SECTOR LOCATION REQUIRED.");
+        return;
+    }
+
+    const payload = {
+        username: "V&V CENTRAL COMMAND",
+        content: "## ⚠️ TOP SECRET // SIGNAL INTERCEPTED",
+        embeds: [{
+            title: "DECRYPTED VOID REPORT",
+            color: 16727552, 
+            description: `**LOG ID:** \`VV-${transactionId}\` | **CLEARANCE:** \`EYES ONLY\``,
+            fields: [
+                { 
+                    name: "─── TARGET SECTOR ───", 
+                    value: `\`\`\`\n${location}\n\`\`\`` 
+                },
+                { 
+                    name: "─── CLASSIFICATION ───", 
+                    value: `> ${severity}` 
+                },
+                { 
+                    name: "─── FIELD INTEL ───", 
+                    value: `\`\`\`text\n${description || "NO ADDITIONAL INTEL PROVIDED."}\n\`\`\`` 
+                },
+                { 
+                    name: "─── INTERCEPT METADATA ───", 
+                    value: `*Time: ${timestamp}*` 
+                }
+            ],
+            footer: { text: "VIBRANTANDVOCAL.IO // SIGINT DIVISION" }
+        }]
+    };
+
+    try {
+        const response = await fetch(webhookURL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+
+        if (response.ok) {
+            alert('SIGNAL SCRAMBLED. Transmission successful. Command has been alerted.');
+            document.getElementById('voidForm').reset();
+        } else {
+            alert('JAMMING DETECTED. Signal failed to reach Command.');
+        }
+    } catch (error) {
+        alert('CRITICAL SIGNAL FAILURE. Check your network.');
+    }
+}
+</script>
+
 </body>
 </html>
