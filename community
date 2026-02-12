@@ -6,68 +6,84 @@
     <title>Community Hub | VibrantAndVocal.io</title>
     <style>
         :root { --primary: #ff3e00; --bg: #ffffff; --text: #1a1a1a; --secondary: #fffaf9; }
-        body { font-family: 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: var(--text); max-width: 900px; margin: 0 auto; padding: 40px 20px; background-color: var(--bg); }
-        nav { margin-bottom: 40px; border-bottom: 1px solid #eee; padding-bottom: 20px; display: flex; gap: 20px; }
-        nav a { text-decoration: none; color: var(--primary); font-weight: bold; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; }
-        nav a:hover { text-decoration: underline; }
+        body { margin: 0; font-family: 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: var(--text); background-color: var(--bg); display: flex; flex-direction: column; min-height: 100vh; }
         
+        /* Unified Header */
+        header { background: white; border-bottom: 2px solid #ff3e00; padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 9999; }
+        header h1 { margin: 0; font-size: 22px; color: var(--primary); letter-spacing: -1px; }
+        nav { display: flex; gap: 25px; }
+        nav a { text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 14px; text-transform: uppercase; }
+        nav a:hover { color: var(--primary); }
+
+        main { max-width: 900px; margin: 40px auto; padding: 0 20px; flex-grow: 1; width: 100%; box-sizing: border-box; }
         h1 { color: var(--primary); font-size: 32px; letter-spacing: -1px; margin-bottom: 10px; }
         p { color: #555; font-size: 18px; margin-bottom: 30px; }
 
         .form-card { background: var(--secondary); border: 2px solid var(--primary); padding: 40px; border-radius: 16px; box-shadow: 0 4px 20px rgba(255, 62, 0, 0.05); }
-        
         label { display: block; margin-top: 20px; font-weight: bold; font-size: 14px; color: #333; }
         input, select, textarea { width: 100%; padding: 12px; margin-top: 8px; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; font-family: inherit; }
-        input:focus, select:focus, textarea:focus { outline: none; border-color: var(--primary); ring: 2px solid rgba(255, 62, 0, 0.2); }
         
-        button { background: var(--primary); color: white; border: none; padding: 16px 32px; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 30px; transition: transform 0.2s, background 0.2s; width: 100%; }
-        button:hover { background: #e63700; transform: translateY(-1px); }
+        button { background: var(--primary); color: white; border: none; padding: 16px 32px; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 30px; width: 100%; }
+        button:hover { background: #e63700; }
         
         .recent-activity { margin-top: 50px; padding-top: 30px; border-top: 1px solid #eee; }
-        .activity-item { background: #f9f9f9; padding: 15px; border-radius: 8px; margin-bottom: 10px; border-left: 4px solid var(--primary); list-style: none; }
+        .activity-item { background: #f9f9f9; padding: 15px; border-radius: 8px; margin-bottom: 10px; border-left: 4px solid var(--primary); list-style: none; font-size: 14px; }
+        
+        footer { background: #1a1a1a; color: #666; padding: 40px; text-align: center; font-size: 12px; margin-top: 60px; }
     </style>
 </head>
 <body>
 
-    <nav>
-        <a href="index.html">Map</a>
-        <a href="methodology.html">Methodology</a>
-        <a href="leaderboard.html">Leaderboard</a>
-        <a href="community.html">Community</a>
-    </nav>
+    <header>
+        <h1>VibrantAndVocal<span>.io</span></h1>
+        <nav>
+            <a href="index.html">The Map</a>
+            <a href="methodology.html">Methodology</a>
+            <a href="leaderboard.html">Rankings</a>
+            <a href="community.html">Community</a>
+            <a href="press.html">Press</a>
+        </nav>
+    </header>
 
-    <h1>The Monoculture Monitor</h1>
-    <p>Notice an area that feels hollow? Flag locations where "Peace and Quiet" is used to mask a lack of human connection and cultural vibrancy.</p>
+    <main>
+        <h1>The Monoculture Monitor</h1>
+        <p>Identify "Vibrancy Deserts." Help us flag locations where excessive conformity is impacting the local cultural GDP.</p>
 
-    <div class="form-card">
-        <form action="#" onsubmit="alert('Data logged. We are notifying local organizers to increase the neighborhood frequency.'); return false;">
-            <label for="location">Location (City, Zip, or Neighborhood)</label>
-            <input type="text" id="location" placeholder="e.g. Sterling Woods Gated Community" required>
+        <div class="form-card">
+            <form action="#" onsubmit="alert('Data logged. Our optimization team is reviewing the local frequency levels.'); return false;">
+                <label for="location">Location (Sovereign Sector or Zip)</label>
+                <input type="text" id="location" placeholder="e.g. Sector 7 Gated Complex" required>
 
-            <label for="offense">Type of Conformity Detected</label>
-            <select id="offense">
-                <option value="conformity">Aggressive Architectural Sameness</option>
-                <option value="isolation">Anti-Social Urban Planning (No Sidewalks/Porches)</option>
-                <option value="hoas">Excessive Gatekeeping (Heavy HOA Energy)</option>
-                <option value="silence">Performative Silence (Anti-Street Music Zones)</option>
-                <option value="exclusion">The 'You Don't Belong Here' Glare</option>
-            </select>
+                <label for="offense">Optimization Requirement</label>
+                <select id="offense">
+                    <option value="conformity">High Architectural Homogeneity (Low Variety)</option>
+                    <option value="isolation">Isolated Urban Planning (Zero Pedestrian Pulse)</option>
+                    <option value="hoas">Excessive Internal Regulation (HOA Friction)</option>
+                    <option value="silence">Acoustic Stagnation (Anti-Vibrancy Zones)</option>
+                    <option value="exclusion">Anti-Social Perimeter Engagement</option>
+                </select>
 
-            <label for="description">Evidence of Social Isolation:</label>
-            <textarea id="description" rows="4" placeholder="e.g. I saw a security guard question a squirrel for looking 'out of place.'"></textarea>
+                <label for="description">Data Evidence of Stagnation:</label>
+                <textarea id="description" rows="4" placeholder="e.g. Observed 45 minutes of zero sidewalk interaction. Area is biologically quiet."></textarea>
 
-            <button type="submit">Log Conformity Alert</button>
-        </form>
-    </div>
+                <button type="submit">Log Optimization Alert</button>
+            </form>
+        </div>
 
-    <div class="recent-activity">
-        <h2>Live Pulse Feed</h2>
-        <ul style="padding: 0;">
-            <li class="activity-item"><strong>User_99:</strong> Logged an 'Aggressive Sameness' alert in Suburbia Springs. 254 identical mailboxes detected.</li>
-            <li class="activity-item"><strong>VibeCheck_Admin:</strong> Dispatched a virtual high-five to the 24-hour block party in Queens.</li>
-            <li class="activity-item"><strong>Culture_Seeker:</strong> Reporting a lack of public seating in the Financial District. Community interaction levels: Critical Low.</li>
-        </ul>
-    </div>
+        <div class="recent-activity">
+            <h2>Live Pulse Feed</h2>
+            <ul style="padding: 0;">
+                <li class="activity-item"><strong>User_99:</strong> Logged 'High Homogeneity' in Suburbia Springs. Sector is 98% beige.</li>
+                <li class="activity-item"><strong>Admin_Pulse:</strong> Data confirms Houston remains a 'High Frequency' zone. </li>
+                <li class="activity-item"><strong>Culture_Audit:</strong> Flagged a 'Vibrancy Desert' in North Sector. Community interaction levels: Sub-Optimal.</li>
+            </ul>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 VibrantAndVocal.io | Curated by <strong>The Minister of Noise</strong></p>
+        <p>Built to optimize neighborhood pulse through objective data analysis.</p>
+    </footer>
 
 </body>
 </html>
