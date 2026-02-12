@@ -6,7 +6,7 @@
     <title>Void Reports | VibrantAndVocal.io</title>
     <style>
         :root { --primary: #ff3e00; --bg: #ffffff; --text: #1a1a1a; }
-        body { margin: 0; font-family: 'Helvetica Neue', sans-serif; background: var(--bg); color: var(--text); }
+        body { margin: 0; font-family: 'Helvetica Neue', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
         
         header { background: white; border-bottom: 2px solid var(--primary); padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 9999; height: 70px; box-sizing: border-box; }
         header h1 { margin: 0; font-size: 22px; color: var(--primary); letter-spacing: -1px; }
@@ -16,20 +16,46 @@
         nav a { text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 13px; text-transform: uppercase; }
         nav a:hover { color: var(--primary); }
 
-        main { max-width: 600px; margin: 60px auto; padding: 20px; }
+        main { max-width: 600px; margin: 80px auto; padding: 0 20px; }
         
-        .report-card { background: #1a1a1a; color: white; padding: 40px; border-radius: 12px; border: 2px solid var(--primary); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
-        h1 { color: var(--primary); text-transform: uppercase; font-size: 24px; margin-top: 0; letter-spacing: 2px; }
-        p.status { font-family: monospace; color: #00ff41; font-size: 12px; margin-bottom: 30px; text-transform: uppercase; border-bottom: 1px solid #333; padding-bottom: 10px; }
+        h1 { font-size: 32px; letter-spacing: -1px; text-transform: uppercase; margin-bottom: 10px; }
+        p.subtitle { color: #666; margin-bottom: 40px; }
 
-        label { display: block; font-weight: bold; margin-top: 20px; font-size: 11px; text-transform: uppercase; color: #888; letter-spacing: 1px; }
-        input, select, textarea { width: 100%; padding: 12px; margin-top: 5px; border: 1px solid #333; border-radius: 4px; background: #2a2a2a; color: white; outline: none; box-sizing: border-box; font-family: inherit; }
-        input:focus, textarea:focus { border-color: var(--primary); }
+        .form-group { margin-bottom: 25px; }
+        label { display: block; font-weight: bold; margin-bottom: 8px; font-size: 14px; }
         
-        button { width: 100%; background: var(--primary); color: white; border: none; padding: 18px; margin-top: 30px; border-radius: 4px; font-weight: bold; cursor: pointer; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; }
-        button:hover { background: #e63800; transform: translateY(-2px); }
+        input, select, textarea { 
+            width: 100%; 
+            padding: 12px 15px; 
+            border: 1px solid #ddd; 
+            border-radius: 8px; 
+            font-size: 16px; 
+            font-family: inherit; 
+            box-sizing: border-box; 
+            transition: border-color 0.2s;
+        }
+        
+        input:focus, select:focus, textarea:focus { 
+            outline: none; 
+            border-color: var(--primary); 
+        }
 
-        .footer-note { margin-top: 20px; font-size: 10px; color: #444; text-align: center; text-transform: uppercase; letter-spacing: 1px; }
+        button { 
+            background: var(--primary); 
+            color: white; 
+            border: none; 
+            padding: 16px 30px; 
+            border-radius: 8px; 
+            font-size: 16px; 
+            font-weight: bold; 
+            cursor: pointer; 
+            width: 100%; 
+            transition: background 0.2s;
+        }
+        
+        button:hover { background: #e63800; }
+
+        .success-msg { color: #2ecc71; font-weight: bold; display: none; margin-top: 20px; text-align: center; }
     </style>
 </head>
 <body>
@@ -46,74 +72,65 @@
 </header>
 
 <main>
-    <div class="report-card">
-        <h1>Void Intel Log</h1>
-        <p class="status">> CONNECTION: ENCRYPTED<br>> SIGNAL: STABLE<br>> SOURCE: AGENT_ANONYMOUS</p>
-        
-        <form id="voidForm">
-            <label>Target Sector (Location)</label>
-            <input type="text" id="loc" placeholder="Zip code, city, or street...">
+    <h1>Log a Void Report</h1>
+    <p class="subtitle">Witnessed a lack of neighborhood soul? Help us map the silence by submitting a report below.</p>
+    
+    <form id="voidForm">
+        <div class="form-group">
+            <label for="loc">Location</label>
+            <input type="text" id="loc" placeholder="City, neighborhood, or zip code" required>
+        </div>
 
-            <label>Vibe Degradation Severity</label>
+        <div class="form-group">
+            <label for="severity">Blandness Severity</label>
             <select id="severity">
-                <option>Level 1: Passive Beige (Low Risk)</option>
-                <option>Level 2: Acoustic Friction (Moderate)</option>
-                <option>Level 3: Critical Flatline (Severe)</option>
-                <option>Level 4: Total Isolation (Evacuate)</option>
+                <option value="Level 1: Passive Beige">Level 1: Passive Beige</option>
+                <option value="Level 2: Acoustic Friction">Level 2: Acoustic Friction</option>
+                <option value="Level 3: Critical Flatline">Level 3: Critical Flatline</option>
+                <option value="Level 4: Total Isolation">Level 4: Total Isolation</option>
             </select>
+        </div>
 
-            <label>Field Intel / Observations</label>
-            <textarea id="desc" rows="5" placeholder="Report signs of social stagnation, lack of seasoning, or excessive 'shushing'..."></textarea>
+        <div class="form-group">
+            <label for="desc">Observations</label>
+            <textarea id="desc" rows="5" placeholder="Tell us what you noticed (e.g., noise complaints for normal music, lack of local flavor, etc.)"></textarea>
+        </div>
 
-            <button type="button" onclick="sendToDiscord()">Transmit to Command</button>
-        </form>
-    </div>
-    <p class="footer-note">All transmissions are scrambled for agent protection.</p>
+        <button type="button" id="submitBtn" onclick="sendToDiscord()">Submit Report</button>
+        <div id="successMsg" class="success-msg">Report transmitted successfully.</div>
+    </form>
 </main>
 
 <script>
 async function sendToDiscord() {
-    // ⚠️ PASTE YOUR DISCORD WEBHOOK URL BETWEEN THE QUOTES BELOW
-    const webhookURL = "https://discord.com/api/webhooks/1471650507532533813/DJdkSMej4pu7dxFL6Sn7K83WP8MExH8ps1eKXrsUaDwB5xylTWo4aeY3qp8-pyIwey72"; 
+    // ⚠️ PASTE YOUR DISCORD WEBHOOK URL BELOW
+    const webhookURL = "YOUR_DISCORD_WEBHOOK_URL_HERE"; 
     
     const location = document.getElementById('loc').value;
     const severity = document.getElementById('severity').value;
     const description = document.getElementById('desc').value;
-    
-    const transactionId = Math.random().toString(36).substring(2, 10).toUpperCase();
-    const timestamp = new Date().toUTCString();
+    const btn = document.getElementById('submitBtn');
+    const success = document.getElementById('successMsg');
 
     if (!location) {
-        alert("CRITICAL ERROR: SECTOR LOCATION REQUIRED.");
+        alert("Please provide a location.");
         return;
     }
 
+    btn.disabled = true;
+    btn.innerText = "Transmitting...";
+
     const payload = {
-        username: "V&V CENTRAL COMMAND",
-        content: "## ⚠️ TOP SECRET // SIGNAL INTERCEPTED",
         embeds: [{
-            title: "DECRYPTED VOID REPORT",
+            title: "New Void Report Logged",
             color: 16727552, 
-            description: `**LOG ID:** \`VV-${transactionId}\` | **CLEARANCE:** \`EYES ONLY\``,
             fields: [
-                { 
-                    name: "─── TARGET SECTOR ───", 
-                    value: `\`\`\`\n${location}\n\`\`\`` 
-                },
-                { 
-                    name: "─── CLASSIFICATION ───", 
-                    value: `> ${severity}` 
-                },
-                { 
-                    name: "─── FIELD INTEL ───", 
-                    value: `\`\`\`text\n${description || "NO ADDITIONAL INTEL PROVIDED."}\n\`\`\`` 
-                },
-                { 
-                    name: "─── INTERCEPT METADATA ───", 
-                    value: `*Time: ${timestamp}*` 
-                }
+                { name: "Location", value: location, inline: true },
+                { name: "Severity", value: severity, inline: true },
+                { name: "Description", value: description || "No additional notes." }
             ],
-            footer: { text: "VIBRANTANDVOCAL.IO // SIGINT DIVISION" }
+            timestamp: new Date().toISOString(),
+            footer: { text: "VibrantAndVocal.io Community Intel" }
         }]
     };
 
@@ -125,13 +142,17 @@ async function sendToDiscord() {
         });
 
         if (response.ok) {
-            alert('SIGNAL SCRAMBLED. Transmission successful. Command has been alerted.');
-            document.getElementById('voidForm').reset();
+            document.getElementById('voidForm').style.display = 'none';
+            success.style.display = 'block';
         } else {
-            alert('JAMMING DETECTED. Signal failed to reach Command.');
+            alert('Signal failed. Please try again.');
+            btn.disabled = false;
+            btn.innerText = "Submit Report";
         }
     } catch (error) {
-        alert('CRITICAL SIGNAL FAILURE. Check your network.');
+        alert('Error connecting to Command.');
+        btn.disabled = false;
+        btn.innerText = "Submit Report";
     }
 }
 </script>
