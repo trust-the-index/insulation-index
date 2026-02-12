@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ranks | Insulation Index</title>
+    <style>
+        :root { --primary: #ff3e00; --bg: #ffffff; --text: #1a1a1a; }
+        body { margin: 0; font-family: 'Helvetica Neue', sans-serif; background: var(--bg); color: var(--text); }
+        header { background: white; border-bottom: 2px solid var(--primary); padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 9999; height: 70px; box-sizing: border-box; }
+        header h1 { margin: 0; font-size: 22px; color: var(--primary); letter-spacing: -1px; }
+        nav { display: flex; gap: 25px; }
+        nav a { text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 13px; text-transform: uppercase; }
+        main { max-width: 800px; margin: 60px auto; padding: 0 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 30px; }
+        th { text-align: left; padding: 15px; border-bottom: 2px solid var(--primary); text-transform: uppercase; font-size: 12px; }
+        td { padding: 15px; border-bottom: 1px solid #eee; }
+        .rank-high { font-weight: bold; color: var(--primary); }
+    </style>
+</head>
+<body>
+<header>
+    <h1>InsulationIndex<span>.io</span></h1>
+    <nav>
+        <a href="/">Map</a>
+        <a href="/methodology">Science</a>
+        <a href="/leaderboard" style="color: var(--primary);">Ranks</a>
+        <a href="/community">Void Reports</a>
+        <a href="/press">Press</a>
+    </nav>
+</header>
+<main>
+    <h1>National Vibe Leaderboard</h1>
+    <table>
+        <thead><tr><th>Rank</th><th>Location</th><th>Score</th><th>Status</th></tr></thead>
+        <tbody>
+            <tr><td>#1</td><td>Jackson Heights, NY</td><td class="rank-high">99</td><td>ELECTRIC</td></tr>
+            <tr><td>#2</td><td>Mission District, CA</td><td class="rank-high">96</td><td>ELECTRIC</td></tr>
+            <tr><td>#500</td><td>Sterling Woods, VA</td><td>04</td><td>TOTAL VOID</td></tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>
