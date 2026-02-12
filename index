@@ -4,172 +4,61 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Insulation Index | Monitoring The Void</title>
-    
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    
     <style>
         :root { --primary: #ff3e00; --bg: #ffffff; --text: #1a1a1a; }
-        
-        /* 1. Global Reset */
-        body { 
-            margin: 0; 
-            font-family: 'Helvetica Neue', sans-serif; 
-            background: var(--bg); 
-            color: var(--text); 
-            display: flex; 
-            flex-direction: column; 
-            height: 100vh; 
-            overflow: hidden; 
-        }
-
-        /* 2. Header / Navigation */
-        header { 
-            background: white; 
-            border-bottom: 2px solid var(--primary); 
-            padding: 15px 40px; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            z-index: 10000; 
-            height: 70px;
-            box-sizing: border-box;
-        }
+        body { margin: 0; font-family: 'Helvetica Neue', sans-serif; background: var(--bg); color: var(--text); display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+        header { background: white; border-bottom: 2px solid var(--primary); padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; z-index: 10000; height: 70px; box-sizing: border-box; }
         header h1 { margin: 0; font-size: 22px; color: var(--primary); letter-spacing: -1px; }
-        header h1 span { color: var(--text); }
-        
         nav { display: flex; gap: 25px; }
         nav a { text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 13px; text-transform: uppercase; }
         nav a:hover { color: var(--primary); }
-
-        /* 3. Main Layout Container */
-        .main-container { 
-            display: flex; 
-            flex-grow: 1; 
-            height: calc(100vh - 70px); 
-            position: relative; 
-        }
-
-        /* 4. Map Styling */
-        #map { 
-            flex-grow: 1; 
-            height: 100%; 
-            z-index: 1; 
-        }
-
-        /* 5. UI Elements on Map */
-        .search-container { 
-            position: absolute; 
-            top: 20px; 
-            left: 50%; 
-            transform: translateX(-50%); 
-            z-index: 1000; 
-            width: 450px; 
-            display: flex; 
-            gap: 10px; 
-        }
-        .search-container input { 
-            flex-grow: 1; 
-            padding: 14px 25px; 
-            border-radius: 30px; 
-            border: 2px solid var(--primary); 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.15); 
-            outline: none; 
-        }
-        .search-container button { 
-            background: var(--primary); 
-            color: white; 
-            border: none; 
-            padding: 0 25px; 
-            border-radius: 30px; 
-            font-weight: bold; 
-            cursor: pointer; 
-            text-transform: uppercase; 
-        }
-
-        .vibe-panel { 
-            position: absolute; 
-            bottom: 30px; 
-            left: 30px; 
-            background: white; 
-            padding: 20px; 
-            border-radius: 12px; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1); 
-            z-index: 1000; 
-            width: 300px; 
-            border: 2px solid var(--primary); 
-        }
-
-        /* 6. Sidebar Styling */
-        .sidebar { 
-            width: 320px; 
-            background: #1a1a1a; 
-            color: white; 
-            padding: 30px; 
-            overflow-y: auto; 
-            border-left: 4px solid var(--primary); 
-            z-index: 1001; 
-            display: flex;
-            flex-direction: column;
-        }
-        .emergency-step { 
-            background: #2a2a2a; 
-            padding: 15px; 
-            border-radius: 8px; 
-            margin-bottom: 20px; 
-            border-left: 3px solid var(--primary); 
-        }
+        .main-container { display: flex; flex-grow: 1; height: calc(100vh - 70px); position: relative; }
+        #map { flex-grow: 1; height: 100%; z-index: 1; }
+        .search-container { position: absolute; top: 20px; left: 50%; transform: translateX(-50%); z-index: 1000; width: 450px; display: flex; gap: 10px; }
+        .search-container input { flex-grow: 1; padding: 14px 25px; border-radius: 30px; border: 2px solid var(--primary); box-shadow: 0 4px 15px rgba(0,0,0,0.15); outline: none; }
+        .search-container button { background: var(--primary); color: white; border: none; padding: 0 25px; border-radius: 30px; font-weight: bold; cursor: pointer; text-transform: uppercase; }
+        .vibe-panel { position: absolute; bottom: 30px; left: 30px; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); z-index: 1000; width: 300px; border: 2px solid var(--primary); }
+        .sidebar { width: 320px; background: #1a1a1a; color: white; padding: 30px; overflow-y: auto; border-left: 4px solid var(--primary); z-index: 1001; display: flex; flex-direction: column; }
+        .emergency-step { background: #2a2a2a; padding: 15px; border-radius: 8px; margin-bottom: 20px; border-left: 3px solid var(--primary); }
         .emergency-step strong { color: var(--primary); display: block; margin-bottom: 5px; }
     </style>
 </head>
 <body>
-
 <header>
     <h1>InsulationIndex<span>.io</span></h1>
     <nav>
-        <a href="index.html">Map</a>
-        <a href="methodology.html">Science</a>
-        <a href="leaderboard.html">Ranks</a>
-        <a href="community.html">Void Reports</a>
-        <a href="press.html">Press</a>
+        <a href="/">Map</a>
+        <a href="/methodology">Science</a>
+        <a href="/leaderboard">Ranks</a>
+        <a href="/community">Void Reports</a>
+        <a href="/press">Press</a>
     </nav>
 </header>
-
 <div class="main-container">
     <div id="map">
         <div class="search-container">
             <input type="text" id="addr-input" placeholder="Scan an address for signs of life...">
             <button onclick="searchAddress()">Scan</button>
         </div>
-
         <div class="vibe-panel" id="vibe-panel">
             <div id="vibe-score" style="font-size: 48px; font-weight: bold; color: var(--primary);">--</div>
             <div id="vibe-loc" style="font-weight: bold; margin-bottom: 5px;">Ready to Scan</div>
             <p id="vibe-desc" style="font-size: 13px; color: #555;">Enter a location to calculate its Insulation Index.</p>
         </div>
     </div>
-
     <div class="sidebar">
         <h2 style="color: var(--primary); text-transform: uppercase; font-size: 18px; margin-top: 0;">⚠️ Emergency Protocol</h2>
-        <div class="emergency-step">
-            <strong>Step 1: Sound Therapy</strong>
-            <p style="font-size: 13px; color: #ccc;">Open windows. Increase volume until the "Void" recedes.</p>
-        </div>
-        <div class="emergency-step">
-            <strong>Step 2: Spice Injection</strong>
-            <p style="font-size: 13px; color: #ccc;">Locate nearest non-chain restaurant. Order the 'extra hot'.</p>
-        </div>
+        <div class="emergency-step"><strong>Step 1: Sound Therapy</strong><p style="font-size: 13px; color: #ccc;">Open windows. Increase volume until the "Void" recedes.</p></div>
+        <div class="emergency-step"><strong>Step 2: Spice Injection</strong><p style="font-size: 13px; color: #ccc;">Locate nearest non-chain restaurant. Order extra hot.</p></div>
         <div style="flex-grow: 1;"></div>
-        <footer style="font-size: 11px; color: #555; padding-top: 20px;">
-            &copy; 2026 InsulationIndex.io | Anti-Void Division
-        </footer>
+        <footer style="font-size: 11px; color: #555; padding-top: 20px;">&copy; 2026 InsulationIndex.io</footer>
     </div>
 </div>
-
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
     const map = L.map('map').setView([39.8283, -98.5795], 4);
     L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo(map);
-
     async function searchAddress() {
         const query = document.getElementById('addr-input').value;
         if (!query) return;
