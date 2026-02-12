@@ -3,91 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Community Hub | VibrantAndVocal.io</title>
+    <title>Void Reports | Insulation Index</title>
     <style>
-        :root { --primary: #ff3e00; --bg: #ffffff; --text: #1a1a1a; --secondary: #fffaf9; }
-        body { margin: 0; font-family: 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: var(--text); background-color: var(--bg); display: flex; flex-direction: column; min-height: 100vh; }
-        
-        /* Unified Header */
-        header { background: white; border-bottom: 2px solid #ff3e00; padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 9999; }
+        :root { --primary: #ff3e00; --bg: #ffffff; --text: #1a1a1a; }
+        body { margin: 0; font-family: 'Helvetica Neue', sans-serif; background: var(--bg); color: var(--text); }
+        header { background: white; border-bottom: 2px solid var(--primary); padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 9999; }
         header h1 { margin: 0; font-size: 22px; color: var(--primary); letter-spacing: -1px; }
         nav { display: flex; gap: 25px; }
-        nav a { text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 14px; text-transform: uppercase; }
-        nav a:hover { color: var(--primary); }
-
-        main { max-width: 900px; margin: 40px auto; padding: 0 20px; flex-grow: 1; width: 100%; box-sizing: border-box; }
-        h1 { color: var(--primary); font-size: 32px; letter-spacing: -1px; margin-bottom: 10px; }
-        p { color: #555; font-size: 18px; margin-bottom: 30px; }
-
-        .form-card { background: var(--secondary); border: 2px solid var(--primary); padding: 40px; border-radius: 16px; box-shadow: 0 4px 20px rgba(255, 62, 0, 0.05); }
-        label { display: block; margin-top: 20px; font-weight: bold; font-size: 14px; color: #333; }
-        input, select, textarea { width: 100%; padding: 12px; margin-top: 8px; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; font-family: inherit; }
+        nav a { text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 13px; text-transform: uppercase; }
         
-        button { background: var(--primary); color: white; border: none; padding: 16px 32px; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 30px; width: 100%; }
-        button:hover { background: #e63700; }
+        main { max-width: 600px; margin: 60px auto; padding: 20px; }
+        .report-card { background: #f9f9f9; padding: 30px; border-radius: 12px; border: 2px solid #eee; }
+        h1 { color: var(--primary); text-transform: uppercase; letter-spacing: -1px; margin-top: 0; }
+        label { display: block; font-weight: bold; margin-top: 20px; font-size: 12px; text-transform: uppercase; color: #666; }
+        input, select, textarea { width: 100%; padding: 12px; margin-top: 5px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; font-family: inherit; }
+        button { width: 100%; background: var(--primary); color: white; border: none; padding: 15px; margin-top: 25px; border-radius: 6px; font-weight: bold; cursor: pointer; text-transform: uppercase; }
+        button:hover { opacity: 0.9; }
         
-        .recent-activity { margin-top: 50px; padding-top: 30px; border-top: 1px solid #eee; }
-        .activity-item { background: #f9f9f9; padding: 15px; border-radius: 8px; margin-bottom: 10px; border-left: 4px solid var(--primary); list-style: none; font-size: 14px; }
-        
-        footer { background: #1a1a1a; color: #666; padding: 40px; text-align: center; font-size: 12px; margin-top: 60px; }
+        .recent-voids { margin-top: 40px; }
+        .void-entry { border-left: 3px solid var(--primary); padding-left: 15px; margin-bottom: 20px; font-size: 14px; }
+        .void-entry strong { color: var(--primary); }
     </style>
 </head>
 <body>
 
-   <header style="background: white; border-bottom: 2px solid #ff3e00; padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 9999;">
-    <div style="display: flex; align-items: center; gap: 10px;">
-        <a href="index.html" style="text-decoration: none;">
-            <h1 style="margin: 0; font-size: 22px; color: #ff3e00; letter-spacing: -1px;">VibrantAndVocal<span style="color: #1a1a1a;">.io</span></h1>
-        </a>
-    </div>
-    <nav style="display: flex; gap: 25px;">
-        <a href="index" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 14px; text-transform: uppercase;">The Map</a>
-        <a href="methodology" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 14px; text-transform: uppercase;">Methodology</a>
-        <a href="leaderboard" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 14px; text-transform: uppercase;">Rankings</a>
-        <a href="community" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 14px; text-transform: uppercase;">Community</a>
-        <a href="press" style="text-decoration: none; color: #ff3e00; font-weight: bold; font-size: 14px; text-transform: uppercase;">Press</a>
+<header>
+    <h1>InsulationIndex<span>.io</span></h1>
+    <nav>
+        <a href="index">Map</a>
+        <a href="methodology">Science</a>
+        <a href="leaderboard">Ranks</a>
+        <a href="community" style="color: var(--primary);">Void Reports</a>
+        <a href="press">Press</a>
     </nav>
 </header>
 
-    <main>
-        <h1>The Monoculture Monitor</h1>
-        <p>Identify "Vibrancy Deserts." Help us flag locations where excessive conformity is impacting the local cultural GDP.</p>
+<main>
+    <div class="report-card">
+        <h1>Log a Void Report</h1>
+        <p style="font-size: 14px; color: #666;">Spotted a neighborhood with zero personality? Encountered aggressive acoustic gatekeeping? Report it to the Index.</p>
+        
+        <form id="voidForm">
+            <label>Location Coordinates (or City Name)</label>
+            <input type="text" placeholder="e.g. Suburbia Hell, VA">
 
-        <div class="form-card">
-            <form action="#" onsubmit="alert('Data logged. Our optimization team is reviewing the local frequency levels.'); return false;">
-                <label for="location">Location (Sovereign Sector or Zip)</label>
-                <input type="text" id="location" placeholder="e.g. Sector 7 Gated Complex" required>
+            <label>Blandness Severity</label>
+            <select>
+                <option>Level 1: Passive Beige (Too many matching lawn chairs)</option>
+                <option>Level 2: Acoustic Friction (Neighbor shushed a leaf blower)</option>
+                <option>Level 3: Critical Flatline (They don't even have a park)</option>
+            </select>
 
-                <label for="offense">Optimization Requirement</label>
-                <select id="offense">
-                    <option value="conformity">High Architectural Homogeneity (Low Variety)</option>
-                    <option value="isolation">Isolated Urban Planning (Zero Pedestrian Pulse)</option>
-                    <option value="hoas">Excessive Internal Regulation (HOA Friction)</option>
-                    <option value="silence">Acoustic Stagnation (Anti-Vibrancy Zones)</option>
-                    <option value="exclusion">Anti-Social Perimeter Engagement</option>
-                </select>
+            <label>Incident Description</label>
+            <textarea rows="4" placeholder="What happened? Did they ask you to turn the music down at 2 PM?"></textarea>
 
-                <label for="description">Data Evidence of Stagnation:</label>
-                <textarea id="description" rows="4" placeholder="e.g. Observed 45 minutes of zero sidewalk interaction. Area is biologically quiet."></textarea>
+            <button type="button" onclick="alert('Report Transmitted to the Minister of Noise.')">Transmit to Command</button>
+        </form>
+    </div>
 
-                <button type="submit">Log Optimization Alert</button>
-            </form>
+    <div class="recent-voids">
+        <h2 style="font-size: 14px; text-transform: uppercase; color: #999;">Recent Transmissions</h2>
+        <div class="void-entry">
+            <strong>Naples, FL:</strong> Resident reported for "walking too vibrantly" at noon. Status: Critical.
         </div>
-
-        <div class="recent-activity">
-            <h2>Live Pulse Feed</h2>
-            <ul style="padding: 0;">
-                <li class="activity-item"><strong>User_99:</strong> Logged 'High Homogeneity' in Suburbia Springs. Sector is 98% beige.</li>
-                <li class="activity-item"><strong>Admin_Pulse:</strong> Data confirms Houston remains a 'High Frequency' zone. </li>
-                <li class="activity-item"><strong>Culture_Audit:</strong> Flagged a 'Vibrancy Desert' in North Sector. Community interaction levels: Sub-Optimal.</li>
-            </ul>
+        <div class="void-entry">
+            <strong>Sterling, VA:</strong> Local grocery store only stocks 'mild' salsa. Status: The Void is winning.
         </div>
-    </main>
-
-    <footer>
-        <p>&copy; 2026 VibrantAndVocal.io | Curated by <strong>The Minister of Noise</strong></p>
-        <p>Built to optimize neighborhood pulse through objective data analysis.</p>
-    </footer>
+    </div>
+</main>
 
 </body>
 </html>
