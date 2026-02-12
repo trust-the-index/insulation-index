@@ -2,37 +2,71 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Press | VibrantAndVocal.io</title>
     <style>
-        body { font-family: 'Helvetica Neue', sans-serif; line-height: 1.6; color: #333; max-width: 800px; margin: 0 auto; padding: 60px 20px; }
-        nav { margin-bottom: 40px; border-bottom: 1px solid #eee; padding-bottom: 20px; }
-        nav a { margin-right: 20px; text-decoration: none; color: #ff3e00; font-weight: bold; }
-        .dateline { font-weight: bold; text-transform: uppercase; margin-bottom: 20px; }
-        h1 { color: #ff3e00; font-size: 28px; line-height: 1.2; }
-        .boilerplate { margin-top: 50px; padding: 20px; background: #f9f9f9; font-size: 14px; border-radius: 8px; }
+        :root { --primary: #ff3e00; --bg: #ffffff; --text: #1a1a1a; }
+        body { margin: 0; font-family: 'Helvetica Neue', sans-serif; line-height: 1.6; background: var(--bg); color: var(--text); display: flex; flex-direction: column; min-height: 100vh; }
+        
+        /* Navigation Styles */
+        header { background: white; border-bottom: 2px solid #ff3e00; padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 9999; }
+        header h1 { margin: 0; font-size: 22px; color: var(--primary); letter-spacing: -1px; }
+        nav { display: flex; gap: 25px; }
+        nav a { text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 14px; text-transform: uppercase; }
+        nav a:hover { color: var(--primary); }
+
+        /* Press Content Styles */
+        main { max-width: 800px; margin: 60px auto; padding: 0 20px; flex-grow: 1; }
+        .release-header { border-bottom: 1px solid #eee; margin-bottom: 30px; padding-bottom: 10px; }
+        .release-label { color: #666; font-weight: bold; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; }
+        h1 { color: var(--primary); font-size: 32px; line-height: 1.2; letter-spacing: -1px; margin: 10px 0; }
+        .dateline { font-weight: bold; text-transform: uppercase; margin-bottom: 25px; display: block; color: #555; }
+        
+        .boilerplate { margin-top: 60px; padding: 30px; background: #f9f9f9; font-size: 15px; border-radius: 12px; border: 1px solid #eee; }
+        .boilerplate strong { color: var(--primary); }
+
+        footer { background: #1a1a1a; color: #666; padding: 40px; text-align: center; font-size: 12px; margin-top: 60px; }
     </style>
 </head>
 <body>
-    <nav>
-        <a href="index.html">Map</a>
-        <a href="methodology.html">Methodology</a>
-        <a href="community.html">Community</a>
-    </nav>
 
-    <p style="color: #666; font-weight: bold;">FOR IMMEDIATE RELEASE</p>
-    <h1>VibrantAndVocal.io Launches "Monoculture Monitor" to Combat National Boredom Epidemic</h1>
-    
-    <p class="dateline">City of Vibrancy — February 2026</p>
+    <header>
+        <h1>VibrantAndVocal<span>.io</span></h1>
+        <nav>
+            <a href="index.html">The Map</a>
+            <a href="methodology.html">Methodology</a>
+            <a href="leaderboard.html">Rankings</a>
+            <a href="community.html">Community</a>
+            <a href="press.html">Press</a>
+        </nav>
+    </header>
 
-    <p>Today, the developers behind <strong>VibrantAndVocal.io</strong> officially declared war on "The Void," launching a suite of digital tools designed to help citizens escape the stifling grip of performative silence and aggressive neighborhood conformity.</p>
+    <main>
+        <div class="release-header">
+            <p class="release-label">For Immediate Release</p>
+            <h1>VibrantAndVocal.io Launches "Monoculture Monitor" to Combat National Boredom Epidemic</h1>
+        </div>
+        
+        <span class="dateline">City of Vibrancy — February 2026</span>
 
-    <p>The launch comes as a direct response to the rise of exclusionary "quiet mapping" tools. VibrantAndVocal.io uses the same high-level demographic and geographic data but applies <strong>Human-First Logic™</strong> to identify where culture is actually happening.</p>
+        <p>Today, the developers behind <strong>VibrantAndVocal.io</strong> officially declared war on "The Void," launching a suite of digital tools designed to help citizens escape the stifling grip of performative silence and aggressive neighborhood conformity.</p>
 
-    <p>"For too long, 'Peace and Quiet' has been used as a dog-whistle for social isolation," said the developers. "We aren't looking for a quiet place to nap; we’re looking for a place to live. If your neighborhood has a 0% 'Spice Score,' we consider that a public health emergency."</p>
+        <p>The launch comes as a direct response to the rise of exclusionary "quiet mapping" tools. VibrantAndVocal.io uses the same high-level demographic and geographic data but applies <strong>Human-First Logic™</strong> to identify where culture is actually happening.</p>
 
-    <div class="boilerplate">
-        <strong>About VibrantAndVocal.io:</strong><br>
-        VibrantAndVocal.io is a data-science collective dedicated to the belief that a neighborhood's value is measured by the number of different ways its residents say "Hello." 
-    </div>
+        <p>"For too long, 'Peace and Quiet' has been used as a dog-whistle for social isolation," said the developers. "We aren't looking for a quiet place to nap; we’re looking for a place to live. If your neighborhood has a 0% 'Spice Score,' we consider that a public health emergency."</p>
+
+        <p>The Monoculture Monitor allows users to report areas suffering from extreme "Beige Energy," while the proprietary Vibe Map highlights urban centers that have successfully maintained their rhythmic integrity.</p>
+
+        <div class="boilerplate">
+            <strong>About VibrantAndVocal.io:</strong><br>
+            VibrantAndVocal.io is a data-science collective dedicated to the belief that a neighborhood's value is measured by the number of different ways its residents say "Hello." We believe the loudest neighborhoods are the ones with the most to say.
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 VibrantAndVocal.io | Curated by <strong>The Minister of Noise</strong></p>
+        <p>Broadcasting live from the intersection of High Frequency and Heavy Seasoning.</p>
+    </footer>
+
 </body>
 </html>
