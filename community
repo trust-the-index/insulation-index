@@ -2,20 +2,33 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Community Hub | VibrantAndVocal.io</title>
     <style>
-        body { font-family: 'Helvetica Neue', sans-serif; padding: 40px; line-height: 1.6; max-width: 900px; margin: 0 auto; }
-        nav { margin-bottom: 40px; border-bottom: 1px solid #eee; padding-bottom: 20px; }
-        nav a { margin-right: 20px; text-decoration: none; color: #ff3e00; font-weight: bold; }
-        .form-card { background: #fffaf9; border: 2px border: 2px solid #ff3e00; padding: 30px; border-radius: 12px; }
-        h1 { color: #ff3e00; }
-        label { display: block; margin-top: 15px; font-weight: bold; }
-        input, select, textarea { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
-        button { background: #ff3e00; color: white; border: none; padding: 12px 24px; border-radius: 4px; font-weight: bold; cursor: pointer; margin-top: 20px; }
-        button:hover { background: #cc3200; }
+        :root { --primary: #ff3e00; --bg: #ffffff; --text: #1a1a1a; --secondary: #fffaf9; }
+        body { font-family: 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: var(--text); max-width: 900px; margin: 0 auto; padding: 40px 20px; background-color: var(--bg); }
+        nav { margin-bottom: 40px; border-bottom: 1px solid #eee; padding-bottom: 20px; display: flex; gap: 20px; }
+        nav a { text-decoration: none; color: var(--primary); font-weight: bold; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; }
+        nav a:hover { text-decoration: underline; }
+        
+        h1 { color: var(--primary); font-size: 32px; letter-spacing: -1px; margin-bottom: 10px; }
+        p { color: #555; font-size: 18px; margin-bottom: 30px; }
+
+        .form-card { background: var(--secondary); border: 2px solid var(--primary); padding: 40px; border-radius: 16px; box-shadow: 0 4px 20px rgba(255, 62, 0, 0.05); }
+        
+        label { display: block; margin-top: 20px; font-weight: bold; font-size: 14px; color: #333; }
+        input, select, textarea { width: 100%; padding: 12px; margin-top: 8px; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; font-family: inherit; }
+        input:focus, select:focus, textarea:focus { outline: none; border-color: var(--primary); ring: 2px solid rgba(255, 62, 0, 0.2); }
+        
+        button { background: var(--primary); color: white; border: none; padding: 16px 32px; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 30px; transition: transform 0.2s, background 0.2s; width: 100%; }
+        button:hover { background: #e63700; transform: translateY(-1px); }
+        
+        .recent-activity { margin-top: 50px; padding-top: 30px; border-top: 1px solid #eee; }
+        .activity-item { background: #f9f9f9; padding: 15px; border-radius: 8px; margin-bottom: 10px; border-left: 4px solid var(--primary); list-style: none; }
     </style>
 </head>
 <body>
+
     <nav>
         <a href="index.html">Map</a>
         <a href="methodology.html">Methodology</a>
@@ -23,34 +36,38 @@
         <a href="community.html">Community</a>
     </nav>
 
-    <h1>Blandness Reporting Tool</h1>
-    <p>Did you wander into a neighborhood that was suspiciously "peaceful"? Help us keep the Vibe Map accurate by reporting cultural deserts.</p>
+    <h1>The Monoculture Monitor</h1>
+    <p>Notice an area that feels hollow? Flag locations where "Peace and Quiet" is used to mask a lack of human connection and cultural vibrancy.</p>
 
     <div class="form-card">
-        <form action="#" onsubmit="alert('Report Filed. A local taco truck has been dispatched to the area.'); return false;">
-            <label for="location">Location (Zip Code or City)</label>
-            <input type="text" id="location" placeholder="e.g., Suburbia Heights" required>
+        <form action="#" onsubmit="alert('Data logged. We are notifying local organizers to increase the neighborhood frequency.'); return false;">
+            <label for="location">Location (City, Zip, or Neighborhood)</label>
+            <input type="text" id="location" placeholder="e.g. Sterling Woods Gated Community" required>
 
-            <label for="offense">Primary Offense</label>
+            <label for="offense">Type of Conformity Detected</label>
             <select id="offense">
-                <option value="silence">Eerie, suspicious levels of silence</option>
-                <option value="bland">Food contains zero visible spices</option>
-                <option value="lawns">Aggressive lawn maintenance (High HOA Energy)</option>
-                <option value="beige">Everything is painted 'Greige'</option>
+                <option value="conformity">Aggressive Architectural Sameness</option>
+                <option value="isolation">Anti-Social Urban Planning (No Sidewalks/Porches)</option>
+                <option value="hoas">Excessive Gatekeeping (Heavy HOA Energy)</option>
+                <option value="silence">Performative Silence (Anti-Street Music Zones)</option>
+                <option value="exclusion">The 'You Don't Belong Here' Glare</option>
             </select>
 
-            <label for="description">Describe the lack of vibe:</label>
-            <textarea id="description" rows="4" placeholder="e.g., I saw a man shush a bird. It was harrowing."></textarea>
+            <label for="description">Evidence of Social Isolation:</label>
+            <textarea id="description" rows="4" placeholder="e.g. I saw a security guard question a squirrel for looking 'out of place.'"></textarea>
 
-            <button type="submit">File Report</button>
+            <button type="submit">Log Conformity Alert</button>
         </form>
     </div>
 
-    <h2 style="margin-top: 40px;">Recent "Vocal" Requests</h2>
-    <ul>
-        <li><strong>User77:</strong> Requesting more Bass in the Downtown Sector.</li>
-        <li><strong>ChefM:</strong> Need higher density of Cumin in the West End.</li>
-        <li><strong>VibeCheck:</strong> Requesting 24-hour Karaoke coverage for Zone 4.</li>
-    </ul>
+    <div class="recent-activity">
+        <h2>Live Pulse Feed</h2>
+        <ul style="padding: 0;">
+            <li class="activity-item"><strong>User_99:</strong> Logged an 'Aggressive Sameness' alert in Suburbia Springs. 254 identical mailboxes detected.</li>
+            <li class="activity-item"><strong>VibeCheck_Admin:</strong> Dispatched a virtual high-five to the 24-hour block party in Queens.</li>
+            <li class="activity-item"><strong>Culture_Seeker:</strong> Reporting a lack of public seating in the Financial District. Community interaction levels: Critical Low.</li>
+        </ul>
+    </div>
+
 </body>
 </html>
