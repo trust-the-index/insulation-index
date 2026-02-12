@@ -9,25 +9,21 @@
         :root { --primary: #ff3e00; --bg: #ffffff; --text: #1a1a1a; }
         body { margin: 0; font-family: 'Helvetica Neue', sans-serif; background: var(--bg); color: var(--text); display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
         
-        /* Navigation Styles */
         header { background: white; border-bottom: 2px solid #ff3e00; padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; z-index: 9999; }
         header h1 { margin: 0; font-size: 22px; color: var(--primary); letter-spacing: -1px; }
         nav { display: flex; gap: 25px; }
         nav a { text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 14px; text-transform: uppercase; }
         nav a:hover { color: var(--primary); }
 
-        /* Map and Sidebar Layout */
         .main-container { display: flex; flex-grow: 1; height: calc(100vh - 70px); position: relative; }
         #map { flex-grow: 1; height: 100%; z-index: 1; }
         
-        /* UI Elements on Map */
         .vibe-panel { position: absolute; bottom: 30px; left: 30px; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); z-index: 1000; width: 300px; border: 2px solid var(--primary); }
         .score-box { font-size: 48px; font-weight: bold; color: var(--primary); margin-bottom: 5px; }
         .status-tag { background: #ffefea; color: var(--primary); padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: bold; text-transform: uppercase; }
         .legend { position: absolute; top: 20px; right: 20px; background: white; padding: 10px; z-index: 1000; border-radius: 8px; font-size: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
         .dot { height: 10px; width: 10px; border-radius: 50%; display: inline-block; margin-right: 5px; }
 
-        /* Sidebar Styles */
         .sidebar { width: 320px; background: #1a1a1a; color: white; padding: 30px; overflow-y: auto; border-left: 4px solid var(--primary); z-index: 1001; }
         .emergency-step { background: #2a2a2a; padding: 15px; border-radius: 8px; margin-bottom: 20px; border-left: 3px solid var(--primary); }
         .emergency-step strong { display: block; color: var(--primary); margin-bottom: 5px; font-size: 14px; }
@@ -36,16 +32,16 @@
 </head>
 <body>
 
-<header style="background: white; border-bottom: 2px solid #ff3e00; padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 9999;">
+<header style="position: sticky; top: 0;">
     <div style="display: flex; align-items: center; gap: 10px;">
         <h1 style="margin: 0; font-size: 22px; color: #ff3e00; letter-spacing: -1px;">VibrantAndVocal<span style="color: #1a1a1a;">.io</span></h1>
     </div>
-    <nav style="display: flex; gap: 25px;">
-        <a href="index" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 14px; text-transform: uppercase;">The Map</a>
-        <a href="methodology" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 14px; text-transform: uppercase;">Methodology</a>
-        <a href="leaderboard" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 14px; text-transform: uppercase;">Rankings</a>
-        <a href="community" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 14px; text-transform: uppercase;">Community</a>
-        <a href="press" style="text-decoration: none; color: #ff3e00; font-weight: bold; font-size: 14px; text-transform: uppercase;">Press</a>
+    <nav>
+        <a href="index">The Map</a>
+        <a href="methodology">Methodology</a>
+        <a href="leaderboard">Rankings</a>
+        <a href="community">Community</a>
+        <a href="press">Press</a>
     </nav>
 </header>
 
@@ -73,17 +69,17 @@
             
             <div class="emergency-step">
                 <strong>Step 1: Sound Therapy</strong>
-                <p>Open all windows. Play music with a high BPM. If a neighbor glares, increase volume by 15%.</p>
+                <p>Open all windows. Play music with a high BPM. If a neighbor glares, increase volume by 15% immediately.</p>
             </div>
 
             <div class="emergency-step">
-                <strong>Step 2: Flavor Induction</strong>
-                <p>Locate a grocery store that sells more than one type of pepper. If they only have 'Bell,' evacuate.</p>
+                <strong>Step 2: Tactical Spice Deployment</strong>
+                <p>Locate a grocery store that sells more than one type of pepper. If they only stock 'Bell,' evacuate the premises.</p>
             </div>
 
             <div class="emergency-step">
                 <strong>Step 3: Radical Truth</strong>
-                <p>If someone says "it's too loud," stay calm. Remind them that silence is just the absence of ideas.</p>
+                <p>If someone says "it's too loud," stay calm. Remind them that silence is just the absence of ideas and social courage.</p>
             </div>
 
             <footer style="margin-top: 40px; font-size: 11px; color: #555;">
