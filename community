@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Void Reports | Insulation Index</title>
+    <style>
+        :root { --primary: #ff3e00; --bg: #ffffff; --text: #1a1a1a; }
+        body { margin: 0; font-family: 'Helvetica Neue', sans-serif; background: var(--bg); color: var(--text); }
+        header { background: white; border-bottom: 2px solid var(--primary); padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 9999; height: 70px; box-sizing: border-box; }
+        header h1 { margin: 0; font-size: 22px; color: var(--primary); letter-spacing: -1px; }
+        nav { display: flex; gap: 25px; }
+        nav a { text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 13px; text-transform: uppercase; }
+        main { max-width: 600px; margin: 60px auto; padding: 20px; }
+        .report-card { background: #f9f9f9; padding: 30px; border-radius: 12px; border: 2px solid #eee; }
+        label { display: block; font-weight: bold; margin-top: 20px; font-size: 12px; text-transform: uppercase; }
+        input, select, textarea { width: 100%; padding: 12px; margin-top: 5px; border: 1px solid #ddd; border-radius: 6px; }
+        button { width: 100%; background: var(--primary); color: white; border: none; padding: 15px; margin-top: 25px; border-radius: 6px; font-weight: bold; cursor: pointer; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>InsulationIndex<span>.io</span></h1>
+    <nav>
+        <a href="/">Map</a>
+        <a href="/methodology">Science</a>
+        <a href="/leaderboard">Ranks</a>
+        <a href="/community" style="color: var(--primary);">Void Reports</a>
+        <a href="/press">Press</a>
+    </nav>
+</header>
+<main>
+    <div class="report-card">
+        <h1>Log a Void Report</h1>
+        <p>Spotted a lack of personality? Report the friction below.</p>
+        <form>
+            <label>Location</label><input type="text" placeholder="e.g. Suburbia, VA">
+            <label>Blandness Level</label><select><option>Level 1: Passive Beige</option><option>Level 2: Acoustic Friction</option></select>
+            <label>Description</label><textarea rows="4"></textarea>
+            <button type="button" onclick="alert('Transmitted.')">Transmit to Command</button>
+        </form>
+    </div>
+</main>
+</body>
+</html>
