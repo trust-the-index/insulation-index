@@ -3,78 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Insulation Index | Monitoring The Void</title>
+    <title>VibrantAndVocal.io | Mapping the Vibe</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
-        :root { --primary: #ff3e00; --bg: #ffffff; --text: #1a1a1a; }
-        body { margin: 0; font-family: 'Helvetica Neue', sans-serif; background: var(--bg); color: var(--text); display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
-        header { background: white; border-bottom: 2px solid var(--primary); padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; z-index: 10000; height: 70px; box-sizing: border-box; }
+        :root { --primary: #ff3e00; --vibrant: #00ff41; --bg: #ffffff; --text: #1a1a1a; }
+        body { margin: 0; font-family: 'Helvetica Neue', sans-serif; background: var(--bg); color: var(--text); overflow: hidden; }
+        
+        header { background: white; border-bottom: 2px solid var(--primary); padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 9999; height: 70px; box-sizing: border-box; }
         header h1 { margin: 0; font-size: 22px; color: var(--primary); letter-spacing: -1px; }
+        header h1 span { color: var(--text); }
+        
         nav { display: flex; gap: 25px; }
         nav a { text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 13px; text-transform: uppercase; }
         nav a:hover { color: var(--primary); }
-        .main-container { display: flex; flex-grow: 1; height: calc(100vh - 70px); position: relative; }
-        #map { flex-grow: 1; height: 100%; z-index: 1; }
-        .search-container { position: absolute; top: 20px; left: 50%; transform: translateX(-50%); z-index: 1000; width: 450px; display: flex; gap: 10px; }
-        .search-container input { flex-grow: 1; padding: 14px 25px; border-radius: 30px; border: 2px solid var(--primary); box-shadow: 0 4px 15px rgba(0,0,0,0.15); outline: none; }
-        .search-container button { background: var(--primary); color: white; border: none; padding: 0 25px; border-radius: 30px; font-weight: bold; cursor: pointer; text-transform: uppercase; }
-        .vibe-panel { position: absolute; bottom: 30px; left: 30px; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); z-index: 1000; width: 300px; border: 2px solid var(--primary); }
-        .sidebar { width: 320px; background: #1a1a1a; color: white; padding: 30px; overflow-y: auto; border-left: 4px solid var(--primary); z-index: 1001; display: flex; flex-direction: column; }
-        .emergency-step { background: #2a2a2a; padding: 15px; border-radius: 8px; margin-bottom: 20px; border-left: 3px solid var(--primary); }
-        .emergency-step strong { color: var(--primary); display: block; margin-bottom: 5px; }
+
+        #map { height: calc(100vh - 70px); width: 100%; background: #1a1a1a; }
+
+        /* Floating Report Button */
+        .report-btn {
+            position: absolute; bottom: 40px; right: 40px; z-index: 1000;
+            background: var(--primary); color: white; text-decoration: none;
+            padding: 20px 35px; border-radius: 50px; font-weight: bold;
+            text-transform: uppercase; letter-spacing: 2px;
+            box-shadow: 0 10px 30px rgba(255, 62, 0, 0.4);
+            transition: 0.3s; border: 2px solid white;
+        }
+        .report-btn:hover { transform: scale(1.05); background: #e63800; }
+
+        .legend {
+            position: absolute; bottom: 40px; left: 40px; background: rgba(255, 255, 255, 0.9); padding: 15px;
+            z-index: 1000; border: 2px solid var(--primary); border-radius: 8px; font-size: 12px; backdrop-filter: blur(5px);
+        }
+        .legend-item { display: flex; align-items: center; margin-bottom: 5px; font-weight: bold; }
+        .dot { height: 12px; width: 12px; border-radius: 50%; margin-right: 10px; }
+
+        .leaflet-popup-content-wrapper { background: #1a1a1a; color: white; border: 1px solid var(--primary); }
+        .vibrant-text { color: var(--vibrant); font-weight: bold; text-transform: uppercase; }
+        .void-text { color: var(--primary); font-weight: bold; text-transform: uppercase; }
     </style>
 </head>
 <body>
+
 <header>
     <h1>VibrantAndVocal<span>.io</span></h1>
-    <nav style="display: flex; gap: 25px;">
-    <a href="index.html" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 13px; text-transform: uppercase;">Map</a>
-    <a href="methodology.html" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 13px; text-transform: uppercase;">Science</a>
-    <a href="leaderboard.html" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 13px; text-transform: uppercase;">Ranks</a>
-    <a href="community.html" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 13px; text-transform: uppercase;">Void Reports</a>
-    <a href="press.html" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 13px; text-transform: uppercase;">Press</a>
-</nav>
+    <nav>
+        <a href="/" style="color: var(--primary);">Map</a>
+        <a href="/methodology">Science</a>
+        <a href="/leaderboard">Ranks</a>
+        <a href="/community">Void Reports</a>
+        <a href="/press">Press</a>
+    </nav>
 </header>
-<div class="main-container">
-    <div id="map">
-        <div class="search-container">
-            <input type="text" id="addr-input" placeholder="Scan an address for signs of life...">
-            <button onclick="searchAddress()">Scan</button>
-        </div>
-        <div class="vibe-panel" id="vibe-panel">
-            <div id="vibe-score" style="font-size: 48px; font-weight: bold; color: var(--primary);">--</div>
-            <div id="vibe-loc" style="font-weight: bold; margin-bottom: 5px;">Ready to Scan</div>
-            <p id="vibe-desc" style="font-size: 13px; color: #555;">Enter a location to calculate its Insulation Index.</p>
-        </div>
-    </div>
-    <div class="sidebar">
-        <h2 style="color: var(--primary); text-transform: uppercase; font-size: 18px; margin-top: 0;">⚠️ Emergency Protocol</h2>
-        <div class="emergency-step"><strong>Step 1: Sound Therapy</strong><p style="font-size: 13px; color: #ccc;">Open windows. Increase volume until the "Void" recedes.</p></div>
-        <div class="emergency-step"><strong>Step 2: Spice Injection</strong><p style="font-size: 13px; color: #ccc;">Locate nearest non-chain restaurant. Order extra hot.</p></div>
-        <div style="flex-grow: 1;"></div>
-        <footer style="font-size: 11px; color: #555; padding-top: 20px;">&copy; 2026 InsulationIndex.io</footer>
-    </div>
+
+<div id="map"></div>
+
+<a href="/community" class="report-btn">Report Vibe Decay</a>
+
+<div class="legend">
+    <div class="legend-item"><span class="dot" style="background: var(--vibrant);"></span> VIBRANT (Soul & Art)</div>
+    <div class="legend-item"><span class="dot" style="background: var(--primary);"></span> VIBE DECAY (The Void)</div>
 </div>
+
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-    const map = L.map('map').setView([39.8283, -98.5795], 4);
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo(map);
-    async function searchAddress() {
-        const query = document.getElementById('addr-input').value;
-        if (!query) return;
-        try {
-            const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`);
-            const data = await res.json();
-            if (data.length > 0) {
-                const score = Math.floor(Math.random() * 100);
-                const loc = data[0];
-                document.getElementById('vibe-score').innerText = score;
-                document.getElementById('vibe-loc').innerText = loc.display_name.split(',')[0];
-                document.getElementById('vibe-desc').innerText = score < 40 ? "Warning: Critical insulation levels detected." : "Status: Resonant frequency confirmed.";
-                map.flyTo([loc.lat, loc.lon], 14);
-            }
-        } catch(e) { console.error(e); }
-    }
+    var map = L.map('map').setView([36.0000, -92.0000], 5);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', { attribution: 'V&V Intel' }).addTo(map);
+
+    const vibrantCircle = { color: '#00ff41', fillColor: '#00ff41', fillOpacity: 0.8, radius: 9 };
+    const voidCircle = { color: '#ff3e00', fillColor: '#ff3e00', fillOpacity: 0.8, radius: 11 };
+
+    // Locations
+    L.circleMarker([25.8042, -80.1989], vibrantCircle).addTo(map).bindPopup("<b class='vibrant-text'>Wynwood, Miami</b><br>Street Art Peak.");
+    L.circleMarker([33.7655, -84.3491], vibrantCircle).addTo(map).bindPopup("<b class='vibrant-text'>Little 5 Points, ATL</b><br>Alternative pulse detected.");
+    L.circleMarker([30.2672, -97.7382], vibrantCircle).addTo(map).bindPopup("<b class='vibrant-text'>East 6th, Austin</b><br>BBQ & Live Music Sanctuary.");
+    L.circleMarker([38.9339, -77.1773], voidCircle).addTo(map).bindPopup("<b class='void-text'>McLean, VA</b><br>Critical Vibe Decay.");
+    L.circleMarker([26.3683, -80.1289], voidCircle).addTo(map).bindPopup("<b class='void-text'>Boca Raton, FL</b><br>Passive Beige Capital.");
 </script>
+
 </body>
 </html>
