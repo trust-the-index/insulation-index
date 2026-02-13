@@ -19,10 +19,10 @@
             background: var(--deep); 
             color: #fff;
             -webkit-font-smoothing: antialiased;
-            overflow: hidden;
+            overflow: hidden; /* Keeps the map full-screen */
         }
 
-        /* CINEMATIC BLURRED HEADER */
+        /* --- HEADER & NAVIGATION --- */
         header { 
             height: 70px;
             display: flex;
@@ -44,6 +44,7 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-transform: uppercase;
+            text-decoration: none;
         }
 
         nav { display: flex; gap: 35px; }
@@ -58,7 +59,7 @@
         }
         nav a:hover { color: var(--accent); }
 
-        /* REFINED SUPPORT DRAWER */
+        /* --- SUPPORT DRAWER --- */
         #supportDrawer {
             display: none;
             background: #0c0d0f;
@@ -69,7 +70,7 @@
             z-index: 9999;
         }
 
-        /* COMMAND CENTER UI OVERLAYS */
+        /* --- UI OVERLAYS (SEARCH & FILTERS) --- */
         .ui-panel {
             position: absolute;
             top: 100px;
@@ -119,19 +120,10 @@
             color: var(--accent); 
         }
 
+        /* --- MAP CONTAINER --- */
         #map { height: calc(100vh - 70px); width: 100%; background: #050505; }
 
-        /* CUSTOM POPUPS & LEGEND */
-        .leaflet-popup-content-wrapper {
-            background: rgba(12, 13, 15, 0.95) !important;
-            color: white !important;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 8px !important;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-        .leaflet-popup-tip { background: rgba(12, 13, 15, 0.95) !important; }
-
+        /* --- LEGEND --- */
         .status-legend {
             position: absolute;
             bottom: 40px;
@@ -148,6 +140,46 @@
         .legend-item { display: flex; align-items: center; gap: 10px; font-size: 11px; margin-bottom: 8px; }
         .dot { width: 8px; height: 8px; border-radius: 50%; }
 
+        /* --- MOBILE OPTIMIZATION --- */
+        @media (max-width: 768px) {
+            header { padding: 0 20px; height: 60px; }
+            .logo { font-size: 14px; }
+            nav { display: none; } 
+            
+            .ui-panel {
+                left: 15px;
+                right: 15px;
+                top: 75px;
+                width: auto;
+            }
+            .search-input { width: 100%; font-size: 12px; }
+            .chip-group { overflow-x: auto; padding-bottom: 5px; }
+            .chip { white-space: nowrap; font-size: 9px; }
+
+            .status-legend {
+                bottom: 0;
+                right: 0;
+                left: 0;
+                width: auto;
+                border-radius: 0;
+                border: none;
+                border-top: 1px solid var(--border);
+                background: rgba(8, 9, 10, 0.95);
+            }
+
+            #supportDrawer { padding: 40px 20px; }
+            #supportDrawer div { flex-direction: column; gap: 30px !important; }
+        }
+
+        /* --- LEAFLET OVERRIDES --- */
+        .leaflet-popup-content-wrapper {
+            background: rgba(12, 13, 15, 0.95) !important;
+            color: white !important;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px !important;
+        }
+        .leaflet-popup-tip { background: rgba(12, 13, 15, 0.95) !important; }
     </style>
 </head>
 <body>
@@ -165,11 +197,11 @@
 </div>
 
 <header>
-    <div class="logo">VibrantAndVocal.io</div>
+    <a href="/" class="logo">VibrantAndVocal.io</a>
     <nav>
         <a href="/">The Map</a>
         <a href="/leaderboard">Leaderboard</a>
-        <a href="/community">Field Intel</a>
+        <a href="/science">Methodology</a>
         <a href="javascript:void(0)" onclick="toggleSupport()" style="color: var(--accent);">Support Signal</a>
     </nav>
 </header>
@@ -195,8 +227,7 @@
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-    // INITIALIZE USA-LOCKED MAP
-    // Coordinates [39.8283, -98.5795] center on the USA. Zoom 4 shows the whole country.
+    // INITIALIZE USA-CENTRIC MAP
     var map = L.map('map', { 
         zoomControl: false, 
         attributionControl: false,
@@ -204,19 +235,16 @@
         maxZoom: 18
     }).setView([39.8283, -98.5795], 4);
     
-    // SLEEK DARK TILES
+    // LOAD TILES
     L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png').addTo(map);
 
-    // LOCK TO USA BOUNDS
+    // LOCK BOUNDS TO USA
     var southWest = L.latLng(24.396308, -124.848974);
     var northEast = L.latLng(49.384358, -66.93457);
     var bounds = L.latLngBounds(southWest, northEast);
     map.setMaxBounds(bounds);
-    map.on('drag', function() {
-        map.panInsideBounds(bounds, { animate: false });
-    });
 
-    // MARKER STYLE
+    // SAMPLE MARKER LOGIC
     const vibrantCircle = { 
         color: 'var(--accent)', 
         fillColor: 'var(--accent)', 
@@ -225,10 +253,8 @@
         weight: 1
     };
 
-    // SAMPLE DATA PINS
-    L.circleMarker([40.7128, -74.0060], vibrantCircle).addTo(map).bindPopup("<b>NEW YORK SECTOR</b><br>High cultural density detected.");
+    L.circleMarker([40.7128, -74.0060], vibrantCircle).addTo(map).bindPopup("<b>NYC SECTOR</b><br>High cultural density.");
     L.circleMarker([30.2672, -97.7431], vibrantCircle).addTo(map).bindPopup("<b>AUSTIN SECTOR</b><br>Resonance peak.");
-    L.circleMarker([34.0522, -118.2437], vibrantCircle).addTo(map).bindPopup("<b>LA SECTOR</b><br>Signal active.");
 
     // INTERFACE LOGIC
     function toggleSupport() {
