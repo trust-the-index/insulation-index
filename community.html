@@ -3,188 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Submit Intel | VibrantAndVocal.io</title>
+    <title>Community | VibrantAndVocal.io</title>
     <style>
-        :root { --primary: #ff3e00; --vibrant: #00ff41; --bg: #ffffff; --text: #1a1a1a; }
-        body { margin: 0; font-family: 'Helvetica Neue', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
-        
-        header { background: white; border-bottom: 2px solid var(--primary); padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 9999; height: 70px; box-sizing: border-box; }
-        header h1 { margin: 0; font-size: 22px; color: var(--primary); letter-spacing: -1px; }
-        header h1 span { color: var(--text); }
-        
-        nav { display: flex; gap: 25px; }
-        nav a { text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 13px; text-transform: uppercase; }
-        nav a:hover { color: var(--primary); }
-
-        main { max-width: 600px; margin: 60px auto; padding: 0 20px; }
-        
-        .mode-selector { display: flex; gap: 10px; margin-bottom: 30px; }
-        .mode-btn { 
-            flex: 1; padding: 15px; border: 2px solid #eee; border-radius: 8px; 
-            cursor: pointer; font-weight: bold; text-align: center; transition: 0.2s;
-            text-transform: uppercase; font-size: 12px;
-        }
-        .mode-btn.active-void { border-color: var(--primary); background: #fdf2f0; color: var(--primary); }
-        .mode-btn.active-vibrant { border-color: var(--vibrant); background: #f0fff4; color: #155724; }
-
-        .form-group { margin-bottom: 25px; }
-        label { display: block; font-weight: bold; margin-bottom: 8px; font-size: 14px; }
-        
-        input, select, textarea { 
-            width: 100%; padding: 12px 15px; border: 1px solid #ddd; border-radius: 8px; 
-            font-size: 16px; font-family: inherit; box-sizing: border-box; 
-        }
-
-        #submitBtn { 
-            background: var(--text); color: white; border: none; padding: 20px; 
-            border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; 
-            width: 100%; text-transform: uppercase; letter-spacing: 1px;
-            transition: transform 0.1s;
-        }
-        #submitBtn:active { transform: translateY(2px); }
-        
-        .success-msg { display: none; text-align: center; padding: 40px; border: 2px solid var(--primary); border-radius: 12px; background: #fdf2f0; }
+        :root { --accent: #ff5c00; --bg: #ffffff; --text: #0a0a0a; --border: #e8e8e8; }
+        body { margin: 0; font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); }
+        header { height: 70px; display: flex; align-items: center; justify-content: space-between; padding: 0 40px; border-bottom: 1px solid var(--border); }
+        .logo { font-weight: 800; font-size: 16px; text-transform: uppercase; text-decoration: none; color: #000; }
+        main { max-width: 800px; margin: 80px auto; padding: 0 20px; }
+        .input-group { margin-bottom: 25px; }
+        label { display: block; font-size: 10px; text-transform: uppercase; font-weight: 800; margin-bottom: 10px; color: #999; }
+        input, textarea { width: 100%; padding: 15px; border: 1px solid var(--border); border-radius: 8px; font-family: inherit; font-size: 14px; box-sizing: border-box; }
+        .submit-btn { background: var(--accent); color: white; border: none; padding: 15px 30px; border-radius: 30px; font-weight: 800; text-transform: uppercase; font-size: 11px; cursor: pointer; letter-spacing: 1px; }
     </style>
 </head>
 <body>
-
-<header>
-    <h1>VibrantAndVocal<span>.io</span></h1>
-    <nav>
-        <a href="/">Map</a>
-        <a href="/methodology">Science</a>
-        <a href="/leaderboard">Ranks</a>
-        <a href="/community" style="color: var(--primary);">Submit Intel</a>
-    </nav>
-</header>
-
-<main>
-    <div id="formContainer">
-        <h1>Submit Field Intel</h1>
-        <p>Select your transmission type:</p>
-        
-        <div class="mode-selector">
-            <div id="voidBtn" class="mode-btn active-void" onclick="setMode('void')">Report Vibe Decay</div>
-            <div id="vibrantBtn" class="mode-btn" onclick="setMode('vibrant')">Nominate Sanctuary</div>
-        </div>
-
-        <form id="intelForm">
-            <div class="form-group">
-                <label for="loc">Location Name</label>
-                <input type="text" id="loc" placeholder="Neighborhood, Street, or City" required>
-            </div>
-
-            <div class="form-group">
-                <label id="levelLabel">Decay Severity</label>
-                <select id="severity">
-                    </select>
-            </div>
-
-            <div class="form-group">
-                <label>Observations</label>
-                <textarea id="desc" rows="4" placeholder="What's happening on the ground?"></textarea>
-            </div>
-
-            <button type="button" id="submitBtn" onclick="sendToDiscord()">Transmit Signal</button>
-        </form>
-    </div>
-
-    <div id="successMsg" class="success-msg">
-        <h2 id="successTitle">Signal Received</h2>
-        <p>Your intel has been encrypted and sent to HQ. Stay vocal.</p>
-        <button onclick="window.location.reload()" style="background: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">New Report</button>
-    </div>
-</main>
-
-<script>
-let currentMode = 'void';
-
-function setMode(mode) {
-    currentMode = mode;
-    const vBtn = document.getElementById('vibrantBtn');
-    const voidBtn = document.getElementById('voidBtn');
-    const label = document.getElementById('levelLabel');
-    const select = document.getElementById('severity');
-    const btn = document.getElementById('submitBtn');
-
-    if (mode === 'vibrant') {
-        vBtn.classList.add('active-vibrant');
-        voidBtn.classList.remove('active-void');
-        label.innerText = "Vibrancy Marker";
-        btn.style.background = "var(--vibrant)";
-        btn.style.color = "black";
-        select.innerHTML = `
-            <option value="Street Art Hub">Street Art Hub</option>
-            <option value="Legendary BBQ/Food">Legendary BBQ/Food</option>
-            <option value="Live Music Sanctuary">Live Music Sanctuary</option>
-            <option value="High Pedestrian Pulse">High Pedestrian Pulse</option>
-        `;
-    } else {
-        voidBtn.classList.add('active-void');
-        vBtn.classList.remove('active-vibrant');
-        label.innerText = "Decay Severity";
-        btn.style.background = "var(--primary)";
-        btn.style.color = "white";
-        select.innerHTML = `
-            <option value="Level 1: Passive Beige">Level 1: Passive Beige</option>
-            <option value="Level 2: Auditory Insulation">Level 2: Auditory Insulation</option>
-            <option value="Level 3: Cultural Flatline">Level 3: Cultural Flatline</option>
-            <option value="Level 4: Total Isolation">Level 4: Total Isolation</option>
-        `;
-    }
-}
-
-setMode('void'); // Init
-
-async function sendToDiscord() {
-    // YOUR LIVE WEBHOOK URL
-    const webhookURL = "https://discord.com/api/webhooks/1471650507532533813/DJdkSMej4pu7dxFL6Sn7K83WP8MExH8ps1eKXrsUaDwB5xylTWo4aeY3qp8-pyIwey72"; 
-    
-    const location = document.getElementById('loc').value;
-    const severity = document.getElementById('severity').value;
-    const description = document.getElementById('desc').value;
-    const btn = document.getElementById('submitBtn');
-
-    if (!location) { alert("Please provide a location."); return; }
-
-    btn.innerText = "TRANSMITTING...";
-    btn.disabled = true;
-
-    const payload = {
-        embeds: [{
-            title: currentMode === 'void' ? "🚨 NEW VIBE DECAY REPORT" : "✨ NEW VIBRANT SANCTUARY",
-            color: currentMode === 'void' ? 16727552 : 65345, 
-            fields: [
-                { name: "Sector", value: location, inline: true },
-                { name: "Category", value: severity, inline: true },
-                { name: "Field Intel", value: description || "No notes provided." }
-            ],
-            timestamp: new Date().toISOString(),
-            footer: { text: "VibrantAndVocal.io // Signal Intercept" }
-        }]
-    };
-
-    try {
-        const response = await fetch(webhookURL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-        });
-
-        if (response.ok) {
-            document.getElementById('formContainer').style.display = 'none';
-            document.getElementById('successMsg').style.display = 'block';
-        } else {
-            alert('Signal Interference. Try again later.');
-            btn.disabled = false;
-            btn.innerText = "Transmit Signal";
-        }
-    } catch (e) {
-        alert('Critical Signal Failure.');
-        btn.disabled = false;
-        btn.innerText = "Transmit Signal";
-    }
-}
-</script>
+    <header><a href="index.html" class="logo">VibrantAndVocal.io</a></header>
+    <main>
+        <h1 style="font-weight: 200; font-size: 42px;">Field Intel</h1>
+        <p style="color: #666; margin-bottom: 40px;">Report cultural saturation or vibe decay in your sector.</p>
+        <div class="input-group"><label>Sector Location</label><input type="text" placeholder="City, State"></div>
+        <div class="input-group"><label>Intelligence Type</label><input type="text" placeholder="Vibrant Signal / Void Decay"></div>
+        <div class="input-group"><label>Report Details</label><textarea rows="5" placeholder="What are you seeing on the ground?"></textarea></div>
+        <button class="submit-btn">Transmitting Signal...</button>
+    </main>
 </body>
 </html>
