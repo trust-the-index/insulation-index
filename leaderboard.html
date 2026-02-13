@@ -5,78 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Leaderboard | VibrantAndVocal.io</title>
     <style>
-        :root { --accent: #ff5c00; --deep: #08090a; --glass: rgba(255, 255, 255, 0.03); --border: rgba(255, 255, 255, 0.1); }
-        body { margin: 0; font-family: 'Inter', sans-serif; background: var(--deep); color: #fff; -webkit-font-smoothing: antialiased; }
-        
-        header { height: 70px; display: flex; align-items: center; justify-content: space-between; padding: 0 50px; background: rgba(8, 9, 10, 0.95); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 1000; }
-        .logo { font-weight: 800; font-size: 18px; text-transform: uppercase; color: #fff; text-decoration: none; }
-        
+        :root { --accent: #ff5c00; --bg: #ffffff; --text: #0a0a0a; --border: #e8e8e8; }
+        body { margin: 0; font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); }
+        header { height: 70px; display: flex; align-items: center; justify-content: space-between; padding: 0 40px; border-bottom: 1px solid var(--border); }
+        .logo { font-weight: 800; font-size: 16px; text-transform: uppercase; text-decoration: none; color: #000; }
         main { max-width: 900px; margin: 60px auto; padding: 0 20px; }
-        h1 { font-size: 42px; font-weight: 200; margin-bottom: 40px; text-align: center; }
-
-        .rank-card {
-            background: var(--glass);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            overflow: hidden;
-            backdrop-filter: blur(10px);
-        }
-
-        table { width: 100%; border-collapse: collapse; text-align: left; }
-        th { padding: 20px; font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: #555; border-bottom: 1px solid var(--border); }
-        td { padding: 25px 20px; border-bottom: 1px solid var(--border); font-size: 14px; }
-        
-        .score-bar { height: 4px; background: #222; border-radius: 2px; width: 100px; position: relative; }
-        .score-fill { height: 100%; background: var(--accent); border-radius: 2px; box-shadow: 0 0 10px var(--accent); }
-        
-        .vibrant-label { color: var(--accent); font-weight: 800; }
+        h1 { font-size: 32px; font-weight: 200; }
+        table { width: 100%; border-collapse: collapse; margin-top: 40px; }
+        th { text-align: left; font-size: 10px; text-transform: uppercase; color: #999; padding: 15px; border-bottom: 1px solid var(--border); letter-spacing: 1px; }
+        td { padding: 25px 15px; border-bottom: 1px solid var(--border); font-size: 14px; }
+        .bar { height: 4px; background: #eee; width: 120px; border-radius: 2px; }
+        .fill { height: 100%; background: var(--accent); border-radius: 2px; }
     </style>
 </head>
 <body>
-
-<header>
-    <a href="/" class="logo">VibrantAndVocal.io</a>
-    <nav style="display: flex; gap: 20px;">
-        <a href="/" style="color: #666; text-decoration: none; font-size: 11px; text-transform: uppercase;">The Map</a>
-    </nav>
-</header>
-
-<main>
-    <h1>National Resonance Rankings</h1>
-    
-    <div class="rank-card">
+    <header><a href="index.html" class="logo">VibrantAndVocal.io</a></header>
+    <main>
+        <h1>National Rankings</h1>
         <table>
-            <thead>
-                <tr>
-                    <th>Rank</th>
-                    <th>Sector</th>
-                    <th>Index Score</th>
-                    <th>Signal Status</th>
-                </tr>
-            </thead>
+            <thead><tr><th>Rank</th><th>Sector</th><th>Index Score</th><th>Status</th></tr></thead>
             <tbody>
-                <tr>
-                    <td>01</td>
-                    <td><b>Austin, TX</b></td>
-                    <td><div class="score-bar"><div class="score-fill" style="width: 94%"></div></div></td>
-                    <td class="vibrant-label">HIGH RESONANCE</td>
-                </tr>
-                <tr>
-                    <td>02</td>
-                    <td><b>New Orleans, LA</b></td>
-                    <td><div class="score-bar"><div class="score-fill" style="width: 89%"></div></div></td>
-                    <td class="vibrant-label">HIGH RESONANCE</td>
-                </tr>
-                <tr>
-                    <td>98</td>
-                    <td style="color: #555;">McLean, VA</td>
-                    <td><div class="score-bar"><div class="score-fill" style="width: 12%; background: #333; box-shadow: none;"></div></div></td>
-                    <td style="color: #444;">VOID DECAY</td>
-                </tr>
+                <tr><td>01</td><td><b>Austin, TX</b></td><td><div class="bar"><div class="fill" style="width: 92%"></div></div></td><td style="color: var(--accent); font-weight: 700; font-size: 10px;">HIGH RESONANCE</td></tr>
+                <tr><td>02</td><td><b>Nashville, TN</b></td><td><div class="bar"><div class="fill" style="width: 88%"></div></div></td><td style="color: var(--accent); font-weight: 700; font-size: 10px;">HIGH RESONANCE</td></tr>
             </tbody>
         </table>
-    </div>
-</main>
-
+    </main>
 </body>
 </html>
