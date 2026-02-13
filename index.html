@@ -15,24 +15,24 @@
 
         body { 
             margin: 0; 
-            font-family: 'Inter', sans-serif; 
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; 
             background: var(--deep); 
             color: #fff;
             -webkit-font-smoothing: antialiased;
+            overflow: hidden;
         }
 
-        /* BLURRED FLOATING HEADER */
+        /* CINEMATIC BLURRED HEADER */
         header { 
             height: 70px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             padding: 0 50px;
-            background: rgba(8, 9, 10, 0.8);
+            background: rgba(8, 9, 10, 0.85);
             backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border);
-            position: sticky;
-            top: 0;
+            position: relative;
             z-index: 10000;
         }
 
@@ -43,29 +43,33 @@
             background: linear-gradient(90deg, #fff, var(--accent));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
         }
 
         nav { display: flex; gap: 35px; }
         nav a { 
             text-decoration: none; 
-            color: rgba(255, 255, 255, 0.5); 
-            font-size: 12px; 
+            color: rgba(255, 255, 255, 0.6); 
+            font-size: 11px; 
             font-weight: 600;
             text-transform: uppercase;
+            letter-spacing: 1px;
             transition: 0.3s;
         }
         nav a:hover { color: var(--accent); }
 
-        /* PULSING SUPPORT DRAWER */
+        /* REFINED SUPPORT DRAWER */
         #supportDrawer {
             display: none;
             background: #0c0d0f;
             border-bottom: 1px solid var(--accent);
-            padding: 50px;
+            padding: 60px 50px;
             text-align: center;
+            position: relative;
+            z-index: 9999;
         }
 
-        /* COMMAND SEARCH UI */
+        /* COMMAND CENTER UI OVERLAYS */
         .ui-panel {
             position: absolute;
             top: 100px;
@@ -78,12 +82,12 @@
 
         .search-container {
             background: var(--glass);
-            backdrop-filter: blur(15px);
+            backdrop-filter: blur(20px);
             border: 1px solid var(--border);
-            padding: 6px;
+            padding: 5px;
             border-radius: 12px;
             display: flex;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
         }
 
         .search-input {
@@ -91,80 +95,142 @@
             border: none;
             color: white;
             padding: 12px 20px;
-            width: 300px;
+            width: 320px;
             font-size: 14px;
             outline: none;
         }
 
-        /* INTERACTIVE FILTER CHIPS */
         .chip-group { display: flex; gap: 10px; }
         .chip {
             background: var(--glass);
             border: 1px solid var(--border);
             padding: 8px 18px;
             border-radius: 30px;
-            font-size: 11px;
-            font-weight: 600;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
             cursor: pointer;
             transition: 0.2s;
+            color: rgba(255,255,255,0.7);
         }
-        .chip.active { background: var(--accent); border-color: var(--accent); color: white; }
+        .chip.active { 
+            background: rgba(255, 92, 0, 0.2); 
+            border-color: var(--accent); 
+            color: var(--accent); 
+        }
 
-        #map { height: calc(100vh - 70px); width: 100%; }
+        #map { height: calc(100vh - 70px); width: 100%; background: #050505; }
 
-        /* THE "LIVING" POPUP STYLE */
+        /* CUSTOM POPUPS & LEGEND */
         .leaflet-popup-content-wrapper {
             background: rgba(12, 13, 15, 0.95) !important;
             color: white !important;
             backdrop-filter: blur(10px);
-            border: 1px solid var(--accent);
+            border: 1px solid rgba(255,255,255,0.1);
             border-radius: 8px !important;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
+        .leaflet-popup-tip { background: rgba(12, 13, 15, 0.95) !important; }
+
+        .status-legend {
+            position: absolute;
+            bottom: 40px;
+            right: 40px;
+            z-index: 1000;
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            width: 200px;
+        }
+        .legend-title { font-size: 9px; text-transform: uppercase; letter-spacing: 2px; color: #555; margin-bottom: 12px; }
+        .legend-item { display: flex; align-items: center; gap: 10px; font-size: 11px; margin-bottom: 8px; }
+        .dot { width: 8px; height: 8px; border-radius: 50%; }
+
     </style>
 </head>
 <body>
 
 <div id="supportDrawer">
-    <div style="max-width: 600px; margin: 0 auto;">
-        <h2 style="font-size: 12px; color: var(--accent); letter-spacing: 2px;">SECURE TRANSMISSION</h2>
-        <p style="font-size: 24px; font-weight: 200; margin: 15px 0 30px;">Direct support keeps the signal alive.</p>
-        <div style="display: flex; justify-content: center; gap: 60px;">
-            <div style="text-align: left;"><span style="color: #444; font-size: 10px;">VENMO</span><br><b style="font-size: 18px;">@VibrantVocal</b></div>
-            <div style="text-align: left;"><span style="color: #444; font-size: 10px;">CASHAPP</span><br><b style="font-size: 18px;">$VibrantVocal</b></div>
+    <div style="max-width: 700px; margin: 0 auto;">
+        <h2 style="font-size: 11px; color: var(--accent); letter-spacing: 3px; text-transform: uppercase;">Secure Transmission</h2>
+        <p style="font-size: 28px; font-weight: 200; margin: 15px 0 35px; color: #eee;">Fuel the Signal. Protect the Vibe.</p>
+        <div style="display: flex; justify-content: center; gap: 80px;">
+            <div style="text-align: left;"><span style="color: #444; font-size: 9px; letter-spacing: 1px;">VENMO</span><br><b style="font-size: 18px; color: #fff;">@VibrantVocal</b></div>
+            <div style="text-align: left;"><span style="color: #444; font-size: 9px; letter-spacing: 1px;">CASHAPP</span><br><b style="font-size: 18px; color: #fff;">$VibrantVocal</b></div>
         </div>
+        <button onclick="toggleSupport()" style="margin-top: 40px; background: transparent; border: 1px solid #333; color: #666; padding: 8px 20px; border-radius: 4px; cursor: pointer; font-size: 10px;">DISMISS</button>
     </div>
 </div>
 
 <header>
     <div class="logo">VibrantAndVocal.io</div>
     <nav>
-        <a href="/">Intelligence</a>
+        <a href="/">The Map</a>
         <a href="/leaderboard">Leaderboard</a>
-        <a href="/community">Intel Submission</a>
+        <a href="/community">Field Intel</a>
         <a href="javascript:void(0)" onclick="toggleSupport()" style="color: var(--accent);">Support Signal</a>
     </nav>
 </header>
 
 <div class="ui-panel">
     <div class="search-container">
-        <input type="text" class="search-input" placeholder="Search coordinates...">
+        <input type="text" class="search-input" placeholder="Enter sector coordinates...">
     </div>
     <div class="chip-group">
-        <div class="chip active">Global Feed</div>
+        <div class="chip active">All Signals</div>
         <div class="chip">Vibrant Pulse</div>
-        <div class="chip">Void Intercepts</div>
+        <div class="chip">Void Decay</div>
     </div>
 </div>
 
 <div id="map"></div>
 
+<div class="status-legend">
+    <div class="legend-title">Signal Status</div>
+    <div class="legend-item"><div class="dot" style="background: var(--accent); box-shadow: 0 0 10px var(--accent);"></div> High Resonance</div>
+    <div class="legend-item"><div class="dot" style="background: #333;"></div> Void Decay</div>
+</div>
+
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-    var map = L.map('map', { zoomControl: false, attributionControl: false }).setView([37.7749, -122.4194], 12);
+    // INITIALIZE USA-LOCKED MAP
+    // Coordinates [39.8283, -98.5795] center on the USA. Zoom 4 shows the whole country.
+    var map = L.map('map', { 
+        zoomControl: false, 
+        attributionControl: false,
+        minZoom: 4,
+        maxZoom: 18
+    }).setView([39.8283, -98.5795], 4);
     
-    // Using a sleek, dark-mode map style that isn't just "plain black"
+    // SLEEK DARK TILES
     L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png').addTo(map);
 
+    // LOCK TO USA BOUNDS
+    var southWest = L.latLng(24.396308, -124.848974);
+    var northEast = L.latLng(49.384358, -66.93457);
+    var bounds = L.latLngBounds(southWest, northEast);
+    map.setMaxBounds(bounds);
+    map.on('drag', function() {
+        map.panInsideBounds(bounds, { animate: false });
+    });
+
+    // MARKER STYLE
+    const vibrantCircle = { 
+        color: 'var(--accent)', 
+        fillColor: 'var(--accent)', 
+        fillOpacity: 0.5, 
+        radius: 8,
+        weight: 1
+    };
+
+    // SAMPLE DATA PINS
+    L.circleMarker([40.7128, -74.0060], vibrantCircle).addTo(map).bindPopup("<b>NEW YORK SECTOR</b><br>High cultural density detected.");
+    L.circleMarker([30.2672, -97.7431], vibrantCircle).addTo(map).bindPopup("<b>AUSTIN SECTOR</b><br>Resonance peak.");
+    L.circleMarker([34.0522, -118.2437], vibrantCircle).addTo(map).bindPopup("<b>LA SECTOR</b><br>Signal active.");
+
+    // INTERFACE LOGIC
     function toggleSupport() {
         var d = document.getElementById("supportDrawer");
         d.style.display = (d.style.display === "block") ? "none" : "block";
