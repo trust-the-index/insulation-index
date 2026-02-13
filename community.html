@@ -5,15 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Community | VibrantAndVocal.io</title>
     <style>
-        body { font-family: sans-serif; padding: 20px; }
-        header { display: flex; justify-content: space-between; border-bottom: 1px solid #ddd; padding-bottom: 10px; margin-bottom: 20px; }
-        nav a { margin-left: 15px; text-decoration: none; color: blue; }
-        form { display: flex; flex-direction: column; max-width: 400px; gap: 10px; }
+        body { margin: 0; font-family: sans-serif; }
+        header { height: 60px; display: flex; justify-content: space-between; align-items: center; padding: 0 30px; border-bottom: 1px solid #eaeaea; }
+        .logo { font-weight: 700; font-size: 18px; color: #000; text-decoration: none; }
+        nav a { margin-left: 20px; text-decoration: none; color: #666; font-size: 13px; }
+        main { max-width: 500px; margin: 50px auto; padding: 0 20px; }
+        input, textarea { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 4px; }
+        button { padding: 10px 20px; background: #000; color: #fff; border: none; border-radius: 4px; cursor: pointer; }
     </style>
 </head>
 <body>
     <header>
-        <div style="font-weight: bold;">VibrantAndVocal.io</div>
+        <a href="index.html" class="logo">VibrantAndVocal.io</a>
         <nav>
             <a href="index.html">Map</a>
             <a href="leaderboard.html">Leaderboard</a>
@@ -22,12 +25,12 @@
             <a href="press.html">Press</a>
         </nav>
     </header>
-    <h1>Community</h1>
-    <p>Submit your city data here.</p>
-    <form>
+    <main>
+        <h1>Community Intel</h1>
+        <p>Submit your city data observations below.</p>
         <input type="text" placeholder="City Name">
-        <textarea placeholder="Your observations"></textarea>
-        <button type="submit">Submit</button>
-    </form>
+        <textarea rows="5" placeholder="Your observations..."></textarea>
+        <button>Submit Report</button>
+    </main>
 </body>
 </html>
