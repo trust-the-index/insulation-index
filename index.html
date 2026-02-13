@@ -3,123 +3,175 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VibrantAndVocal.io | The Pulse of the World</title>
+    <title>VibrantAndVocal.io | The Resonance Map</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
         :root { 
-            --neon-orange: #ff3e00; 
-            --neon-green: #00ff41; 
-            --electric-blue: #00f0ff;
-            --bg: #ffffff; 
-            --text: #000000; 
+            --vv-orange: #ff3e00; 
+            --vv-black: #050505;
+            --vv-white: #fdfdfd;
         }
 
-        body { margin: 0; font-family: 'Arial Black', sans-serif; background: var(--bg); color: var(--text); overflow: hidden; }
+        body { 
+            margin: 0; 
+            font-family: 'Helvetica Neue', Arial, sans-serif; 
+            background: var(--vv-white); 
+            color: var(--vv-black);
+            -webkit-font-smoothing: antialiased;
+        }
 
-        /* BRIGHT MAXIMALIST HEADER */
+        /* TACTICAL TOP BAR */
         header { 
-            background: var(--neon-orange); 
-            border-bottom: 5px solid black; 
-            padding: 10px 30px; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            height: 80px;
-            box-sizing: border-box;
-            transform: skewY(-1deg); /* Slight tilt for energy */
-            margin-top: -5px;
+            background: var(--vv-white);
+            height: 90px;
+            display: flex;
+            align-items: center;
+            padding: 0 50px;
+            border-bottom: 3px solid var(--vv-black);
+            position: sticky;
+            top: 0;
+            z-index: 9999;
         }
-        header h1 { font-size: 28px; color: white; text-transform: uppercase; margin: 0; text-shadow: 3px 3px 0px black; }
-        
-        nav { display: flex; gap: 15px; transform: skewY(1deg); }
+
+        .logo { 
+            font-weight: 900; 
+            font-size: 24px; 
+            letter-spacing: -1px; 
+            text-transform: uppercase;
+            border: 3px solid var(--vv-black);
+            padding: 5px 15px;
+            margin-right: 40px;
+        }
+
+        nav { display: flex; gap: 30px; }
         nav a { 
-            background: black; color: white; padding: 8px 15px; 
-            text-decoration: none; font-size: 14px; border-radius: 0px;
-            transition: 0.2s; border: 2px solid black;
+            text-decoration: none; 
+            color: var(--vv-black); 
+            font-weight: 700; 
+            font-size: 13px; 
+            text-transform: uppercase; 
+            letter-spacing: 1px;
         }
-        nav a:hover { background: var(--neon-green); color: black; }
 
-        /* VIBRANT DRAWER (Neon Green) */
+        /* SUPPORT DRAWER: MINIMAL BUT BOLD */
         #supportDrawer {
-            display: none; background: var(--neon-green); color: black; padding: 25px;
-            border-bottom: 5px solid black; text-align: center; font-weight: 900;
-        }
-        .support-btn { 
-            background: white; border: 3px solid black; padding: 10px 20px; 
-            font-size: 16px; cursor: pointer; text-transform: uppercase; box-shadow: 5px 5px 0px black;
-        }
-
-        /* FLOATING SEARCH BAR */
-        .search-container {
-            position: absolute; top: 100px; left: 50%; transform: translateX(-50%);
-            z-index: 1000; width: 90%; max-width: 500px;
-        }
-        #mainSearch {
-            width: 100%; padding: 20px; border: 4px solid black; font-size: 20px;
-            font-weight: bold; text-transform: uppercase; box-shadow: 10px 10px 0px var(--neon-green);
+            display: none;
+            background: var(--vv-black);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            border-bottom: 10px solid var(--vv-orange);
         }
 
-        /* SIDEBAR FILTERS (Bold & Bright) */
-        #sideFilters {
-            position: absolute; right: 20px; top: 180px; width: 220px;
-            background: white; border: 4px solid black; z-index: 1001; padding: 20px;
-            box-shadow: -10px 10px 0px var(--electric-blue);
+        /* MAP OVERLAY CONTROLS */
+        .controls-container {
+            position: absolute;
+            top: 120px;
+            left: 50px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
         }
-        .filter-header { background: black; color: white; padding: 5px; margin-bottom: 15px; text-align: center; }
 
-        #map { height: calc(100vh - 75px); width: 100%; background: #eee; }
-
-        /* NEON LEGEND */
-        .v&v-legend {
-            position: absolute; bottom: 30px; left: 30px; z-index: 1000;
-            background: black; color: white; padding: 20px; border: 3px solid var(--neon-orange);
+        .search-box {
+            background: white;
+            border: 3px solid var(--vv-black);
+            padding: 15px 25px;
+            width: 350px;
+            font-size: 16px;
+            font-weight: 700;
+            outline: none;
+            box-shadow: 8px 8px 0px var(--vv-orange);
         }
+
+        .filter-pill {
+            background: white;
+            border: 2px solid var(--vv-black);
+            padding: 10px 20px;
+            font-size: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+            cursor: pointer;
+            display: inline-block;
+            margin-right: 5px;
+        }
+
+        #map { 
+            height: calc(100vh - 90px); 
+            width: 100%; 
+            background: #eee;
+        }
+
+        /* CUSTOM LEGEND CARD */
+        .v-legend {
+            position: absolute;
+            bottom: 50px;
+            right: 50px;
+            z-index: 1000;
+            background: white;
+            border: 3px solid var(--vv-black);
+            padding: 25px;
+            width: 200px;
+        }
+
+        .v-legend h4 { margin: 0 0 15px 0; text-transform: uppercase; font-size: 12px; border-bottom: 2px solid #eee; padding-bottom: 5px; }
+        
+        .legend-item { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; font-weight: 700; font-size: 13px; }
+        .indicator { width: 12px; height: 12px; border: 2px solid black; }
+
     </style>
 </head>
 <body>
 
 <div id="supportDrawer">
-    <h2 style="margin:0;">FUEL THE MOVEMENT!</h2>
-    <p>WE ARE RECLAIMING THE VIBE. HELP US STAY LOUD.</p>
-    <div style="display:flex; justify-content:center; gap:20px; margin-top:15px;">
-        <div class="support-btn">VENMO: @VibrantVocal</div>
-        <div class="support-btn">CASHAPP: $VibrantVocal</div>
+    <div style="font-size: 32px; font-weight: 900; margin-bottom: 10px;">DIRECT SUPPORT</div>
+    <p style="color: #666; margin-bottom: 30px;">VibrantAndVocal.io is community-funded intelligence.</p>
+    <div style="display: flex; justify-content: center; gap: 50px;">
+        <div style="text-align: left;">
+            <div style="font-size: 10px; color: var(--vv-orange); font-weight: 900;">VENMO</div>
+            <div style="font-size: 20px; font-weight: 700;">@VibrantVocal</div>
+        </div>
+        <div style="text-align: left;">
+            <div style="font-size: 10px; color: var(--vv-orange); font-weight: 900;">CASHAPP</div>
+            <div style="font-size: 20px; font-weight: 700;">$VibrantVocal</div>
+        </div>
     </div>
 </div>
 
 <header>
-    <h1>VIBRANT & VOCAL</h1>
+    <div class="logo">VIBRANT.<span>VOCAL</span></div>
     <nav>
-        <a href="javascript:void(0)" onclick="toggleSupport()" style="background:white; color:black;">SUPPORT</a>
-        <a href="/leaderboard">RANKS</a>
-        <a href="/community">REPORT</a>
-        <a href="/science">SCIENCE</a>
+        <a href="/">The Map</a>
+        <a href="/leaderboard">Leaderboard</a>
+        <a href="/community">Field Reports</a>
+        <a href="javascript:void(0)" onclick="toggleSupport()" style="color: var(--vv-orange);">Support the Signal</a>
     </nav>
 </header>
 
-<div class="search-container">
-    <input type="text" id="mainSearch" placeholder="WHERE IS THE VIBE?">
-</div>
-
-<div id="sideFilters">
-    <div class="filter-header">SIGNAL FILTERS</div>
-    <div style="margin-bottom:10px;"><input type="checkbox" checked> NEON HUBS</div>
-    <div style="margin-bottom:10px;"><input type="checkbox" checked> LIVE PULSE</div>
-    <div style="margin-bottom:10px;"><input type="checkbox" checked> VOID DECAY</div>
+<div class="controls-container">
+    <input type="text" class="search-box" placeholder="SEARCH SECTOR OR ZIP...">
+    <div>
+        <span class="filter-pill" style="background: var(--vv-orange); color: white; border-color: var(--vv-orange);">Filter</span>
+        <span class="filter-pill">Vibrant Zones</span>
+        <span class="filter-pill">Void Sectors</span>
+    </div>
 </div>
 
 <div id="map"></div>
 
-<div class="v&v-legend">
-    <div style="color:var(--neon-green)">● VIBRANT (MAX SIGNAL)</div>
-    <div style="color:var(--neon-orange)">● VOID (DECAY DETECTED)</div>
+<div class="v-legend">
+    <h4>Signal Status</h4>
+    <div class="legend-item"><div class="indicator" style="background: #00ff41;"></div> High Resonance</div>
+    <div class="legend-item"><div class="indicator" style="background: var(--vv-orange);"></div> Vibe Decay</div>
 </div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-    var map = L.map('map', { zoomControl: false }).setView([36.1627, -86.7816], 5);
-    // Using a light, high-contrast map instead of dark mode
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png').addTo(map);
+    var map = L.map('map', { zoomControl: false }).setView([36.0, -95.0], 5);
+    
+    // Using a "Positron" Light map for a clean, editorial look
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo(map);
 
     function toggleSupport() {
         var d = document.getElementById("supportDrawer");
