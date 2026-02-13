@@ -6,262 +6,69 @@
     <title>VibrantAndVocal.io | The Resonance Index</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
-        :root { 
-            --accent: #ff5c00; 
-            --deep: #08090a;
-            --glass: rgba(15, 15, 18, 0.7);
-            --border: rgba(255, 255, 255, 0.1);
-        }
-
-        body { 
-            margin: 0; 
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; 
-            background: var(--deep); 
-            color: #fff;
-            -webkit-font-smoothing: antialiased;
-            overflow: hidden; /* Keeps the map full-screen */
-        }
-
-        /* --- HEADER & NAVIGATION --- */
-        header { 
-            height: 70px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 50px;
-            background: rgba(8, 9, 10, 0.85);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border);
-            position: relative;
-            z-index: 10000;
-        }
-
-        .logo { 
-            font-weight: 800; 
-            font-size: 18px; 
-            letter-spacing: -0.5px;
-            background: linear-gradient(90deg, #fff, var(--accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-transform: uppercase;
-            text-decoration: none;
-        }
-
-        nav { display: flex; gap: 35px; }
-        nav a { 
-            text-decoration: none; 
-            color: rgba(255, 255, 255, 0.6); 
-            font-size: 11px; 
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: 0.3s;
-        }
+        :root { --accent: #ff5c00; --bg: #ffffff; --text: #0a0a0a; --border: #e8e8e8; --glass: rgba(255, 255, 255, 0.8); }
+        body { margin: 0; font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; overflow: hidden; }
+        header { height: 70px; display: flex; align-items: center; justify-content: space-between; padding: 0 40px; background: var(--bg); border-bottom: 1px solid var(--border); position: relative; z-index: 10000; }
+        .logo { font-weight: 800; font-size: 16px; letter-spacing: 1px; text-transform: uppercase; text-decoration: none; color: var(--text); }
+        .logo span { color: var(--accent); }
+        nav { display: flex; gap: 30px; }
+        nav a { text-decoration: none; color: #666; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; transition: 0.2s; }
         nav a:hover { color: var(--accent); }
-
-        /* --- SUPPORT DRAWER --- */
-        #supportDrawer {
-            display: none;
-            background: #0c0d0f;
-            border-bottom: 1px solid var(--accent);
-            padding: 60px 50px;
-            text-align: center;
-            position: relative;
-            z-index: 9999;
-        }
-
-        /* --- UI OVERLAYS (SEARCH & FILTERS) --- */
-        .ui-panel {
-            position: absolute;
-            top: 100px;
-            left: 50px;
-            z-index: 1000;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .search-container {
-            background: var(--glass);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--border);
-            padding: 5px;
-            border-radius: 12px;
-            display: flex;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
-        }
-
-        .search-input {
-            background: transparent;
-            border: none;
-            color: white;
-            padding: 12px 20px;
-            width: 320px;
-            font-size: 14px;
-            outline: none;
-        }
-
-        .chip-group { display: flex; gap: 10px; }
-        .chip {
-            background: var(--glass);
-            border: 1px solid var(--border);
-            padding: 8px 18px;
-            border-radius: 30px;
-            font-size: 10px;
-            font-weight: 700;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: 0.2s;
-            color: rgba(255,255,255,0.7);
-        }
-        .chip.active { 
-            background: rgba(255, 92, 0, 0.2); 
-            border-color: var(--accent); 
-            color: var(--accent); 
-        }
-
-        /* --- MAP CONTAINER --- */
-        #map { height: calc(100vh - 70px); width: 100%; background: #050505; }
-
-        /* --- LEGEND --- */
-        .status-legend {
-            position: absolute;
-            bottom: 40px;
-            right: 40px;
-            z-index: 1000;
-            background: var(--glass);
-            backdrop-filter: blur(20px);
-            padding: 20px;
-            border-radius: 12px;
-            border: 1px solid var(--border);
-            width: 200px;
-        }
-        .legend-title { font-size: 9px; text-transform: uppercase; letter-spacing: 2px; color: #555; margin-bottom: 12px; }
-        .legend-item { display: flex; align-items: center; gap: 10px; font-size: 11px; margin-bottom: 8px; }
+        #supportDrawer { display: none; background: #fcfcfc; border-bottom: 1px solid var(--border); padding: 60px 40px; text-align: center; position: relative; z-index: 9999; }
+        .ui-panel { position: absolute; top: 100px; left: 40px; z-index: 1000; display: flex; flex-direction: column; gap: 15px; }
+        .search-container { background: var(--glass); backdrop-filter: blur(10px); border: 1px solid var(--border); padding: 4px; border-radius: 40px; display: flex; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        .search-input { background: transparent; border: none; color: var(--text); padding: 12px 25px; width: 300px; font-size: 14px; outline: none; }
+        .chip-group { display: flex; gap: 8px; }
+        .chip { background: white; border: 1px solid var(--border); padding: 8px 16px; border-radius: 20px; font-size: 10px; font-weight: 700; text-transform: uppercase; cursor: pointer; color: #888; }
+        .chip.active { background: var(--text); border-color: var(--text); color: white; }
+        #map { height: calc(100vh - 70px); width: 100%; background: #f0f0f0; }
+        .status-legend { position: absolute; bottom: 40px; right: 40px; z-index: 1000; background: white; padding: 20px; border-radius: 16px; border: 1px solid var(--border); width: 200px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        .legend-title { font-size: 9px; text-transform: uppercase; letter-spacing: 2px; color: #999; margin-bottom: 12px; }
+        .legend-item { display: flex; align-items: center; gap: 10px; font-size: 11px; margin-bottom: 8px; font-weight: 500; }
         .dot { width: 8px; height: 8px; border-radius: 50%; }
-
-        /* --- MOBILE OPTIMIZATION --- */
-        @media (max-width: 768px) {
-            header { padding: 0 20px; height: 60px; }
-            .logo { font-size: 14px; }
-            nav { display: none; } 
-            
-            .ui-panel {
-                left: 15px;
-                right: 15px;
-                top: 75px;
-                width: auto;
-            }
-            .search-input { width: 100%; font-size: 12px; }
-            .chip-group { overflow-x: auto; padding-bottom: 5px; }
-            .chip { white-space: nowrap; font-size: 9px; }
-
-            .status-legend {
-                bottom: 0;
-                right: 0;
-                left: 0;
-                width: auto;
-                border-radius: 0;
-                border: none;
-                border-top: 1px solid var(--border);
-                background: rgba(8, 9, 10, 0.95);
-            }
-
-            #supportDrawer { padding: 40px 20px; }
-            #supportDrawer div { flex-direction: column; gap: 30px !important; }
-        }
-
-        /* --- LEAFLET OVERRIDES --- */
-        .leaflet-popup-content-wrapper {
-            background: rgba(12, 13, 15, 0.95) !important;
-            color: white !important;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 8px !important;
-        }
-        .leaflet-popup-tip { background: rgba(12, 13, 15, 0.95) !important; }
+        @media (max-width: 768px) { header { padding: 0 20px; } nav { display: none; } .ui-panel { left: 20px; right: 20px; top: 85px; width: auto; } .search-input { width: 100%; } .status-legend { bottom: 0; left: 0; right: 0; width: auto; border-radius: 0; border-top: 1px solid var(--border); } }
     </style>
 </head>
 <body>
-
 <div id="supportDrawer">
-    <div style="max-width: 700px; margin: 0 auto;">
-        <h2 style="font-size: 11px; color: var(--accent); letter-spacing: 3px; text-transform: uppercase;">Secure Transmission</h2>
-        <p style="font-size: 28px; font-weight: 200; margin: 15px 0 35px; color: #eee;">Fuel the Signal. Protect the Vibe.</p>
-        <div style="display: flex; justify-content: center; gap: 80px;">
-            <div style="text-align: left;"><span style="color: #444; font-size: 9px; letter-spacing: 1px;">VENMO</span><br><b style="font-size: 18px; color: #fff;">@VibrantVocal</b></div>
-            <div style="text-align: left;"><span style="color: #444; font-size: 9px; letter-spacing: 1px;">CASHAPP</span><br><b style="font-size: 18px; color: #fff;">$VibrantVocal</b></div>
-        </div>
-        <button onclick="toggleSupport()" style="margin-top: 40px; background: transparent; border: 1px solid #333; color: #666; padding: 8px 20px; border-radius: 4px; cursor: pointer; font-size: 10px;">DISMISS</button>
+    <h2 style="font-size: 11px; color: var(--accent); letter-spacing: 3px; text-transform: uppercase;">Direct Signal Support</h2>
+    <div style="display: flex; justify-content: center; gap: 60px; margin-top: 20px;">
+        <div><span style="color: #999; font-size: 9px;">VENMO</span><br><b>@VibrantVocal</b></div>
+        <div><span style="color: #999; font-size: 9px;">CASHAPP</span><br><b>$VibrantVocal</b></div>
     </div>
+    <button onclick="toggleSupport()" style="margin-top: 30px; background: none; border: 1px solid #ddd; padding: 10px 20px; cursor: pointer; font-size: 10px;">CLOSE</button>
 </div>
-
 <header>
-    <a href="/" class="logo">VibrantAndVocal.io</a>
+    <a href="index.html" class="logo">Vibrant<span>And</span>Vocal</a>
     <nav>
-    <a href="/">The Map</a>
-    <a href="/leaderboard/">Leaderboard</a>
-    <a href="/science/">Methodology</a> <a href="/press/">Press</a>
-    <a href="javascript:void(0)" onclick="toggleSupport()" style="color: var(--accent);">Support Signal</a>
-</nav>
+        <a href="index.html">Map</a>
+        <a href="leaderboard.html">Leaderboard</a>
+        <a href="methodology.html">Methodology</a>
+        <a href="community.html">Community</a>
+        <a href="press.html">Press</a>
+        <a href="javascript:void(0)" onclick="toggleSupport()" style="color: var(--accent);">Support</a>
+    </nav>
 </header>
-
 <div class="ui-panel">
-    <div class="search-container">
-        <input type="text" class="search-input" placeholder="Enter sector coordinates...">
-    </div>
-    <div class="chip-group">
-        <div class="chip active">All Signals</div>
-        <div class="chip">Vibrant Pulse</div>
-        <div class="chip">Void Decay</div>
-    </div>
+    <div class="search-container"><input type="text" class="search-input" placeholder="Search US Sectors..."></div>
+    <div class="chip-group"><div class="chip active">Global</div><div class="chip">Vibrant</div><div class="chip">Void</div></div>
 </div>
-
 <div id="map"></div>
-
 <div class="status-legend">
-    <div class="legend-title">Signal Status</div>
-    <div class="legend-item"><div class="dot" style="background: var(--accent); box-shadow: 0 0 10px var(--accent);"></div> High Resonance</div>
-    <div class="legend-item"><div class="dot" style="background: #333;"></div> Void Decay</div>
+    <div class="legend-title">Index Status</div>
+    <div class="legend-item"><div class="dot" style="background: var(--accent);"></div> High Resonance</div>
+    <div class="legend-item"><div class="dot" style="background: #e0e0e0;"></div> Signal Decay</div>
 </div>
-
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-    // INITIALIZE USA-CENTRIC MAP
-    var map = L.map('map', { 
-        zoomControl: false, 
-        attributionControl: false,
-        minZoom: 4,
-        maxZoom: 18
-    }).setView([39.8283, -98.5795], 4);
-    
-    // LOAD TILES
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png').addTo(map);
-
-    // LOCK BOUNDS TO USA
-    var southWest = L.latLng(24.396308, -124.848974);
-    var northEast = L.latLng(49.384358, -66.93457);
-    var bounds = L.latLngBounds(southWest, northEast);
-    map.setMaxBounds(bounds);
-
-    // SAMPLE MARKER LOGIC
-    const vibrantCircle = { 
-        color: 'var(--accent)', 
-        fillColor: 'var(--accent)', 
-        fillOpacity: 0.5, 
-        radius: 8,
-        weight: 1
-    };
-
-    L.circleMarker([40.7128, -74.0060], vibrantCircle).addTo(map).bindPopup("<b>NYC SECTOR</b><br>High cultural density.");
-    L.circleMarker([30.2672, -97.7431], vibrantCircle).addTo(map).bindPopup("<b>AUSTIN SECTOR</b><br>Resonance peak.");
-
-    // INTERFACE LOGIC
-    function toggleSupport() {
-        var d = document.getElementById("supportDrawer");
-        d.style.display = (d.style.display === "block") ? "none" : "block";
-    }
+    var map = L.map('map', { zoomControl: false, attributionControl: false, minZoom: 4 }).setView([39.8283, -98.5795], 4);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo(map);
+    var southWest = L.latLng(24.396308, -124.848974); var northEast = L.latLng(49.384358, -66.93457);
+    map.setMaxBounds(L.latLngBounds(southWest, northEast));
+    const vStyle = { color: 'var(--accent)', fillColor: 'var(--accent)', fillOpacity: 0.6, radius: 7, weight: 2 };
+    L.circleMarker([40.7128, -74.0060], vStyle).addTo(map).bindPopup("<b>NEW YORK</b><br>High Resonance Index.");
+    L.circleMarker([30.2672, -97.7431], vStyle).addTo(map).bindPopup("<b>AUSTIN</b><br>Active Signal.");
+    function toggleSupport() { var d = document.getElementById("supportDrawer"); d.style.display = (d.style.display === "block") ? "none" : "block"; }
 </script>
-
 </body>
 </html>
