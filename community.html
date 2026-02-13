@@ -18,7 +18,6 @@
 
         main { max-width: 600px; margin: 60px auto; padding: 0 20px; }
         
-        /* The Toggle Switch */
         .mode-selector { display: flex; gap: 10px; margin-bottom: 30px; }
         .mode-btn { 
             flex: 1; padding: 15px; border: 2px solid #eee; border-radius: 8px; 
@@ -40,9 +39,11 @@
             background: var(--text); color: white; border: none; padding: 20px; 
             border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; 
             width: 100%; text-transform: uppercase; letter-spacing: 1px;
+            transition: transform 0.1s;
         }
+        #submitBtn:active { transform: translateY(2px); }
         
-        .success-msg { display: none; text-align: center; padding: 40px; border: 2px solid var(--primary); border-radius: 12px; }
+        .success-msg { display: none; text-align: center; padding: 40px; border: 2px solid var(--primary); border-radius: 12px; background: #fdf2f0; }
     </style>
 </head>
 <body>
@@ -59,8 +60,8 @@
 
 <main>
     <div id="formContainer">
-        <h1 id="formTitle">Submit Field Intel</h1>
-        <p id="formSubtitle">Select the type of signal you are transmitting.</p>
+        <h1>Submit Field Intel</h1>
+        <p>Select your transmission type:</p>
         
         <div class="mode-selector">
             <div id="voidBtn" class="mode-btn active-void" onclick="setMode('void')">Report Vibe Decay</div>
@@ -73,15 +74,15 @@
                 <input type="text" id="loc" placeholder="Neighborhood, Street, or City" required>
             </div>
 
-            <div class="form-group" id="severityGroup">
+            <div class="form-group">
                 <label id="levelLabel">Decay Severity</label>
                 <select id="severity">
                     </select>
             </div>
 
             <div class="form-group">
-                <label>Field Observations</label>
-                <textarea id="desc" rows="4" placeholder="Tell us what's happening on the ground..."></textarea>
+                <label>Observations</label>
+                <textarea id="desc" rows="4" placeholder="What's happening on the ground?"></textarea>
             </div>
 
             <button type="button" id="submitBtn" onclick="sendToDiscord()">Transmit Signal</button>
@@ -89,9 +90,9 @@
     </div>
 
     <div id="successMsg" class="success-msg">
-        <h2 style="color: var(--primary)">Signal Received</h2>
-        <p>Your intel has been logged. The map will be updated after verification.</p>
-        <button onclick="window.location.reload()">Back to Form</button>
+        <h2 id="successTitle">Signal Received</h2>
+        <p>Your intel has been encrypted and sent to HQ. Stay vocal.</p>
+        <button onclick="window.location.reload()" style="background: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">New Report</button>
     </div>
 </main>
 
@@ -109,7 +110,7 @@ function setMode(mode) {
     if (mode === 'vibrant') {
         vBtn.classList.add('active-vibrant');
         voidBtn.classList.remove('active-void');
-        label.innerText = "Vibrancy Markers";
+        label.innerText = "Vibrancy Marker";
         btn.style.background = "var(--vibrant)";
         btn.style.color = "black";
         select.innerHTML = `
@@ -133,39 +134,55 @@ function setMode(mode) {
     }
 }
 
-// Initialize default options
-setMode('void');
+setMode('void'); // Init
 
 async function sendToDiscord() {
-    const webhookURL = "YOUR_DISCORD_WEBHOOK_URL_HERE"; 
+    // YOUR LIVE WEBHOOK URL
+    const webhookURL = "https://discord.com/api/webhooks/1471650507532533813/DJdkSMej4pu7dxFL6Sn7K83WP8MExH8ps1eKXrsUaDwB5xylTWo4aeY3qp8-pyIwey72"; 
+    
     const location = document.getElementById('loc').value;
     const severity = document.getElementById('severity').value;
     const description = document.getElementById('desc').value;
+    const btn = document.getElementById('submitBtn');
 
-    if (!location) { alert("Location required."); return; }
+    if (!location) { alert("Please provide a location."); return; }
+
+    btn.innerText = "TRANSMITTING...";
+    btn.disabled = true;
 
     const payload = {
         embeds: [{
-            title: currentMode === 'void' ? "⚠️ NEW VIBE DECAY REPORT" : "🌟 NEW VIBRANT SANCTUARY",
+            title: currentMode === 'void' ? "🚨 NEW VIBE DECAY REPORT" : "✨ NEW VIBRANT SANCTUARY",
             color: currentMode === 'void' ? 16727552 : 65345, 
             fields: [
                 { name: "Sector", value: location, inline: true },
-                { name: "Type/Level", value: severity, inline: true },
-                { name: "Intel", value: description || "None" }
+                { name: "Category", value: severity, inline: true },
+                { name: "Field Intel", value: description || "No notes provided." }
             ],
+            timestamp: new Date().toISOString(),
             footer: { text: "VibrantAndVocal.io // Signal Intercept" }
         }]
     };
 
-    const response = await fetch(webhookURL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-    });
+    try {
+        const response = await fetch(webhookURL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
 
-    if (response.ok) {
-        document.getElementById('formContainer').style.display = 'none';
-        document.getElementById('successMsg').style.display = 'block';
+        if (response.ok) {
+            document.getElementById('formContainer').style.display = 'none';
+            document.getElementById('successMsg').style.display = 'block';
+        } else {
+            alert('Signal Interference. Try again later.');
+            btn.disabled = false;
+            btn.innerText = "Transmit Signal";
+        }
+    } catch (e) {
+        alert('Critical Signal Failure.');
+        btn.disabled = false;
+        btn.innerText = "Transmit Signal";
     }
 }
 </script>
