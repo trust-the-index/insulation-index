@@ -5,16 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Leaderboard | VibrantAndVocal.io</title>
     <style>
-        body { font-family: sans-serif; padding: 20px; }
-        header { display: flex; justify-content: space-between; border-bottom: 1px solid #ddd; padding-bottom: 10px; margin-bottom: 20px; }
-        nav a { margin-left: 15px; text-decoration: none; color: blue; }
-        table { width: 100%; border-collapse: collapse; }
-        th, td { text-align: left; padding: 10px; border-bottom: 1px solid #ddd; }
+        body { margin: 0; font-family: sans-serif; }
+        header { height: 60px; display: flex; justify-content: space-between; align-items: center; padding: 0 30px; border-bottom: 1px solid #eaeaea; }
+        .logo { font-weight: 700; font-size: 18px; color: #000; text-decoration: none; }
+        nav a { margin-left: 20px; text-decoration: none; color: #666; font-size: 13px; }
+        main { max-width: 800px; margin: 50px auto; padding: 0 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 30px; }
+        th, td { text-align: left; padding: 12px; border-bottom: 1px solid #eee; }
+        th { color: #999; font-size: 12px; text-transform: uppercase; }
     </style>
 </head>
 <body>
     <header>
-        <div style="font-weight: bold;">VibrantAndVocal.io</div>
+        <a href="index.html" class="logo">VibrantAndVocal.io</a>
         <nav>
             <a href="index.html">Map</a>
             <a href="leaderboard.html">Leaderboard</a>
@@ -23,11 +26,15 @@
             <a href="press.html">Press</a>
         </nav>
     </header>
-    <h1>Leaderboard</h1>
-    <table>
-        <tr><th>Rank</th><th>City</th><th>Score</th></tr>
-        <tr><td>1</td><td>Austin</td><td>95</td></tr>
-        <tr><td>2</td><td>Nashville</td><td>92</td></tr>
-    </table>
+    <main>
+        <h1>Leaderboard</h1>
+        <table>
+            <thead><tr><th>Rank</th><th>City</th><th>Score</th></tr></thead>
+            <tbody>
+                <tr><td>1</td><td>Austin, TX</td><td>95</td></tr>
+                <tr><td>2</td><td>Nashville, TN</td><td>92</td></tr>
+            </tbody>
+        </table>
+    </main>
 </body>
 </html>
