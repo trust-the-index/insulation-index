@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Void Reports | VibrantAndVocal.io</title>
+    <title>Submit Intel | VibrantAndVocal.io</title>
     <style>
-        :root { --primary: #ff3e00; --bg: #ffffff; --text: #1a1a1a; }
+        :root { --primary: #ff3e00; --vibrant: #00ff41; --bg: #ffffff; --text: #1a1a1a; }
         body { margin: 0; font-family: 'Helvetica Neue', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
         
         header { background: white; border-bottom: 2px solid var(--primary); padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 9999; height: 70px; box-sizing: border-box; }
@@ -16,66 +16,33 @@
         nav a { text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 13px; text-transform: uppercase; }
         nav a:hover { color: var(--primary); }
 
-        main { max-width: 600px; margin: 80px auto; padding: 0 20px; }
+        main { max-width: 600px; margin: 60px auto; padding: 0 20px; }
         
-        h1 { font-size: 32px; letter-spacing: -1px; text-transform: uppercase; margin-bottom: 10px; }
-        p.subtitle { color: #666; margin-bottom: 40px; }
+        /* The Toggle Switch */
+        .mode-selector { display: flex; gap: 10px; margin-bottom: 30px; }
+        .mode-btn { 
+            flex: 1; padding: 15px; border: 2px solid #eee; border-radius: 8px; 
+            cursor: pointer; font-weight: bold; text-align: center; transition: 0.2s;
+            text-transform: uppercase; font-size: 12px;
+        }
+        .mode-btn.active-void { border-color: var(--primary); background: #fdf2f0; color: var(--primary); }
+        .mode-btn.active-vibrant { border-color: var(--vibrant); background: #f0fff4; color: #155724; }
 
         .form-group { margin-bottom: 25px; }
         label { display: block; font-weight: bold; margin-bottom: 8px; font-size: 14px; }
         
         input, select, textarea { 
-            width: 100%; 
-            padding: 12px 15px; 
-            border: 1px solid #ddd; 
-            border-radius: 8px; 
-            font-size: 16px; 
-            font-family: inherit; 
-            box-sizing: border-box; 
-            transition: border-color 0.2s;
+            width: 100%; padding: 12px 15px; border: 1px solid #ddd; border-radius: 8px; 
+            font-size: 16px; font-family: inherit; box-sizing: border-box; 
+        }
+
+        #submitBtn { 
+            background: var(--text); color: white; border: none; padding: 20px; 
+            border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; 
+            width: 100%; text-transform: uppercase; letter-spacing: 1px;
         }
         
-        input:focus, select:focus, textarea:focus { 
-            outline: none; 
-            border-color: var(--primary); 
-        }
-
-        #severityExplainer {
-            font-size: 13px;
-            color: var(--primary);
-            margin-top: 10px;
-            padding: 10px;
-            background: #fff5f2;
-            border-radius: 6px;
-            border-left: 3px solid var(--primary);
-        }
-
-        button { 
-            background: var(--primary); 
-            color: white; 
-            border: none; 
-            padding: 18px 30px; 
-            border-radius: 8px; 
-            font-size: 16px; 
-            font-weight: bold; 
-            cursor: pointer; 
-            width: 100%; 
-            transition: background 0.2s;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        
-        button:hover { background: #e63800; }
-
-        .success-msg { 
-            display: none; 
-            background: #fdf2f0; 
-            border: 2px solid var(--primary); 
-            padding: 40px; 
-            border-radius: 12px; 
-            text-align: center; 
-        }
-        .success-msg h2 { color: var(--primary); margin-top: 0; }
+        .success-msg { display: none; text-align: center; padding: 40px; border: 2px solid var(--primary); border-radius: 12px; }
     </style>
 </head>
 <body>
@@ -86,121 +53,121 @@
         <a href="/">Map</a>
         <a href="/methodology">Science</a>
         <a href="/leaderboard">Ranks</a>
-        <a href="/community" style="color: var(--primary);">Void Reports</a>
-        <a href="/press">Press</a>
+        <a href="/community" style="color: var(--primary);">Submit Intel</a>
     </nav>
 </header>
 
 <main>
     <div id="formContainer">
-        <h1>Log a Void Report</h1>
-        <p class="subtitle">Witnessed a neighborhood losing its soul? Submit your field observations to the <strong>Vibe Decay</strong> database.</p>
+        <h1 id="formTitle">Submit Field Intel</h1>
+        <p id="formSubtitle">Select the type of signal you are transmitting.</p>
         
-        <form id="voidForm">
+        <div class="mode-selector">
+            <div id="voidBtn" class="mode-btn active-void" onclick="setMode('void')">Report Vibe Decay</div>
+            <div id="vibrantBtn" class="mode-btn" onclick="setMode('vibrant')">Nominate Sanctuary</div>
+        </div>
+
+        <form id="intelForm">
             <div class="form-group">
-                <label for="loc">Location</label>
-                <input type="text" id="loc" placeholder="City, neighborhood, or zip code" required>
+                <label for="loc">Location Name</label>
+                <input type="text" id="loc" placeholder="Neighborhood, Street, or City" required>
+            </div>
+
+            <div class="form-group" id="severityGroup">
+                <label id="levelLabel">Decay Severity</label>
+                <select id="severity">
+                    </select>
             </div>
 
             <div class="form-group">
-                <label for="severity">Vibe Decay Severity</label>
-                <select id="severity" onchange="updateExplainer()">
-                    <option value="Level 1: Passive Beige">Level 1: Passive Beige</option>
-                    <option value="Level 2: Auditory Insulation">Level 2: Auditory Insulation</option>
-                    <option value="Level 3: Cultural Flatline">Level 3: Cultural Flatline</option>
-                    <option value="Level 4: Total Isolation">Level 4: Total Isolation</option>
-                </select>
-                <div id="severityExplainer">
-                    Visual stagnation. Architecture and landscaping stripped of all personality.
-                </div>
+                <label>Field Observations</label>
+                <textarea id="desc" rows="4" placeholder="Tell us what's happening on the ground..."></textarea>
             </div>
 
-            <div class="form-group">
-                <label for="desc">Observations</label>
-                <textarea id="desc" rows="5" placeholder="What caught your attention? (e.g., lack of life, noise complaints, excessive rules)"></textarea>
-            </div>
-
-            <button type="button" id="submitBtn" onclick="sendToDiscord()">Transmit Intel</button>
+            <button type="button" id="submitBtn" onclick="sendToDiscord()">Transmit Signal</button>
         </form>
     </div>
 
     <div id="successMsg" class="success-msg">
-        <h2>Report Received</h2>
-        <p>Your intel has been logged at Central Command. Keep your ears open.</p>
-        <button onclick="window.location.reload()" style="width: auto; padding: 10px 20px;">Submit New Report</button>
+        <h2 style="color: var(--primary)">Signal Received</h2>
+        <p>Your intel has been logged. The map will be updated after verification.</p>
+        <button onclick="window.location.reload()">Back to Form</button>
     </div>
 </main>
 
 <script>
-// UPDATE THE EXPLAINER TEXT BASED ON SELECTION
-function updateExplainer() {
-    const severity = document.getElementById('severity').value;
-    const explainer = document.getElementById('severityExplainer');
-    
-    const descriptions = {
-        "Level 1: Passive Beige": "Visual stagnation. Architecture and landscaping stripped of all personality.",
-        "Level 2: Auditory Insulation": "Active suppression of sound. Music and laughter are treated as nuisances.",
-        "Level 3: Cultural Flatline": "Zero signs of life. No local hangouts or spontaneous social interaction.",
-        "Level 4: Total Isolation": "The Absolute Void. Neighbors are strangers; the only sound is air conditioners."
-    };
+let currentMode = 'void';
 
-    explainer.innerText = descriptions[severity];
+function setMode(mode) {
+    currentMode = mode;
+    const vBtn = document.getElementById('vibrantBtn');
+    const voidBtn = document.getElementById('voidBtn');
+    const label = document.getElementById('levelLabel');
+    const select = document.getElementById('severity');
+    const btn = document.getElementById('submitBtn');
+
+    if (mode === 'vibrant') {
+        vBtn.classList.add('active-vibrant');
+        voidBtn.classList.remove('active-void');
+        label.innerText = "Vibrancy Markers";
+        btn.style.background = "var(--vibrant)";
+        btn.style.color = "black";
+        select.innerHTML = `
+            <option value="Street Art Hub">Street Art Hub</option>
+            <option value="Legendary BBQ/Food">Legendary BBQ/Food</option>
+            <option value="Live Music Sanctuary">Live Music Sanctuary</option>
+            <option value="High Pedestrian Pulse">High Pedestrian Pulse</option>
+        `;
+    } else {
+        voidBtn.classList.add('active-void');
+        vBtn.classList.remove('active-vibrant');
+        label.innerText = "Decay Severity";
+        btn.style.background = "var(--primary)";
+        btn.style.color = "white";
+        select.innerHTML = `
+            <option value="Level 1: Passive Beige">Level 1: Passive Beige</option>
+            <option value="Level 2: Auditory Insulation">Level 2: Auditory Insulation</option>
+            <option value="Level 3: Cultural Flatline">Level 3: Cultural Flatline</option>
+            <option value="Level 4: Total Isolation">Level 4: Total Isolation</option>
+        `;
+    }
 }
 
-// SEND DATA TO DISCORD
+// Initialize default options
+setMode('void');
+
 async function sendToDiscord() {
-    // ⚠️ PASTE YOUR DISCORD WEBHOOK URL BELOW
-    const webhookURL = "https://discord.com/api/webhooks/1471650507532533813/DJdkSMej4pu7dxFL6Sn7K83WP8MExH8ps1eKXrsUaDwB5xylTWo4aeY3qp8-pyIwey72"; 
-    
+    const webhookURL = "YOUR_DISCORD_WEBHOOK_URL_HERE"; 
     const location = document.getElementById('loc').value;
     const severity = document.getElementById('severity').value;
     const description = document.getElementById('desc').value;
-    const btn = document.getElementById('submitBtn');
 
-    if (!location) {
-        alert("Please provide a location.");
-        return;
-    }
-
-    btn.disabled = true;
-    btn.innerText = "TRANSMITTING...";
+    if (!location) { alert("Location required."); return; }
 
     const payload = {
         embeds: [{
-            title: "📡 NEW VIBE DECAY REPORT",
-            color: 16727552, 
+            title: currentMode === 'void' ? "⚠️ NEW VIBE DECAY REPORT" : "🌟 NEW VIBRANT SANCTUARY",
+            color: currentMode === 'void' ? 16727552 : 65345, 
             fields: [
                 { name: "Sector", value: location, inline: true },
-                { name: "Severity", value: severity, inline: true },
-                { name: "Field Intel", value: description || "No additional notes." }
+                { name: "Type/Level", value: severity, inline: true },
+                { name: "Intel", value: description || "None" }
             ],
-            timestamp: new Date().toISOString(),
-            footer: { text: "VibrantAndVocal.io // Community Intercept" }
+            footer: { text: "VibrantAndVocal.io // Signal Intercept" }
         }]
     };
 
-    try {
-        const response = await fetch(webhookURL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-        });
+    const response = await fetch(webhookURL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+    });
 
-        if (response.ok) {
-            document.getElementById('formContainer').style.display = 'none';
-            document.getElementById('successMsg').style.display = 'block';
-        } else {
-            alert('Signal failed. Please check your connection.');
-            btn.disabled = false;
-            btn.innerText = "Transmit Intel";
-        }
-    } catch (error) {
-        alert('Error connecting to command.');
-        btn.disabled = false;
-        btn.innerText = "Transmit Intel";
+    if (response.ok) {
+        document.getElementById('formContainer').style.display = 'none';
+        document.getElementById('successMsg').style.display = 'block';
     }
 }
 </script>
-
 </body>
 </html>
