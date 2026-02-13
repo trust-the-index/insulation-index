@@ -3,81 +3,128 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VibrantAndVocal.io | Mapping the Vibe</title>
+    <title>VibrantAndVocal.io | The Pulse of the World</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
-        :root { --primary: #ff3e00; --vibrant: #00ff41; --bg: #ffffff; --text: #1a1a1a; }
-        body { margin: 0; font-family: 'Helvetica Neue', sans-serif; background: var(--bg); color: var(--text); overflow: hidden; }
-        
-        header { background: white; border-bottom: 2px solid var(--primary); padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 9999; height: 70px; box-sizing: border-box; }
-        header h1 { margin: 0; font-size: 22px; color: var(--primary); letter-spacing: -1px; }
-        header h1 span { color: var(--text); }
-        
-        nav { display: flex; gap: 25px; }
-        nav a { text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 13px; text-transform: uppercase; }
-        nav a:hover { color: var(--primary); }
-
-        #map { height: calc(100vh - 70px); width: 100%; background: #1a1a1a; }
-
-        /* Floating Report Button */
-        .report-btn {
-            position: absolute; bottom: 40px; right: 40px; z-index: 1000;
-            background: var(--primary); color: white; text-decoration: none;
-            padding: 20px 35px; border-radius: 50px; font-weight: bold;
-            text-transform: uppercase; letter-spacing: 2px;
-            box-shadow: 0 10px 30px rgba(255, 62, 0, 0.4);
-            transition: 0.3s; border: 2px solid white;
+        :root { 
+            --neon-orange: #ff3e00; 
+            --neon-green: #00ff41; 
+            --electric-blue: #00f0ff;
+            --bg: #ffffff; 
+            --text: #000000; 
         }
-        .report-btn:hover { transform: scale(1.05); background: #e63800; }
 
-        .legend {
-            position: absolute; bottom: 40px; left: 40px; background: rgba(255, 255, 255, 0.9); padding: 15px;
-            z-index: 1000; border: 2px solid var(--primary); border-radius: 8px; font-size: 12px; backdrop-filter: blur(5px);
+        body { margin: 0; font-family: 'Arial Black', sans-serif; background: var(--bg); color: var(--text); overflow: hidden; }
+
+        /* BRIGHT MAXIMALIST HEADER */
+        header { 
+            background: var(--neon-orange); 
+            border-bottom: 5px solid black; 
+            padding: 10px 30px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            height: 80px;
+            box-sizing: border-box;
+            transform: skewY(-1deg); /* Slight tilt for energy */
+            margin-top: -5px;
         }
-        .legend-item { display: flex; align-items: center; margin-bottom: 5px; font-weight: bold; }
-        .dot { height: 12px; width: 12px; border-radius: 50%; margin-right: 10px; }
+        header h1 { font-size: 28px; color: white; text-transform: uppercase; margin: 0; text-shadow: 3px 3px 0px black; }
+        
+        nav { display: flex; gap: 15px; transform: skewY(1deg); }
+        nav a { 
+            background: black; color: white; padding: 8px 15px; 
+            text-decoration: none; font-size: 14px; border-radius: 0px;
+            transition: 0.2s; border: 2px solid black;
+        }
+        nav a:hover { background: var(--neon-green); color: black; }
 
-        .leaflet-popup-content-wrapper { background: #1a1a1a; color: white; border: 1px solid var(--primary); }
-        .vibrant-text { color: var(--vibrant); font-weight: bold; text-transform: uppercase; }
-        .void-text { color: var(--primary); font-weight: bold; text-transform: uppercase; }
+        /* VIBRANT DRAWER (Neon Green) */
+        #supportDrawer {
+            display: none; background: var(--neon-green); color: black; padding: 25px;
+            border-bottom: 5px solid black; text-align: center; font-weight: 900;
+        }
+        .support-btn { 
+            background: white; border: 3px solid black; padding: 10px 20px; 
+            font-size: 16px; cursor: pointer; text-transform: uppercase; box-shadow: 5px 5px 0px black;
+        }
+
+        /* FLOATING SEARCH BAR */
+        .search-container {
+            position: absolute; top: 100px; left: 50%; transform: translateX(-50%);
+            z-index: 1000; width: 90%; max-width: 500px;
+        }
+        #mainSearch {
+            width: 100%; padding: 20px; border: 4px solid black; font-size: 20px;
+            font-weight: bold; text-transform: uppercase; box-shadow: 10px 10px 0px var(--neon-green);
+        }
+
+        /* SIDEBAR FILTERS (Bold & Bright) */
+        #sideFilters {
+            position: absolute; right: 20px; top: 180px; width: 220px;
+            background: white; border: 4px solid black; z-index: 1001; padding: 20px;
+            box-shadow: -10px 10px 0px var(--electric-blue);
+        }
+        .filter-header { background: black; color: white; padding: 5px; margin-bottom: 15px; text-align: center; }
+
+        #map { height: calc(100vh - 75px); width: 100%; background: #eee; }
+
+        /* NEON LEGEND */
+        .v&v-legend {
+            position: absolute; bottom: 30px; left: 30px; z-index: 1000;
+            background: black; color: white; padding: 20px; border: 3px solid var(--neon-orange);
+        }
     </style>
 </head>
 <body>
 
+<div id="supportDrawer">
+    <h2 style="margin:0;">FUEL THE MOVEMENT!</h2>
+    <p>WE ARE RECLAIMING THE VIBE. HELP US STAY LOUD.</p>
+    <div style="display:flex; justify-content:center; gap:20px; margin-top:15px;">
+        <div class="support-btn">VENMO: @VibrantVocal</div>
+        <div class="support-btn">CASHAPP: $VibrantVocal</div>
+    </div>
+</div>
+
 <header>
-    <h1>VibrantAndVocal<span>.io</span></h1>
+    <h1>VIBRANT & VOCAL</h1>
     <nav>
-        <a href="/" style="color: var(--primary);">Map</a>
-        <a href="/methodology">Science</a>
-        <a href="/leaderboard">Ranks</a>
-        <a href="/community">Void Reports</a>
-        <a href="/press">Press</a>
+        <a href="javascript:void(0)" onclick="toggleSupport()" style="background:white; color:black;">SUPPORT</a>
+        <a href="/leaderboard">RANKS</a>
+        <a href="/community">REPORT</a>
+        <a href="/science">SCIENCE</a>
     </nav>
 </header>
 
+<div class="search-container">
+    <input type="text" id="mainSearch" placeholder="WHERE IS THE VIBE?">
+</div>
+
+<div id="sideFilters">
+    <div class="filter-header">SIGNAL FILTERS</div>
+    <div style="margin-bottom:10px;"><input type="checkbox" checked> NEON HUBS</div>
+    <div style="margin-bottom:10px;"><input type="checkbox" checked> LIVE PULSE</div>
+    <div style="margin-bottom:10px;"><input type="checkbox" checked> VOID DECAY</div>
+</div>
+
 <div id="map"></div>
 
-<a href="/community" class="report-btn">Report Vibe Decay</a>
-
-<div class="legend">
-    <div class="legend-item"><span class="dot" style="background: var(--vibrant);"></span> VIBRANT (Soul & Art)</div>
-    <div class="legend-item"><span class="dot" style="background: var(--primary);"></span> VIBE DECAY (The Void)</div>
+<div class="v&v-legend">
+    <div style="color:var(--neon-green)">● VIBRANT (MAX SIGNAL)</div>
+    <div style="color:var(--neon-orange)">● VOID (DECAY DETECTED)</div>
 </div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-    var map = L.map('map').setView([36.0000, -92.0000], 5);
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', { attribution: 'V&V Intel' }).addTo(map);
+    var map = L.map('map', { zoomControl: false }).setView([36.1627, -86.7816], 5);
+    // Using a light, high-contrast map instead of dark mode
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png').addTo(map);
 
-    const vibrantCircle = { color: '#00ff41', fillColor: '#00ff41', fillOpacity: 0.8, radius: 9 };
-    const voidCircle = { color: '#ff3e00', fillColor: '#ff3e00', fillOpacity: 0.8, radius: 11 };
-
-    // Locations
-    L.circleMarker([25.8042, -80.1989], vibrantCircle).addTo(map).bindPopup("<b class='vibrant-text'>Wynwood, Miami</b><br>Street Art Peak.");
-    L.circleMarker([33.7655, -84.3491], vibrantCircle).addTo(map).bindPopup("<b class='vibrant-text'>Little 5 Points, ATL</b><br>Alternative pulse detected.");
-    L.circleMarker([30.2672, -97.7382], vibrantCircle).addTo(map).bindPopup("<b class='vibrant-text'>East 6th, Austin</b><br>BBQ & Live Music Sanctuary.");
-    L.circleMarker([38.9339, -77.1773], voidCircle).addTo(map).bindPopup("<b class='void-text'>McLean, VA</b><br>Critical Vibe Decay.");
-    L.circleMarker([26.3683, -80.1289], voidCircle).addTo(map).bindPopup("<b class='void-text'>Boca Raton, FL</b><br>Passive Beige Capital.");
+    function toggleSupport() {
+        var d = document.getElementById("supportDrawer");
+        d.style.display = (d.style.display === "block") ? "none" : "block";
+    }
 </script>
 
 </body>
