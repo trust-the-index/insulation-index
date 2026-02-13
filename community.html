@@ -5,26 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Community | VibrantAndVocal.io</title>
     <style>
-        :root { --accent: #ff5c00; --bg: #ffffff; --text: #0a0a0a; --border: #e8e8e8; }
-        body { margin: 0; font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); }
-        header { height: 70px; display: flex; align-items: center; justify-content: space-between; padding: 0 40px; border-bottom: 1px solid var(--border); }
-        .logo { font-weight: 800; font-size: 16px; text-transform: uppercase; text-decoration: none; color: #000; }
-        main { max-width: 800px; margin: 80px auto; padding: 0 20px; }
-        .input-group { margin-bottom: 25px; }
-        label { display: block; font-size: 10px; text-transform: uppercase; font-weight: 800; margin-bottom: 10px; color: #999; }
-        input, textarea { width: 100%; padding: 15px; border: 1px solid var(--border); border-radius: 8px; font-family: inherit; font-size: 14px; box-sizing: border-box; }
-        .submit-btn { background: var(--accent); color: white; border: none; padding: 15px 30px; border-radius: 30px; font-weight: 800; text-transform: uppercase; font-size: 11px; cursor: pointer; letter-spacing: 1px; }
+        body { font-family: sans-serif; padding: 20px; }
+        header { display: flex; justify-content: space-between; border-bottom: 1px solid #ddd; padding-bottom: 10px; margin-bottom: 20px; }
+        nav a { margin-left: 15px; text-decoration: none; color: blue; }
+        form { display: flex; flex-direction: column; max-width: 400px; gap: 10px; }
     </style>
 </head>
 <body>
-    <header><a href="index.html" class="logo">VibrantAndVocal.io</a></header>
-    <main>
-        <h1 style="font-weight: 200; font-size: 42px;">Field Intel</h1>
-        <p style="color: #666; margin-bottom: 40px;">Report cultural saturation or vibe decay in your sector.</p>
-        <div class="input-group"><label>Sector Location</label><input type="text" placeholder="City, State"></div>
-        <div class="input-group"><label>Intelligence Type</label><input type="text" placeholder="Vibrant Signal / Void Decay"></div>
-        <div class="input-group"><label>Report Details</label><textarea rows="5" placeholder="What are you seeing on the ground?"></textarea></div>
-        <button class="submit-btn">Transmitting Signal...</button>
-    </main>
+    <header>
+        <div style="font-weight: bold;">VibrantAndVocal.io</div>
+        <nav>
+            <a href="index.html">Map</a>
+            <a href="leaderboard.html">Leaderboard</a>
+            <a href="methodology.html">Methodology</a>
+            <a href="community.html">Community</a>
+            <a href="press.html">Press</a>
+        </nav>
+    </header>
+    <h1>Community</h1>
+    <p>Submit your city data here.</p>
+    <form>
+        <input type="text" placeholder="City Name">
+        <textarea placeholder="Your observations"></textarea>
+        <button type="submit">Submit</button>
+    </form>
 </body>
 </html>
