@@ -4,127 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Methodology | VibrantAndVocal.io</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;700;800&display=swap">
     <style>
-        :root { 
-            --accent: #ff5c00; 
-            --deep: #08090a; 
-            --glass: rgba(255, 255, 255, 0.03); 
-            --border: rgba(255, 255, 255, 0.1); 
-        }
-
-        body { 
-            margin: 0; 
-            font-family: 'Inter', sans-serif; 
-            background: var(--deep); 
-            color: #fff; 
-            line-height: 1.8; 
-            -webkit-font-smoothing: antialiased; 
-        }
-        
-        header { 
-            height: 70px; 
-            display: flex; 
-            align-items: center; 
-            justify-content: space-between; 
-            padding: 0 50px; 
-            background: rgba(8, 9, 10, 0.95); 
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border); 
-            position: sticky; 
-            top: 0; 
-            z-index: 1000; 
-        }
-
-        .logo { 
-            font-weight: 800; 
-            font-size: 18px; 
-            text-transform: uppercase; 
-            text-decoration: none;
-            background: linear-gradient(90deg, #fff, var(--accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        nav a { 
-            text-decoration: none; 
-            color: rgba(255,255,255,0.5); 
-            font-size: 11px; 
-            text-transform: uppercase; 
-            font-weight: 600; 
-            letter-spacing: 1px;
-        }
-
+        :root { --accent: #ff5c00; --bg: #ffffff; --text: #0a0a0a; --border: #e8e8e8; }
+        body { margin: 0; font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.8; }
+        header { height: 70px; display: flex; align-items: center; justify-content: space-between; padding: 0 40px; border-bottom: 1px solid var(--border); }
+        .logo { font-weight: 800; font-size: 16px; text-transform: uppercase; text-decoration: none; color: #000; letter-spacing: 1px; }
+        .logo span { color: var(--accent); }
         main { max-width: 800px; margin: 80px auto; padding: 0 20px; }
-
-        .kicker { 
-            font-size: 11px; 
-            text-transform: uppercase; 
-            letter-spacing: 3px; 
-            color: var(--accent); 
-            margin-bottom: 10px; 
-            font-weight: 700; 
-        }
-
-        h1 { 
-            font-size: 48px; 
-            font-weight: 200; 
-            margin: 0 0 40px 0; 
-            letter-spacing: -1px; 
-            line-height: 1.1;
-        }
-
-        .content-card {
-            background: var(--glass);
-            border: 1px solid var(--border);
-            padding: 50px;
-            border-radius: 24px;
-            backdrop-filter: blur(15px);
-            margin-bottom: 40px;
-        }
-
-        h3 { color: var(--accent); font-size: 13px; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; }
-        p { color: #aaa; font-size: 17px; font-weight: 300; }
-
-        .metric-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 40px; }
-        .metric { padding: 20px; background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 12px; }
-        .metric b { display: block; font-size: 14px; text-transform: uppercase; margin-bottom: 8px; color: #fff; }
-        .metric span { font-size: 13px; color: #666; }
-
-        @media (max-width: 768px) {
-            header { padding: 0 20px; }
-            h1 { font-size: 34px; }
-            .metric-grid { grid-template-columns: 1fr; }
-        }
+        .kicker { font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: var(--accent); font-weight: 800; margin-bottom: 10px; }
+        h1 { font-size: 42px; font-weight: 200; margin: 0 0 40px 0; letter-spacing: -1px; }
+        .card { border: 1px solid var(--border); padding: 40px; border-radius: 20px; margin-bottom: 30px; }
+        h3 { font-size: 14px; text-transform: uppercase; margin-bottom: 15px; letter-spacing: 1px; }
+        p { color: #555; font-size: 16px; font-weight: 300; }
     </style>
 </head>
 <body>
-
-<header>
-    <a href="../" class="logo">VibrantAndVocal.io</a>
-    <nav><a href="../">← Back to Map</a></nav>
-</header>
-
-<main>
-    <div class="kicker">The Intelligence Framework</div>
-    <h1>Quantifying the Vibe Signal.</h1>
-
-    <div class="content-card">
-        <h3>Objective</h3>
-        <p>VibrantAndVocal.io was developed to move beyond traditional urban metrics. We track <b>Resonance</b>—the measurable energy of a sector based on its cultural output and architectural integrity.</p>
-        
-        <div class="metric-grid">
-            <div class="metric">
-                <b>Acoustic Depth</b>
-                <span>Density of live venues vs corporate retail silence.</span>
-            </div>
-            <div class="metric">
-                <b>Visual Texture</b>
-                <span>Mural density and non-commercial color.</span>
-            </div>
+    <header>
+        <a href="index.html" class="logo">Vibrant<span>And</span>Vocal</a>
+        <nav><a href="index.html" style="font-size: 11px; text-decoration: none; color: #666; text-transform: uppercase; font-weight: 600;">Back to Map</a></nav>
+    </header>
+    <main>
+        <div class="kicker">The Intelligence Framework</div>
+        <h1>Quantifying Resonance</h1>
+        <div class="card">
+            <h3>Acoustic vs. Void</h3>
+            <p>We measure the density of independent human expression against the encroachment of corporate architectural "silence." A sector is Vocal when its cultural output exceeds its commercial sterilization.</p>
         </div>
-    </div>
-</main>
-
+    </main>
 </body>
 </html>
