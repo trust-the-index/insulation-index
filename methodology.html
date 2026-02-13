@@ -3,30 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Methodology | VibrantAndVocal.io</title>
+    <title>The Science | VibrantAndVocal.io</title>
     <style>
-        body { margin: 0; font-family: sans-serif; color: #333; line-height: 1.6; }
-        header { height: 60px; display: flex; justify-content: space-between; align-items: center; padding: 0 30px; border-bottom: 1px solid #eaeaea; }
-        .logo { font-weight: 700; font-size: 18px; color: #000; text-decoration: none; }
-        nav a { margin-left: 20px; text-decoration: none; color: #666; font-size: 13px; }
-        main { max-width: 800px; margin: 50px auto; padding: 0 20px; }
-        h1 { font-size: 28px; color: #000; }
+        :root { --primary: #ff3e00; --bg: #ffffff; --text: #1a1a1a; }
+        body { margin: 0; font-family: 'Helvetica Neue', sans-serif; line-height: 1.6; background: var(--bg); color: var(--text); }
+        
+        header { background: white; border-bottom: 2px solid var(--primary); padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 9999; height: 70px; box-sizing: border-box; }
+        header h1 { margin: 0; font-size: 22px; color: var(--primary); letter-spacing: -1px; }
+        header h1 span { color: var(--text); }
+        
+        nav { display: flex; gap: 25px; }
+        nav a { text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 13px; text-transform: uppercase; }
+        nav a:hover { color: var(--primary); }
+
+        main { max-width: 800px; margin: 60px auto; padding: 0 20px; }
+        h1 { font-size: 42px; letter-spacing: -2px; text-transform: uppercase; margin-bottom: 20px; color: var(--primary); }
+        .intro { font-size: 20px; color: #555; margin-bottom: 40px; }
+
+        .decay-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin: 50px 0; }
+        .decay-card { padding: 30px; border: 1px solid #eee; border-radius: 12px; background: #fafafa; border-left: 5px solid var(--primary); }
+        .decay-card h3 { margin-top: 0; text-transform: uppercase; font-size: 14px; letter-spacing: 1px; }
+        .decay-card p { font-size: 14px; color: #444; margin-bottom: 0; }
+
+        .formula { background: #1a1a1a; color: white; padding: 40px; border-radius: 12px; text-align: center; margin-top: 60px; }
+        .formula h2 { color: var(--primary); text-transform: uppercase; font-size: 16px; margin-top: 0; }
+        .formula code { font-size: 24px; color: #00ff41; font-family: monospace; }
     </style>
 </head>
 <body>
-    <header>
-        <a href="index.html" class="logo">VibrantAndVocal.io</a>
-        <nav>
-            <a href="index.html">Map</a>
-            <a href="leaderboard.html">Leaderboard</a>
-            <a href="methodology.html">Methodology</a>
-            <a href="community.html">Community</a>
-            <a href="press.html">Press</a>
-        </nav>
-    </header>
-    <main>
-        <h1>Methodology</h1>
-        <p>The Resonance Index measures the intersection of human activity, architectural soul, and acoustic energy.</p>
-    </main>
+
+<header>
+    <h1>VibrantAndVocal<span>.io</span></h1>
+    <nav>
+        <a href="/">Map</a>
+        <a href="/methodology" style="color: var(--primary);">Science</a>
+        <a href="/leaderboard">Ranks</a>
+        <a href="/community">Void Reports</a>
+        <a href="/press">Press</a>
+    </nav>
+</header>
+
+<main>
+    <h1>The Vibe Decay Metric</h1>
+    <p class="intro">VibrantAndVocal.io doesn't just measure noise; we measure the soul of a sector. Using our proprietary algorithm, we track how "The Void" slowly mutes a community.</p>
+
+    <div class="decay-grid">
+        <div class="decay-card">
+            <h3>Level 1: Passive Beige</h3>
+            <p>Visual stagnation. A state where architecture and landscaping have been stripped of all creative markers to satisfy a "neutral" standard.</p>
+        </div>
+        <div class="decay-card">
+            <h3>Level 2: Auditory Insulation</h3>
+            <p>The active suppression of sound. Neighborhoods where music, laughter, and street-level conversation are treated as "nuisances" rather than signs of life.</p>
+        </div>
+        <div class="decay-card">
+            <h3>Level 3: Cultural Flatline</h3>
+            <p>The death of third places. No local hangouts, no public art, and no spontaneous social interaction. The sector has become a bedroom only.</p>
+        </div>
+        <div class="decay-card">
+            <h3>Level 4: Total Isolation</h3>
+            <p>The "Absolute Void." A high-insulation environment where neighbors are strangers and the only sound is the hum of air conditioners.</p>
+        </div>
+    </div>
+
+    <div class="formula">
+        <h2>Our Core Algorithm</h2>
+        <code>V = (Decibels × Flavor) / (HOA_Rules × Beige_Density)</code>
+        <p style="font-size: 12px; color: #888; margin-top: 20px;">*Higher V scores indicate a resonant, vocal community.</p>
+    </div>
+</main>
+
 </body>
 </html>
