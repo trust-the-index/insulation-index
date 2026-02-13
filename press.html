@@ -5,131 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Press | VibrantAndVocal.io</title>
     <style>
-        :root { 
-            --accent: #ff5c00; 
-            --deep: #08090a; 
-            --glass: rgba(255, 255, 255, 0.03); 
-            --border: rgba(255, 255, 255, 0.1); 
-        }
-
-        body { 
-            margin: 0; 
-            font-family: 'Inter', sans-serif; 
-            background: var(--deep); 
-            color: #fff; 
-            -webkit-font-smoothing: antialiased;
-            line-height: 1.6;
-        }
-        
-        header { 
-            height: 70px; 
-            display: flex; 
-            align-items: center; 
-            justify-content: space-between; 
-            padding: 0 50px; 
-            background: rgba(8, 9, 10, 0.95); 
-            border-bottom: 1px solid var(--border); 
-            position: sticky; 
-            top: 0; 
-            z-index: 1000; 
-        }
-
-        .logo { font-weight: 800; font-size: 18px; text-transform: uppercase; color: #fff; text-decoration: none; }
-        
-        main { max-width: 900px; margin: 80px auto; padding: 0 20px; }
-        
-        .kicker { font-size: 11px; text-transform: uppercase; letter-spacing: 3px; color: var(--accent); margin-bottom: 10px; font-weight: 700; }
-        h1 { font-size: 48px; font-weight: 200; margin: 0 0 40px 0; letter-spacing: -1px; }
-
-        /* ASSET CARDS */
-        .asset-grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
-            gap: 20px; 
-            margin-top: 50px; 
-        }
-
-        .card {
-            background: var(--glass);
-            border: 1px solid var(--border);
-            padding: 30px;
-            border-radius: 16px;
-            backdrop-filter: blur(10px);
-            transition: 0.3s;
-        }
-        .card:hover { border-color: var(--accent); }
-        .card h3 { margin: 0 0 10px 0; font-size: 18px; font-weight: 600; }
-        .card p { color: #666; font-size: 13px; margin-bottom: 20px; }
-        
-        .download-btn {
-            display: inline-block;
-            padding: 10px 20px;
-            border: 1px solid var(--accent);
-            color: var(--accent);
-            text-decoration: none;
-            font-size: 10px;
-            font-weight: 800;
-            text-transform: uppercase;
-            border-radius: 4px;
-            transition: 0.2s;
-        }
-        .download-btn:hover { background: var(--accent); color: white; }
-
-        .contact-box {
-            margin-top: 100px;
-            padding: 40px;
-            border-top: 1px solid var(--border);
-            text-align: center;
-        }
-
-        @media (max-width: 768px) {
-            header { padding: 0 20px; }
-            h1 { font-size: 32px; }
-        }
+        :root { --accent: #ff5c00; --bg: #ffffff; --text: #0a0a0a; --border: #e8e8e8; }
+        body { margin: 0; font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); }
+        header { height: 70px; display: flex; align-items: center; justify-content: space-between; padding: 0 40px; border-bottom: 1px solid var(--border); }
+        .logo { font-weight: 800; font-size: 16px; text-transform: uppercase; text-decoration: none; color: #000; }
+        main { max-width: 800px; margin: 80px auto; padding: 0 20px; }
+        .asset { border: 1px solid var(--border); padding: 30px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .btn { padding: 10px 20px; border: 1px solid #000; text-decoration: none; color: #000; font-size: 10px; text-transform: uppercase; font-weight: 800; border-radius: 4px; }
     </style>
 </head>
 <body>
-
-<header>
-    <a href="/" class="logo">VibrantAndVocal.io</a>
-    <nav>
-        <a href="/" style="color: #666; text-decoration: none; font-size: 11px; text-transform: uppercase; font-weight: 600;">Back to Map</a>
-    </nav>
-</header>
-
-<main>
-    <div class="kicker">Media Relations</div>
-    <h1>Press & Brand Assets</h1>
-    <p style="font-size: 18px; color: #888; max-width: 600px;">
-        Everything you need to report on the V&V Resonance Index. Access high-resolution maps, brand marks, and our methodology whitepaper.
-    </p>
-
-    <div class="asset-grid">
-        <div class="card">
-            <h3>Brand Identity</h3>
-            <p>Download our official logos in SVG and PNG formats for digital and print use.</p>
-            <a href="#" class="download-btn">Download Kit (.ZIP)</a>
-        </div>
-
-        <div class="card">
-            <h3>Map Screenshots</h3>
-            <p>High-resolution captures of the Resonance Map for editorial background use.</p>
-            <a href="#" class="download-btn">Download Gallery</a>
-        </div>
-
-        <div class="card">
-            <h3>Executive Summary</h3>
-            <p>A 2-page briefing on the current state of cultural decay and vibrancy in the USA.</p>
-            <a href="#" class="download-btn">Download PDF</a>
-        </div>
-    </div>
-
-    <div class="contact-box">
-        <div class="kicker">Inquiries</div>
-        <p style="margin: 10px 0;">For interview requests or data deep-dives:</p>
-        <a href="mailto:press@vibrantandvocal.io" style="color: white; font-size: 20px; font-weight: 700; text-decoration: none; border-bottom: 2px solid var(--accent);">press@vibrantandvocal.io</a>
-    </div>
-</main>
-
+    <header><a href="index.html" class="logo">VibrantAndVocal.io</a></header>
+    <main>
+        <h1 style="font-weight: 200; font-size: 42px;">Media Kit</h1>
+        <div class="asset"><div><b>Brand Assets</b><p style="font-size: 12px; color: #666;">Official logos and marks.</p></div><a href="#" class="btn">Download</a></div>
+        <div class="asset"><div><b>Research Briefing</b><p style="font-size: 12px; color: #666;">Whitepaper v1.2</p></div><a href="#" class="btn">Download</a></div>
+    </main>
 </body>
 </html>
