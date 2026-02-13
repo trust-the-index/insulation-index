@@ -5,27 +5,77 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Press | VibrantAndVocal.io</title>
     <style>
-        body { margin: 0; font-family: sans-serif; }
-        header { height: 60px; display: flex; justify-content: space-between; align-items: center; padding: 0 30px; border-bottom: 1px solid #eaeaea; }
-        .logo { font-weight: 700; font-size: 18px; color: #000; text-decoration: none; }
-        nav a { margin-left: 20px; text-decoration: none; color: #666; font-size: 13px; }
-        main { max-width: 800px; margin: 50px auto; padding: 0 20px; }
+        :root { --primary: #ff3e00; --bg: #ffffff; --text: #1a1a1a; }
+        body { margin: 0; font-family: 'Helvetica Neue', sans-serif; line-height: 1.6; background: var(--bg); color: var(--text); }
+        
+        header { background: white; border-bottom: 2px solid var(--primary); padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 9999; height: 70px; box-sizing: border-box; }
+        header h1 { margin: 0; font-size: 22px; color: var(--primary); letter-spacing: -1px; }
+        header h1 span { color: var(--text); }
+        
+        nav { display: flex; gap: 25px; }
+        nav a { text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 13px; text-transform: uppercase; }
+        nav a:hover { color: var(--primary); }
+
+        main { max-width: 800px; margin: 80px auto; padding: 0 20px; }
+        h1 { font-size: 42px; letter-spacing: -2px; text-transform: uppercase; margin-bottom: 40px; }
+        
+        .quote-box { 
+            background: #f9f9f9; 
+            padding: 40px; 
+            border-left: 8px solid var(--primary); 
+            margin-bottom: 50px; 
+        }
+        .quote-text { 
+            font-size: 28px; 
+            font-weight: bold; 
+            font-style: italic; 
+            color: var(--text); 
+            line-height: 1.2;
+            margin-bottom: 15px;
+        }
+        .quote-author { text-transform: uppercase; font-size: 13px; letter-spacing: 2px; color: #888; }
+
+        .press-content h2 { text-transform: uppercase; font-size: 18px; margin-top: 40px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+        .contact-card { background: #1a1a1a; color: white; padding: 30px; margin-top: 60px; border-radius: 8px; }
+        .contact-card a { color: var(--primary); text-decoration: none; font-weight: bold; }
     </style>
 </head>
 <body>
-    <header>
-        <a href="index.html" class="logo">VibrantAndVocal.io</a>
-        <nav>
-            <a href="index.html">Map</a>
-            <a href="leaderboard.html">Leaderboard</a>
-            <a href="methodology.html">Methodology</a>
-            <a href="community.html">Community</a>
-            <a href="press.html">Press</a>
-        </nav>
-    </header>
-    <main>
-        <h1>Press Kit</h1>
-        <p>Information for media and press inquiries.</p>
-    </main>
+
+<header>
+    <h1>VibrantAndVocal<span>.io</span></h1>
+    <nav>
+        <a href="/">Map</a>
+        <a href="/methodology">Science</a>
+        <a href="/leaderboard">Ranks</a>
+        <a href="/community">Void Reports</a>
+        <a href="/press" style="color: var(--primary);">Press</a>
+    </nav>
+</header>
+
+<main>
+    <h1>Media Assets & Intel</h1>
+
+    <div class="quote-box">
+        <div class="quote-text">
+            "Silence isn’t peace—it’s just a neighborhood holding its breath until someone files a noise complaint."
+        </div>
+        <div class="quote-author">— The Minister of Noise</div>
+    </div>
+
+    <div class="press-content">
+        <h2>About VibrantAndVocal.io</h2>
+        <p>Launched in 2026, VibrantAndVocal.io is the world’s first independent monitor of <strong>Vibe Decay</strong>. While traditional real estate apps focus on "peace and quiet," we recognize that total silence is often a symptom of social stagnation and auditory insulation.</p>
+        
+        <p>Our mission is to help people find communities that have a pulse, while flagging the "Void" sectors where the culture has flatlined into a beige, muffled reality.</p>
+
+        <h2>Media Inquiries</h2>
+        <div class="contact-card">
+            <p>For interviews, raw data on Vibe Decay sectors, or high-resolution maps, contact our intelligence team:</p>
+            <p><strong>Email:</strong> <a href="mailto:hq@vibrantandvocal.io">hq@vibrantandvocal.io</a></p>
+        </div>
+    </div>
+</main>
+
 </body>
 </html>
