@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     
     <style>
-        :root { --primary: #ff3e00; --vibrant: #00ff41; --bg: #ffffff; --text: #1a1a1a; }
+        :root { --primary: #ff3e00; --vibrant: #2ecc71; --bg: #ffffff; --text: #1a1a1a; --border: #eeeeee; }
         body { margin: 0; font-family: 'Helvetica Neue', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; }
         
         header { background: white; border-bottom: 2px solid var(--primary); padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 9999; height: 70px; box-sizing: border-box; }
@@ -19,17 +19,18 @@
         nav a { text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 13px; text-transform: uppercase; }
         nav a:hover { color: var(--primary); }
 
-        #map { height: calc(100vh - 70px); width: 100%; background: #1a1a1a; }
+        #map { height: calc(100vh - 70px); width: 100%; background: #f8f8f8; }
 
-        /* Custom Popup Styling */
-        .leaflet-popup-content-wrapper { background: #1a1a1a; color: white; border: 1px solid var(--primary); border-radius: 4px; }
-        .leaflet-popup-tip { background: var(--primary); }
-        .vibrant-text { color: var(--vibrant); font-weight: bold; }
+        /* Custom Popup Styling (White Theme) */
+        .leaflet-popup-content-wrapper { background: white; color: #1a1a1a; border: 1px solid var(--border); border-radius: 4px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .leaflet-popup-tip { background: white; }
+        .vibrant-text { color: #27ae60; font-weight: bold; }
         .void-text { color: var(--primary); font-weight: bold; }
 
         .legend {
             position: absolute; bottom: 30px; left: 30px; background: white; padding: 15px;
             z-index: 1000; border: 2px solid var(--primary); border-radius: 8px; font-size: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
         .legend-item { display: flex; align-items: center; margin-bottom: 5px; font-weight: bold; }
         .dot { height: 12px; width: 12px; border-radius: 50%; margin-right: 10px; }
@@ -40,18 +41,18 @@
 <header>
     <h1>VibrantAndVocal<span>.io</span></h1>
     <nav>
-        <a href="/" style="color: var(--primary);">Map</a>
-        <a href="/methodology">Science</a>
-        <a href="/leaderboard">Ranks</a>
-        <a href="/community">Void Reports</a>
-        <a href="/press">Press</a>
+        <a href="index.html" style="color: var(--primary);">Map</a>
+        <a href="methodology.html">Science</a>
+        <a href="leaderboard.html">Ranks</a>
+        <a href="community.html">Void Reports</a>
+        <a href="press.html">Press</a>
     </nav>
 </header>
 
 <div id="map"></div>
 
 <div class="legend">
-    <div class="legend-item"><span class="dot" style="background: var(--vibrant);"></span> VIBRANT (Art & BBQ)</div>
+    <div class="legend-item"><span class="dot" style="background: #2ecc71;"></span> VIBRANT (Art & BBQ)</div>
     <div class="legend-item"><span class="dot" style="background: var(--primary);"></span> VIBE DECAY (The Void)</div>
 </div>
 
@@ -59,50 +60,45 @@
 
 <script>
     // 1. Initialize Map centered on the South/East US
-    var map = L.map('map').setView([35.0000, -88.0000], 5);
+    var map = L.map('map', {zoomControl: false}).setView([35.0000, -88.0000], 5);
+    
+    // Position zoom controls to the bottom right so they don't hit the legend
+    L.control.zoom({ position: 'bottomright' }).addTo(map);
 
-    // 2. Load Dark Mode Tiles
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+    // 2. Load White/Light Mode Tiles
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
         attribution: '&copy; VibrantAndVocal.io Intel'
     }).addTo(map);
 
-    // 3. Icon Styles
-    const vibrantCircle = { color: '#00ff41', fillColor: '#00ff41', fillOpacity: 0.8, radius: 9 };
-    const voidCircle = { color: '#ff3e00', fillColor: '#ff3e00', fillOpacity: 0.8, radius: 11 };
+    // 3. Icon Styles (Green for Vibrant, Red for Void)
+    const vibrantCircle = { color: '#27ae60', fillColor: '#2ecc71', fillOpacity: 0.8, radius: 9, weight: 2 };
+    const voidCircle = { color: '#ff3e00', fillColor: '#ff3e00', fillOpacity: 0.8, radius: 11, weight: 2 };
 
     // --- SECTOR DATA ---
 
-    // AUSTIN, TX
     L.circleMarker([30.2701, -97.7313], vibrantCircle).addTo(map)
         .bindPopup("<b class='vibrant-text'>SECTOR: AUSTIN EAST</b><br>INTEL: High Flavor. Franklin BBQ smoke detected. Street art saturation 94%.");
 
-    // MEMPHIS, TN
     L.circleMarker([35.1455, -90.0489], vibrantCircle).addTo(map)
         .bindPopup("<b class='vibrant-text'>SECTOR: MEMPHIS CENTRAL</b><br>INTEL: High Decibel. Central BBQ identified as a Vibe Sanctuary.");
 
-    // ASHEVILLE, NC
     L.circleMarker([35.5841, -82.5645], vibrantCircle).addTo(map)
         .bindPopup("<b class='vibrant-text'>SECTOR: ASHEVILLE RAD</b><br>INTEL: River Arts District. Industrial soul intact. 12 Bones BBQ active.");
 
-    // NEW ORLEANS, LA
     L.circleMarker([29.9631, -90.0575], vibrantCircle).addTo(map)
         .bindPopup("<b class='vibrant-text'>SECTOR: FRENCHMEN ST</b><br>INTEL: Maximum Pulse. Spotted Cat Jazz Club emitting high-vibrancy signals.");
 
-    // NASHVILLE, TN
     L.circleMarker([36.1627, -86.7816], vibrantCircle).addTo(map)
         .bindPopup("<b class='vibrant-text'>SECTOR: MUSIC CITY</b><br>INTEL: Frequency High. Prince's Hot Chicken detected. Cultural resonance optimal.");
 
     // --- VOID CONTRAST POINTS ---
 
-    // MCLEAN, VA
     L.circleMarker([38.9339, -77.1773], voidCircle).addTo(map)
         .bindPopup("<b class='void-text'>STATUS: CRITICAL FLATLINE</b><br>SECTOR: McLEAN, VA<br>INTEL: Total insulation. 0% public art. Noise complaints filed for leaf blowers.");
 
-    // BOCA RATON, FL
     L.circleMarker([26.3683, -80.1289], voidCircle).addTo(map)
         .bindPopup("<b class='void-text'>STATUS: LEVEL 3 DECAY</b><br>SECTOR: BOCA RATON<br>INTEL: Passive Beige detected. Social stagnation imminent.");
 
-    // THE WOODLANDS, TX
     L.circleMarker([30.1658, -95.4613], voidCircle).addTo(map)
         .bindPopup("<b class='void-text'>STATUS: LEVEL 4 DECAY</b><br>SECTOR: THE WOODLANDS<br>INTEL: Tree-to-person ratio exceeds social threshold. Vibe levels: NULL.");
 
