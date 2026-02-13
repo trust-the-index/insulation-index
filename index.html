@@ -3,177 +3,167 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VibrantAndVocal.io | The Global Vibe Index</title>
+    <title>VibrantAndVocal.io | The Resonance Index</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
         :root { 
-            --accent: #ff3e00; 
-            --glass: rgba(255, 255, 255, 0.85);
-            --border: #e0e0e0;
+            --accent: #ff5c00; 
+            --deep: #08090a;
+            --glass: rgba(15, 15, 18, 0.7);
+            --border: rgba(255, 255, 255, 0.1);
         }
 
         body { 
             margin: 0; 
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; 
-            background: #f8f8f8; 
-            color: #111;
-            letter-spacing: -0.02em;
+            font-family: 'Inter', sans-serif; 
+            background: var(--deep); 
+            color: #fff;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* ULTRA-THIN MINIMAL HEADER */
+        /* BLURRED FLOATING HEADER */
         header { 
-            background: white;
-            height: 60px;
+            height: 70px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 40px;
+            padding: 0 50px;
+            background: rgba(8, 9, 10, 0.8);
+            backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border);
             position: sticky;
             top: 0;
-            z-index: 9999;
+            z-index: 10000;
         }
 
         .logo { 
-            font-weight: 700; 
-            font-size: 15px; 
-            text-transform: uppercase; 
-            letter-spacing: 0.1em;
+            font-weight: 800; 
+            font-size: 18px; 
+            letter-spacing: -0.5px;
+            background: linear-gradient(90deg, #fff, var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        nav { display: flex; gap: 40px; }
+        nav { display: flex; gap: 35px; }
         nav a { 
             text-decoration: none; 
-            color: #666; 
-            font-size: 11px; 
-            text-transform: uppercase; 
-            font-weight: 500;
-            transition: color 0.3s ease;
+            color: rgba(255, 255, 255, 0.5); 
+            font-size: 12px; 
+            font-weight: 600;
+            text-transform: uppercase;
+            transition: 0.3s;
         }
         nav a:hover { color: var(--accent); }
 
-        /* REFINED SUPPORT DRAWER */
+        /* PULSING SUPPORT DRAWER */
         #supportDrawer {
             display: none;
-            background: #fafafa;
-            border-bottom: 1px solid var(--border);
-            padding: 60px 40px;
-            animation: slideDown 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            background: #0c0d0f;
+            border-bottom: 1px solid var(--accent);
+            padding: 50px;
+            text-align: center;
         }
 
-        @keyframes slideDown { from { transform: translateY(-100%); } to { transform: translateY(0); } }
-
-        /* ELEGANT OVERLAY SEARCH */
-        .search-overlay {
+        /* COMMAND SEARCH UI */
+        .ui-panel {
             position: absolute;
             top: 100px;
-            left: 40px;
+            left: 50px;
             z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .search-container {
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--border);
+            padding: 6px;
+            border-radius: 12px;
+            display: flex;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
         }
 
         .search-input {
-            background: var(--glass);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--border);
-            padding: 18px 25px;
-            width: 320px;
-            border-radius: 40px; /* Modern pill shape */
+            background: transparent;
+            border: none;
+            color: white;
+            padding: 12px 20px;
+            width: 300px;
             font-size: 14px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             outline: none;
         }
 
-        /* DISCRETE FILTER PILLS */
-        .filter-container {
-            margin-top: 15px;
-            display: flex;
-            gap: 8px;
-        }
-
-        .filter-chip {
+        /* INTERACTIVE FILTER CHIPS */
+        .chip-group { display: flex; gap: 10px; }
+        .chip {
             background: var(--glass);
-            backdrop-filter: blur(10px);
             border: 1px solid var(--border);
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 10px;
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-size: 11px;
             font-weight: 600;
-            text-transform: uppercase;
             cursor: pointer;
-            color: #444;
+            transition: 0.2s;
         }
+        .chip.active { background: var(--accent); border-color: var(--accent); color: white; }
 
-        #map { height: calc(100vh - 60px); width: 100%; filter: grayscale(0.2); }
+        #map { height: calc(100vh - 70px); width: 100%; }
 
-        /* ELEGANT LEGEND */
-        .status-card {
-            position: absolute;
-            bottom: 40px;
-            right: 40px;
-            z-index: 1000;
-            background: white;
-            border-radius: 12px;
-            padding: 20px;
-            border: 1px solid var(--border);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
-            width: 220px;
+        /* THE "LIVING" POPUP STYLE */
+        .leaflet-popup-content-wrapper {
+            background: rgba(12, 13, 15, 0.95) !important;
+            color: white !important;
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--accent);
+            border-radius: 8px !important;
         }
-
-        .status-card h6 { margin: 0 0 10px 0; color: #999; text-transform: uppercase; font-size: 9px; letter-spacing: 0.1em; }
     </style>
 </head>
 <body>
 
 <div id="supportDrawer">
-    <div style="max-width: 800px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center;">
-        <div>
-            <h2 style="font-size: 24px; font-weight: 300; margin: 0;">Support our independent research.</h2>
-            <p style="color: #999; font-size: 14px;">Help us map the world's cultural health.</p>
-        </div>
-        <div style="display: flex; gap: 40px;">
-            <div><span style="font-size: 10px; color: #999;">VENMO</span><br><b>@VibrantAndVocal</b></div>
-            <div><span style="font-size: 10px; color: #999;">CASHAPP</span><br><b>$VibrantAndVocal</b></div>
+    <div style="max-width: 600px; margin: 0 auto;">
+        <h2 style="font-size: 12px; color: var(--accent); letter-spacing: 2px;">SECURE TRANSMISSION</h2>
+        <p style="font-size: 24px; font-weight: 200; margin: 15px 0 30px;">Direct support keeps the signal alive.</p>
+        <div style="display: flex; justify-content: center; gap: 60px;">
+            <div style="text-align: left;"><span style="color: #444; font-size: 10px;">VENMO</span><br><b style="font-size: 18px;">@VibrantVocal</b></div>
+            <div style="text-align: left;"><span style="color: #444; font-size: 10px;">CASHAPP</span><br><b style="font-size: 18px;">$VibrantVocal</b></div>
         </div>
     </div>
 </div>
 
 <header>
-    <div class="logo">Vibrant<span>/</span>Vocal</div>
+    <div class="logo">VibrantAndVocal.io</div>
     <nav>
-        <a href="/">The Index</a>
+        <a href="/">Intelligence</a>
         <a href="/leaderboard">Leaderboard</a>
-        <a href="/community">Reports</a>
-        <a href="javascript:void(0)" onclick="toggleSupport()">Support</a>
+        <a href="/community">Intel Submission</a>
+        <a href="javascript:void(0)" onclick="toggleSupport()" style="color: var(--accent);">Support Signal</a>
     </nav>
 </header>
 
-<div class="search-overlay">
-    <input type="text" class="search-input" placeholder="Search coordinates...">
-    <div class="filter-container">
-        <div class="filter-chip" style="background: black; color: white; border-color: black;">All Signal</div>
-        <div class="filter-chip">Vibrant</div>
-        <div class="filter-chip">Void</div>
+<div class="ui-panel">
+    <div class="search-container">
+        <input type="text" class="search-input" placeholder="Search coordinates...">
+    </div>
+    <div class="chip-group">
+        <div class="chip active">Global Feed</div>
+        <div class="chip">Vibrant Pulse</div>
+        <div class="chip">Void Intercepts</div>
     </div>
 </div>
 
 <div id="map"></div>
 
-<div class="status-card">
-    <h6>Global Signal Index</h6>
-    <div style="display: flex; align-items: center; gap: 12px; margin-top: 15px; font-size: 12px;">
-        <div style="width: 8px; height: 8px; background: var(--accent); border-radius: 50%;"></div>
-        <span>High Vibe Resonance</span>
-    </div>
-    <div style="display: flex; align-items: center; gap: 12px; margin-top: 8px; font-size: 12px;">
-        <div style="width: 8px; height: 8px; background: #ddd; border-radius: 50%;"></div>
-        <span>Systemic Decay</span>
-    </div>
-</div>
-
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-    var map = L.map('map', { zoomControl: false }).setView([40.7128, -74.0060], 10);
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo(map);
+    var map = L.map('map', { zoomControl: false, attributionControl: false }).setView([37.7749, -122.4194], 12);
+    
+    // Using a sleek, dark-mode map style that isn't just "plain black"
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png').addTo(map);
 
     function toggleSupport() {
         var d = document.getElementById("supportDrawer");
