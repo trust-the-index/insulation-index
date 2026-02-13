@@ -3,10 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Submit Intel | VibrantAndVocal.io</title>
+    <title>VibrantAndVocal.io | Mapping the Vibe</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
     <style>
         :root { --primary: #ff3e00; --vibrant: #00ff41; --bg: #ffffff; --text: #1a1a1a; }
-        body { margin: 0; font-family: 'Helvetica Neue', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+        body { margin: 0; font-family: 'Helvetica Neue', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; }
         
         header { background: white; border-bottom: 2px solid var(--primary); padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 9999; height: 70px; box-sizing: border-box; }
         header h1 { margin: 0; font-size: 22px; color: var(--primary); letter-spacing: -1px; }
@@ -16,34 +19,20 @@
         nav a { text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 13px; text-transform: uppercase; }
         nav a:hover { color: var(--primary); }
 
-        main { max-width: 600px; margin: 60px auto; padding: 0 20px; }
-        
-        .mode-selector { display: flex; gap: 10px; margin-bottom: 30px; }
-        .mode-btn { 
-            flex: 1; padding: 15px; border: 2px solid #eee; border-radius: 8px; 
-            cursor: pointer; font-weight: bold; text-align: center; transition: 0.2s;
-            text-transform: uppercase; font-size: 12px;
-        }
-        .mode-btn.active-void { border-color: var(--primary); background: #fdf2f0; color: var(--primary); }
-        .mode-btn.active-vibrant { border-color: var(--vibrant); background: #f0fff4; color: #155724; }
+        #map { height: calc(100vh - 70px); width: 100%; background: #1a1a1a; }
 
-        .form-group { margin-bottom: 25px; }
-        label { display: block; font-weight: bold; margin-bottom: 8px; font-size: 14px; }
-        
-        input, select, textarea { 
-            width: 100%; padding: 12px 15px; border: 1px solid #ddd; border-radius: 8px; 
-            font-size: 16px; font-family: inherit; box-sizing: border-box; 
-        }
+        /* Custom Popup Styling */
+        .leaflet-popup-content-wrapper { background: #1a1a1a; color: white; border: 1px solid var(--primary); border-radius: 4px; }
+        .leaflet-popup-tip { background: var(--primary); }
+        .vibrant-text { color: var(--vibrant); font-weight: bold; }
+        .void-text { color: var(--primary); font-weight: bold; }
 
-        #submitBtn { 
-            background: var(--text); color: white; border: none; padding: 20px; 
-            border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; 
-            width: 100%; text-transform: uppercase; letter-spacing: 1px;
-            transition: transform 0.1s;
+        .legend {
+            position: absolute; bottom: 30px; left: 30px; background: white; padding: 15px;
+            z-index: 1000; border: 2px solid var(--primary); border-radius: 8px; font-size: 12px;
         }
-        #submitBtn:active { transform: translateY(2px); }
-        
-        .success-msg { display: none; text-align: center; padding: 40px; border: 2px solid var(--primary); border-radius: 12px; background: #fdf2f0; }
+        .legend-item { display: flex; align-items: center; margin-bottom: 5px; font-weight: bold; }
+        .dot { height: 12px; width: 12px; border-radius: 50%; margin-right: 10px; }
     </style>
 </head>
 <body>
@@ -51,140 +40,73 @@
 <header>
     <h1>VibrantAndVocal<span>.io</span></h1>
     <nav>
-        <a href="/">Map</a>
+        <a href="/" style="color: var(--primary);">Map</a>
         <a href="/methodology">Science</a>
         <a href="/leaderboard">Ranks</a>
-        <a href="/community" style="color: var(--primary);">Submit Intel</a>
+        <a href="/community">Void Reports</a>
+        <a href="/press">Press</a>
     </nav>
 </header>
 
-<main>
-    <div id="formContainer">
-        <h1>Submit Field Intel</h1>
-        <p>Select your transmission type:</p>
-        
-        <div class="mode-selector">
-            <div id="voidBtn" class="mode-btn active-void" onclick="setMode('void')">Report Vibe Decay</div>
-            <div id="vibrantBtn" class="mode-btn" onclick="setMode('vibrant')">Nominate Sanctuary</div>
-        </div>
+<div id="map"></div>
 
-        <form id="intelForm">
-            <div class="form-group">
-                <label for="loc">Location Name</label>
-                <input type="text" id="loc" placeholder="Neighborhood, Street, or City" required>
-            </div>
+<div class="legend">
+    <div class="legend-item"><span class="dot" style="background: var(--vibrant);"></span> VIBRANT (Art & BBQ)</div>
+    <div class="legend-item"><span class="dot" style="background: var(--primary);"></span> VIBE DECAY (The Void)</div>
+</div>
 
-            <div class="form-group">
-                <label id="levelLabel">Decay Severity</label>
-                <select id="severity">
-                    </select>
-            </div>
-
-            <div class="form-group">
-                <label>Observations</label>
-                <textarea id="desc" rows="4" placeholder="What's happening on the ground?"></textarea>
-            </div>
-
-            <button type="button" id="submitBtn" onclick="sendToDiscord()">Transmit Signal</button>
-        </form>
-    </div>
-
-    <div id="successMsg" class="success-msg">
-        <h2 id="successTitle">Signal Received</h2>
-        <p>Your intel has been encrypted and sent to HQ. Stay vocal.</p>
-        <button onclick="window.location.reload()" style="background: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">New Report</button>
-    </div>
-</main>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
 <script>
-let currentMode = 'void';
+    // 1. Initialize Map centered on the South/East US
+    var map = L.map('map').setView([35.0000, -88.0000], 5);
 
-function setMode(mode) {
-    currentMode = mode;
-    const vBtn = document.getElementById('vibrantBtn');
-    const voidBtn = document.getElementById('voidBtn');
-    const label = document.getElementById('levelLabel');
-    const select = document.getElementById('severity');
-    const btn = document.getElementById('submitBtn');
+    // 2. Load Dark Mode Tiles
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; VibrantAndVocal.io Intel'
+    }).addTo(map);
 
-    if (mode === 'vibrant') {
-        vBtn.classList.add('active-vibrant');
-        voidBtn.classList.remove('active-void');
-        label.innerText = "Vibrancy Marker";
-        btn.style.background = "var(--vibrant)";
-        btn.style.color = "black";
-        select.innerHTML = `
-            <option value="Street Art Hub">Street Art Hub</option>
-            <option value="Legendary BBQ/Food">Legendary BBQ/Food</option>
-            <option value="Live Music Sanctuary">Live Music Sanctuary</option>
-            <option value="High Pedestrian Pulse">High Pedestrian Pulse</option>
-        `;
-    } else {
-        voidBtn.classList.add('active-void');
-        vBtn.classList.remove('active-vibrant');
-        label.innerText = "Decay Severity";
-        btn.style.background = "var(--primary)";
-        btn.style.color = "white";
-        select.innerHTML = `
-            <option value="Level 1: Passive Beige">Level 1: Passive Beige</option>
-            <option value="Level 2: Auditory Insulation">Level 2: Auditory Insulation</option>
-            <option value="Level 3: Cultural Flatline">Level 3: Cultural Flatline</option>
-            <option value="Level 4: Total Isolation">Level 4: Total Isolation</option>
-        `;
-    }
-}
+    // 3. Icon Styles
+    const vibrantCircle = { color: '#00ff41', fillColor: '#00ff41', fillOpacity: 0.8, radius: 9 };
+    const voidCircle = { color: '#ff3e00', fillColor: '#ff3e00', fillOpacity: 0.8, radius: 11 };
 
-setMode('void'); // Init
+    // --- SECTOR DATA ---
 
-async function sendToDiscord() {
-    // YOUR LIVE WEBHOOK URL
-    const webhookURL = "https://discord.com/api/webhooks/1471650507532533813/DJdkSMej4pu7dxFL6Sn7K83WP8MExH8ps1eKXrsUaDwB5xylTWo4aeY3qp8-pyIwey72"; 
-    
-    const location = document.getElementById('loc').value;
-    const severity = document.getElementById('severity').value;
-    const description = document.getElementById('desc').value;
-    const btn = document.getElementById('submitBtn');
+    // AUSTIN, TX
+    L.circleMarker([30.2701, -97.7313], vibrantCircle).addTo(map)
+        .bindPopup("<b class='vibrant-text'>SECTOR: AUSTIN EAST</b><br>INTEL: High Flavor. Franklin BBQ smoke detected. Street art saturation 94%.");
 
-    if (!location) { alert("Please provide a location."); return; }
+    // MEMPHIS, TN
+    L.circleMarker([35.1455, -90.0489], vibrantCircle).addTo(map)
+        .bindPopup("<b class='vibrant-text'>SECTOR: MEMPHIS CENTRAL</b><br>INTEL: High Decibel. Central BBQ identified as a Vibe Sanctuary.");
 
-    btn.innerText = "TRANSMITTING...";
-    btn.disabled = true;
+    // ASHEVILLE, NC
+    L.circleMarker([35.5841, -82.5645], vibrantCircle).addTo(map)
+        .bindPopup("<b class='vibrant-text'>SECTOR: ASHEVILLE RAD</b><br>INTEL: River Arts District. Industrial soul intact. 12 Bones BBQ active.");
 
-    const payload = {
-        embeds: [{
-            title: currentMode === 'void' ? "🚨 NEW VIBE DECAY REPORT" : "✨ NEW VIBRANT SANCTUARY",
-            color: currentMode === 'void' ? 16727552 : 65345, 
-            fields: [
-                { name: "Sector", value: location, inline: true },
-                { name: "Category", value: severity, inline: true },
-                { name: "Field Intel", value: description || "No notes provided." }
-            ],
-            timestamp: new Date().toISOString(),
-            footer: { text: "VibrantAndVocal.io // Signal Intercept" }
-        }]
-    };
+    // NEW ORLEANS, LA
+    L.circleMarker([29.9631, -90.0575], vibrantCircle).addTo(map)
+        .bindPopup("<b class='vibrant-text'>SECTOR: FRENCHMEN ST</b><br>INTEL: Maximum Pulse. Spotted Cat Jazz Club emitting high-vibrancy signals.");
 
-    try {
-        const response = await fetch(webhookURL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-        });
+    // NASHVILLE, TN
+    L.circleMarker([36.1627, -86.7816], vibrantCircle).addTo(map)
+        .bindPopup("<b class='vibrant-text'>SECTOR: MUSIC CITY</b><br>INTEL: Frequency High. Prince's Hot Chicken detected. Cultural resonance optimal.");
 
-        if (response.ok) {
-            document.getElementById('formContainer').style.display = 'none';
-            document.getElementById('successMsg').style.display = 'block';
-        } else {
-            alert('Signal Interference. Try again later.');
-            btn.disabled = false;
-            btn.innerText = "Transmit Signal";
-        }
-    } catch (e) {
-        alert('Critical Signal Failure.');
-        btn.disabled = false;
-        btn.innerText = "Transmit Signal";
-    }
-}
+    // --- VOID CONTRAST POINTS ---
+
+    // MCLEAN, VA
+    L.circleMarker([38.9339, -77.1773], voidCircle).addTo(map)
+        .bindPopup("<b class='void-text'>STATUS: CRITICAL FLATLINE</b><br>SECTOR: McLEAN, VA<br>INTEL: Total insulation. 0% public art. Noise complaints filed for leaf blowers.");
+
+    // BOCA RATON, FL
+    L.circleMarker([26.3683, -80.1289], voidCircle).addTo(map)
+        .bindPopup("<b class='void-text'>STATUS: LEVEL 3 DECAY</b><br>SECTOR: BOCA RATON<br>INTEL: Passive Beige detected. Social stagnation imminent.");
+
+    // THE WOODLANDS, TX
+    L.circleMarker([30.1658, -95.4613], voidCircle).addTo(map)
+        .bindPopup("<b class='void-text'>STATUS: LEVEL 4 DECAY</b><br>SECTOR: THE WOODLANDS<br>INTEL: Tree-to-person ratio exceeds social threshold. Vibe levels: NULL.");
+
 </script>
+
 </body>
 </html>
